@@ -1484,45 +1484,13 @@ static inline int fork_with_pid(struct pstree_item *item)
 		strip |= CLONE_NEWUSER;
 
 	if (kdat.has_clone3_set_tid) {
-		if (opts.tfork.active && (ca.clone_flags & CLONE_NEWPID)) {
-			pr_info("tfork: restore pidns init uid=%d local pid %d with fresh parent pid, dumped chain level=%d\n",
-				uid(item), pid, item->pid->ns_level);
+		if (item->pid->ns_level == 1)
 			ret = clone3_with_pid_noasan(restore_task_with_children, &ca,
 						     ca.clone_flags & ~strip, SIGCHLD, pid);
-		} else if (item->pid->ns_level == 1)
-			ret = clone3_with_pid_noasan(restore_task_with_children, &ca,
-						     ca.clone_flags & ~strip, SIGCHLD, pid);
-		else {
-			struct pid tfork_pid = {};
-			struct pid *restore_pid = item->pid;
-
-			if (opts.tfork.active && (root_ns_mask & CLONE_NEWPID) &&
-			    root_item && root_item->pid->ns_level > 1 &&
-			    item->pid->ns_level > 1) {
-				/*
-				 * Copy only scalar pid identity. struct pid also
-				 * embeds rb_node links owned by the dumped pid trees;
-				 * copying those nodes into a temporary stack object
-				 * corrupts the tree metadata if it ever gets reused.
-				 */
-				tfork_pid.item = item->pid->item;
-				tfork_pid.real = item->pid->real;
-				tfork_pid.local = item->pid->local;
-				tfork_pid.uid = item->pid->uid;
-				tfork_pid.state = item->pid->state;
-				tfork_pid.stop_signo = item->pid->stop_signo;
-				tfork_pid.ns_level = item->pid->ns_level - 1;
-				tfork_pid.leaf_ns_id = item->pid->leaf_ns_id;
-				memcpy(tfork_pid.ns, item->pid->ns, sizeof(tfork_pid.ns));
-				restore_pid = &tfork_pid;
-				pr_info("tfork: restore pid uid=%d local=%d with rebased pid chain level %d -> %d\n",
-					uid(item), pid, item->pid->ns_level,
-					restore_pid->ns_level);
-			}
+		else
 			ret = clone3_with_nested_pid_noasan(restore_task_with_children, &ca,
 							    ca.clone_flags & ~strip,
-							    SIGCHLD, restore_pid);
-		}
+							    SIGCHLD, item->pid);
 	} else {
 		BUG_ON(item->pid->ns_level >= 1);
 		close_pid_proc();
@@ -1549,7 +1517,7 @@ static inline int fork_with_pid(struct pstree_item *item)
 		goto err_unlock;
 	}
 
-	if (opts.tfork.active || item == root_item) {
+	if (item == root_item) {
 		item->pid->real = ret;
 		pr_debug("PID: real %d virt %d\n", item->pid->real, localpid(item));
 	}
