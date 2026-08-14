@@ -46,6 +46,8 @@
 #  define DESCRIPTORS_FILENAME "descriptors.json"
 #  define CRIU_RUNC_CONFIG_FILE "/etc/criu/runc.conf"
 #  define CRIU_CRUN_CONFIG_FILE "/etc/criu/crun.conf"
+#  define CRIU_LOG_TAIL_LINES 80
+#  define CRIU_LOG_LINE_SIZE 1024
 
 #  define CRIU_EXT_NETNS "extRootNetNS"
 #  define CRIU_EXT_PIDNS "extRootPidNS"
@@ -58,6 +60,31 @@
 char *chroot_realpath (const char *chroot, const char *path, char resolved_path[]);
 
 static const char *console_socket = NULL;
+static int tfork_pre_restore_fd = -1;
+static int tfork_source_detached_fd = -1;
+
+static int
+tfork_criu_log_level (void)
+{
+  const char *override = getenv ("CRIU_TFORK_LOG_LEVEL");
+
+  /* Keep an explicit override for controlled A/B tests and emergency
+     diagnostics.  CRIU accepts levels from unconditional messages (0)
+     through debug (4). */
+  if (override != NULL && override[0] >= '0' && override[0] <= '4' && override[1] == '\0')
+    return override[0] - '0';
+
+  switch (libcrun_get_verbosity ())
+    {
+    case LIBCRUN_VERBOSITY_DEBUG:
+      return CRIU_LOG_DEBUG;
+    case LIBCRUN_VERBOSITY_WARNING:
+      return CRIU_LOG_WARN;
+    case LIBCRUN_VERBOSITY_ERROR:
+    default:
+      return CRIU_LOG_ERROR;
+    }
+}
 
 #  define LIBCRIU_MIN_VERSION 31500
 
@@ -239,6 +266,39 @@ load_wrapper (struct libcriu_wrapper_s **wrapper_out, libcrun_error_t *err)
 static int
 criu_notify (char *action, __attribute__ ((unused)) criu_notify_arg_t na)
 {
+  if (action == NULL)
+    return 0;
+
+  if (strcmp (action, "post-tfork-freeze") == 0 && tfork_pre_restore_fd >= 0)
+    {
+      char byte;
+      ssize_t n;
+
+      do
+        n = read (tfork_pre_restore_fd, &byte, 1);
+      while (n < 0 && errno == EINTR);
+      if (n != 1)
+        return -1;
+      close (tfork_pre_restore_fd);
+      tfork_pre_restore_fd = -1;
+      return 0;
+    }
+
+  if (strcmp (action, "tfork-source-detached") == 0 && tfork_source_detached_fd >= 0)
+    {
+      char byte = 1;
+      ssize_t n;
+
+      do
+        n = write (tfork_source_detached_fd, &byte, 1);
+      while (n < 0 && errno == EINTR);
+      if (n != 1)
+        return -1;
+      close (tfork_source_detached_fd);
+      tfork_source_detached_fd = -1;
+      return 0;
+    }
+
   if (strncmp (action, "orphan-pts-master", 17) == 0)
     {
       /* CRIU sends us the master FD via the 'orphan-pts-master'
@@ -543,8 +603,11 @@ static void
 show_criu_log (const char *work_path, const char *log)
 {
   cleanup_free char *log_path = NULL;
+  cleanup_free char *tail = NULL;
   libcrun_error_t *tmp_err = NULL;
-  char line[1024];
+  char line[CRIU_LOG_LINE_SIZE];
+  size_t tail_index = 0;
+  size_t tail_count = 0;
   FILE *f;
 
   if (UNLIKELY (append_paths (&log_path, tmp_err, work_path, log, NULL)) < 0)
@@ -563,12 +626,43 @@ show_criu_log (const char *work_path, const char *log)
 
   /* Log with error verbosity as this is the default. */
   libcrun_error (0, "--- excerpt from CRIU log `%s`", log_path);
+  tail = calloc (CRIU_LOG_TAIL_LINES, CRIU_LOG_LINE_SIZE);
+  if (tail == NULL)
+    {
+      fclose (f);
+      return;
+    }
+
   while (fgets (line, sizeof (line), f) != NULL)
-    if (strstr (line, "Error ") != NULL)
-      {
-        line[strcspn (line, "\n")] = '\0';
-        libcrun_error (0, "%s", line);
-      }
+    {
+      char *slot = tail + tail_index * CRIU_LOG_LINE_SIZE;
+      strncpy (slot, line, CRIU_LOG_LINE_SIZE - 1);
+      slot[CRIU_LOG_LINE_SIZE - 1] = '\0';
+      tail_index = (tail_index + 1) % CRIU_LOG_TAIL_LINES;
+      if (tail_count < CRIU_LOG_TAIL_LINES)
+        tail_count++;
+
+      if (strstr (line, "Error ") != NULL
+          || strstr (line, "failed") != NULL || strstr (line, "FAILED") != NULL
+          || strstr (line, "Unable") != NULL || strstr (line, "Can't") != NULL
+          || strstr (line, "No such") != NULL)
+        {
+          line[strcspn (line, "\n")] = '\0';
+          libcrun_error (0, "%s", line);
+        }
+    }
+
+  if (tail_count > 0)
+    {
+      size_t start = (tail_count == CRIU_LOG_TAIL_LINES) ? tail_index : 0;
+      libcrun_error (0, "--- last %zu CRIU log lines", tail_count);
+      for (size_t i = 0; i < tail_count; i++)
+        {
+          char *entry = tail + ((start + i) % CRIU_LOG_TAIL_LINES) * CRIU_LOG_LINE_SIZE;
+          entry[strcspn (entry, "\n")] = '\0';
+          libcrun_error (0, "%s", entry);
+        }
+    }
 
   fclose (f);
   libcrun_error (0, "--- end of excerpt");
@@ -1351,6 +1445,24 @@ out:
 }
 
 #  define CRIU_TFORK_LOG_FILE "tfork.log"
+#  define CRIU_TFORK_RESTORE_LOG_FILE "tfork-restore.log"
+#  define CRIU_TFORK_MAX_COPY_LOGS 16
+
+static void
+show_criu_tfork_restore_copy_logs (const char *image_path, int copy_count)
+{
+  if (copy_count < 0)
+    copy_count = 0;
+  if (copy_count > CRIU_TFORK_MAX_COPY_LOGS)
+    copy_count = CRIU_TFORK_MAX_COPY_LOGS;
+
+  for (int i = 0; i < copy_count; i++)
+    {
+      char log[64];
+      snprintf (log, sizeof (log), "%s.copy%d", CRIU_TFORK_RESTORE_LOG_FILE, i);
+      show_criu_log (image_path, log);
+    }
+}
 
 static int
 read_source_state_pid_cgroup (const char *path, pid_t *pid_out, char **cgroup_path_out, libcrun_error_t *err)
@@ -1474,7 +1586,7 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
     return crun_make_error (err, 0,
                             "--tfork-snap-root, --tfork-snap-roots, or --tfork-copy=<i>::--tfork-snap-root=PATH is required");
 
-  if (cr_options->tfork_copies > 1 && cr_options->tfork_snap_roots_n > 0
+  if (cr_options->tfork_copies >= 1 && cr_options->tfork_snap_roots_n > 0
       && (size_t) cr_options->tfork_copies != cr_options->tfork_snap_roots_n)
     return crun_make_error (err, 0,
                             "--tfork-copies=%d but --tfork-snap-roots has %zu entries",
@@ -1516,7 +1628,11 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
       cr_options->work_path = cr_options->image_path;
     }
 
-  libcriu_wrapper->criu_set_log_level (4);
+  /* Tfork used to force CRIU debug logging even for a normal crun request.
+     That makes log formatting and I/O grow with every task and VMA.  Match
+     the runtime's requested verbosity; the explicit override above retains
+     full tracing for Podman's custom tfork path when needed. */
+  libcriu_wrapper->criu_set_log_level (tfork_criu_log_level ());
   libcriu_wrapper->criu_set_log_file (CRIU_TFORK_LOG_FILE);
 
   if (cr_options->tfork_ghost_limit > 0)
@@ -1527,6 +1643,7 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
 
   libcriu_wrapper->criu_set_pid (source_pid);
   libcriu_wrapper->criu_set_leave_running (true);
+  libcriu_wrapper->criu_set_ext_unix_sk (cr_options->ext_unix_sk);
   libcriu_wrapper->criu_set_file_locks (true);
 
   cgroup_mode = libcrun_get_cgroup_mode (err);
@@ -1592,7 +1709,7 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
         }
     }
 
-  if (cr_options->tfork_copies > 1)
+  if (cr_options->tfork_copies >= 1)
     libcriu_wrapper->criu_set_tfork_copies (cr_options->tfork_copies);
 
   if (cr_options->tfork_memdump_async)
@@ -1626,6 +1743,13 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
                                 "criu_set_tfork_full_memcopy (rebuild against "
                                 "a criu with --tfork-full-memcopy support)");
       libcriu_wrapper->criu_set_tfork_full_memcopy (true);
+    }
+
+  if (libcriu_wrapper->criu_set_network_lock && cr_options->network_lock_method > 0)
+    {
+      ret = libcriu_wrapper->criu_set_network_lock (cr_options->network_lock_method);
+      if (UNLIKELY (ret < 0))
+        return crun_make_error (err, 0, "CRIU: failed setting tfork network lock");
     }
 
   if (cr_options->track_mem || cr_options->tfork_memdump)
@@ -1805,10 +1929,17 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
   if (UNLIKELY (ret < 0))
     return ret;
 
+  tfork_pre_restore_fd = cr_options->tfork_pre_restore_fd;
+  tfork_source_detached_fd = cr_options->tfork_source_detached_fd;
+  libcriu_wrapper->criu_set_notify_cb (criu_notify);
   ret = libcriu_wrapper->criu_tfork();
+  tfork_pre_restore_fd = -1;
+  tfork_source_detached_fd = -1;
   if (UNLIKELY (ret != 0))
     {
       show_criu_log (cr_options->work_path, CRIU_TFORK_LOG_FILE);
+      show_criu_log (cr_options->image_path, CRIU_TFORK_RESTORE_LOG_FILE);
+      show_criu_tfork_restore_copy_logs (cr_options->image_path, cr_options->tfork_copies);
       return crun_make_error (err, 0, "criu_tfork failed: %d", ret);
     }
 
@@ -1819,7 +1950,7 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
       pid_t clone_pid;
       const char *pidfile_name = "tfork.pid";
 
-      if (cr_options->tfork_copies > 1)
+      if (cr_options->tfork_copies >= 1)
         pidfile_name = "tfork.pid.copy0";
 
       ret = append_paths (&pidfile_path, err, cr_options->image_path, pidfile_name, NULL);
@@ -1834,7 +1965,7 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
       if (UNLIKELY (clone_pid <= 0))
         return crun_make_error (err, 0, "invalid clone PID %d in `%s`", (int) clone_pid, pidfile_path);
 
-      if (cr_options->tfork_copies > 1)
+      if (cr_options->tfork_copies >= 1)
         {
           char children_path[64];
           cleanup_free char *children_buf = NULL;

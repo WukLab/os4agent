@@ -178,7 +178,10 @@ check [agent-s README](agents/agent-s/README.md)
 - btrfs only
 - rootful only
 - amd64 only
-- linux page-cache CoW currently has a memory leak that will be fixed
+- Filecow layers are reclaimed with their cached inode/mapping owners rather
+  than eagerly when a child is deleted. Repeated unchanged forks reuse the
+  current layer, so retained layers are bounded by changed generations instead
+  of the total fork count.
 
 ## License
 

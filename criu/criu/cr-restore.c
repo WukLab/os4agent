@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <time.h>
 
 #include <fcntl.h>
 
@@ -117,6 +118,55 @@
 #define arch_export_restore_task __export_restore_task
 #endif
 
+static bool tfork_restore_profile;
+static uint64_t tfork_restore_profile_origin;
+static uint64_t tfork_restore_profile_last;
+static unsigned int tfork_restore_wait_seq;
+
+static uint64_t tfork_restore_profile_now(void)
+{
+	struct timespec ts;
+
+	if (clock_gettime(CLOCK_MONOTONIC, &ts))
+		return 0;
+	return (uint64_t)ts.tv_sec * 1000000000ULL + ts.tv_nsec;
+}
+
+static void tfork_restore_profile_init(void)
+{
+	const char *value = getenv("CRIU_TFORK_PROFILE");
+
+	tfork_restore_profile = opts.tfork.active && value && value[0] &&
+		strcmp(value, "0");
+	if (!tfork_restore_profile)
+		return;
+	tfork_restore_profile_origin = tfork_restore_profile_now();
+	tfork_restore_profile_last = tfork_restore_profile_origin;
+	tfork_restore_wait_seq = 0;
+	pr_info("tfork-profile: phase=B-restore mark=start pid=%d\n", getpid());
+}
+
+static void tfork_restore_profile_mark(const char *mark)
+{
+	uint64_t now;
+	uint64_t delta = 0;
+	uint64_t elapsed = 0;
+
+	if (!tfork_restore_profile)
+		return;
+	now = tfork_restore_profile_now();
+	if (now >= tfork_restore_profile_last) {
+		delta = now - tfork_restore_profile_last;
+		tfork_restore_profile_last = now;
+	}
+	if (now >= tfork_restore_profile_origin)
+		elapsed = now - tfork_restore_profile_origin;
+	pr_info("tfork-profile: phase=B-restore mark=%s pid=%d delta_us=%llu elapsed_us=%llu\n",
+		mark, getpid(),
+		(unsigned long long)(delta / 1000ULL),
+		(unsigned long long)(elapsed / 1000ULL));
+}
+
 #ifndef arch_export_unmap
 #define arch_export_unmap	 __export_unmap
 #define arch_export_unmap_compat __export_unmap_compat
@@ -185,10 +235,99 @@ static int __restore_wait_inprogress_tasks(int participants)
 {
 	int ret;
 	futex_t *np = &task_entries->nr_in_progress;
+	const int tfork_restore_wait_timeout_ms = 10000;
+	uint64_t profile_started = 0;
+	unsigned int profile_seq = 0;
+	int profile_initial = 0;
 
-	futex_wait_while_gt(np, participants);
+	if (tfork_restore_profile) {
+		profile_started = tfork_restore_profile_now();
+		profile_seq = ++tfork_restore_wait_seq;
+		profile_initial = (int)futex_get(np);
+	}
+
+	if (opts.tfork.active) {
+		struct timespec started, now, timeout;
+		int wait_ret = 0;
+
+		/*
+		 * All paths that decrement this barrier use
+		 * futex_dec_and_wake().  Waiting on the observed value avoids
+		 * paying up to one 100ms polling interval at every restore stage.
+		 */
+		if (clock_gettime(CLOCK_MONOTONIC, &started)) {
+			pr_perror("tfork restore wait: clock_gettime");
+			return -errno;
+		}
+		while ((int)futex_get(np) > participants) {
+			int64_t elapsed_ns, remaining_ns;
+			uint32_t observed = futex_get(np);
+
+			if (observed & FUTEX_ABORT_FLAG)
+				break;
+			if (clock_gettime(CLOCK_MONOTONIC, &now)) {
+				pr_perror("tfork restore wait: clock_gettime");
+				return -errno;
+			}
+			elapsed_ns =
+				(int64_t)(now.tv_sec - started.tv_sec) * NSEC_PER_SEC +
+				(now.tv_nsec - started.tv_nsec);
+			remaining_ns =
+				(int64_t)tfork_restore_wait_timeout_ms * 1000000 -
+				elapsed_ns;
+			if (remaining_ns <= 0) {
+				wait_ret = -ETIMEDOUT;
+				break;
+			}
+			timeout.tv_sec = remaining_ns / NSEC_PER_SEC;
+			timeout.tv_nsec = remaining_ns % NSEC_PER_SEC;
+			wait_ret = sys_futex(
+				(uint32_t *)&np->raw.counter, FUTEX_WAIT,
+				observed, &timeout, NULL, 0);
+			if (wait_ret == 0 || wait_ret == -EINTR ||
+			    wait_ret == -EWOULDBLOCK)
+				continue;
+			if (wait_ret == -ETIMEDOUT)
+				break;
+			pr_err("tfork restore futex wait failed: %d\n", wait_ret);
+			set_cr_errno(-wait_ret);
+			return wait_ret;
+		}
+
+		if (wait_ret == -ETIMEDOUT &&
+		    (int)futex_get(np) > participants) {
+			pr_err("tfork restore wait timed out after %dms: participants=%d nr_in_progress=%d start_stage=%d task_cr_err=%d nr_tasks=%d nr_threads=%d nr_helpers=%d\n",
+			       tfork_restore_wait_timeout_ms,
+			       participants, (int)futex_get(np),
+			       (int)futex_get(&task_entries->start),
+			       get_task_cr_err(),
+			       task_entries->nr_tasks, task_entries->nr_threads,
+			       task_entries->nr_helpers);
+			set_cr_errno(ETIMEDOUT);
+			return -ETIMEDOUT;
+		}
+	} else {
+		futex_wait_while_gt(np, participants);
+	}
+
+	if (profile_started) {
+		uint64_t now = tfork_restore_profile_now();
+		uint64_t elapsed = 0;
+
+		if (now >= profile_started)
+			elapsed = now - profile_started;
+		pr_info("tfork-profile: phase=B-wait seq=%u pid=%d stage=%d "
+			"participants=%d initial=%d final=%d duration_us=%llu\n",
+			profile_seq, getpid(), (int)futex_get(&task_entries->start),
+			participants, profile_initial, (int)futex_get(np),
+			(unsigned long long)(elapsed / 1000ULL));
+	}
+
 	ret = (int)futex_get(np);
 	if (ret < 0) {
+		pr_err("restore wait aborted: participants=%d nr_in_progress=%d start_stage=%d task_cr_err=%d\n",
+		       participants, ret, (int)futex_get(&task_entries->start),
+		       get_task_cr_err());
 		set_cr_errno(get_task_cr_err());
 		return ret;
 	}
@@ -227,6 +366,17 @@ static inline void __restore_switch_stage(int next_stage)
 
 static int restore_switch_stage(int next_stage)
 {
+	if (opts.tfork.active)
+		pr_warn("tfork: restore_switch_stage %d participants=%d nr_tasks=%d nr_threads=%d nr_helpers=%d\n",
+			next_stage, stage_participants(next_stage),
+			task_entries->nr_tasks, task_entries->nr_threads,
+			task_entries->nr_helpers);
+	else
+		pr_info("restore_switch_stage %d participants=%d nr_tasks=%d nr_threads=%d nr_helpers=%d\n",
+			next_stage, stage_participants(next_stage),
+			task_entries->nr_tasks, task_entries->nr_threads,
+			task_entries->nr_helpers);
+
 	__restore_switch_stage(next_stage);
 	return restore_wait_inprogress_tasks();
 }
@@ -431,7 +581,29 @@ self:
 	return 0;
 }
 
-static int __collect_child_pids(struct pstree_item *p, int state, unsigned int *n)
+/*
+ * The pid of `pi` as seen by `p`.  ns[0] is innermost, so stepping in
+ * (child depth - p's depth) entries gives p's view.  localpid() only
+ * matches when both live in the same namespace: a nested pidns init is 1
+ * to itself and something else entirely to its parent.
+ */
+static pid_t pid_in_parent_ns(struct pstree_item *p, struct pstree_item *pi)
+{
+	int idx = pi->pid->ns_level - p->pid->ns_level;
+
+	if (idx <= 0 || idx >= pi->pid->ns_level)
+		return localpid(pi);
+
+	return pi->pid->ns[idx].ns_pid;
+}
+
+/*
+ * `observer` is whoever waits on these children, which is not always p:
+ * children of helpers and zombies are reparented to init.  Pids are
+ * recorded in the observer's namespace.
+ */
+static int __collect_child_pids(struct pstree_item *p, struct pstree_item *observer, int state,
+				unsigned int *n)
 {
 	struct pstree_item *pi;
 
@@ -446,7 +618,15 @@ static int __collect_child_pids(struct pstree_item *p, int state, unsigned int *
 			return -1;
 
 		(*n)++;
-		*child = localpid(pi);
+		/*
+		 * Zombies only.  A helper's pid chain is synthesised by
+		 * get_or_create_helper_item(), so translating it through ns[]
+		 * would yield a pid that was never real.
+		 */
+		if (state == TASK_DEAD)
+			*child = pid_in_parent_ns(observer, pi);
+		else
+			*child = localpid(pi);
 	}
 
 	return 0;
@@ -467,12 +647,12 @@ static int collect_child_pids(int state, unsigned int *n)
 		for_each_pstree_item(pi) {
 			if (pi->pid->state != TASK_HELPER && pi->pid->state != TASK_DEAD)
 				continue;
-			if (__collect_child_pids(pi, state, n))
+			if (__collect_child_pids(pi, current, state, n))
 				return -1;
 		}
 	}
 
-	return __collect_child_pids(current, state, n);
+	return __collect_child_pids(current, current, state, n);
 }
 
 static int collect_helper_pids(struct task_restore_args *ta)
@@ -1303,14 +1483,15 @@ static int set_next_pid(void *arg)
 	return 0;
 }
 
-static inline int fork_with_pid(struct pstree_item *item)
+static inline int fork_with_pid_mode(struct pstree_item *item, bool parallel_sibling)
 {
 	struct cr_clone_arg ca;
 	struct ns_id *pid_ns = NULL;
 	bool external_pidns = false;
+	bool last_pid_locked = false;
 	int ret = -1;
 	pid_t pid = localpid(item);
-	unsigned long strip;
+	unsigned long strip, syscall_clone_flags;
 
 	if (item->pid->state != TASK_HELPER) {
 		if (open_core(uid(item), &ca.core))
@@ -1395,13 +1576,38 @@ static inline int fork_with_pid(struct pstree_item *item)
 
 	ca.item = item;
 	ca.clone_flags = rsti(item)->clone_flags;
+	/*
+	 * Innermost pid 1 below the restore root means a nested pidns init,
+	 * which needs CLONE_NEWPID.  A zombie has no ids image, so
+	 * get_clone_mask() cannot derive the flag and clone3() would apply
+	 * the set_tid chain against the parent's namespace and hit EEXIST.
+	 * Not tfork-specific: plain dump/restore breaks the same way.
+	 */
+	if (item != root_item &&
+	    !(ca.clone_flags & CLONE_NEWPID) &&
+	    item->pid->ns_level > 1 &&
+	    item->pid->ns[0].ns_pid == INIT_PID) {
+		pr_info("repairing missing CLONE_NEWPID for pidns init uid=%d local=%d parent_local=%d level=%d\n",
+			uid(item), pid,
+			item->parent ? localpid(item->parent) : -1,
+			item->pid->ns_level);
+		ca.clone_flags |= CLONE_NEWPID;
+	}
 
 	BUG_ON(ca.clone_flags & CLONE_VM);
 
 	pr_info("Forking task with %d(%d) (flags 0x%lx)\n", realpid(item), pid, ca.clone_flags);
 
 	if (!(ca.clone_flags & CLONE_NEWPID)) {
-		lock_last_pid();
+		/*
+		 * clone3(set_tid) reserves the requested PID atomically. Parallel
+		 * sibling helpers must not serialize on the legacy ns_last_pid lock;
+		 * the lock remains mandatory for the fallback set_next_pid path.
+		 */
+		if (!parallel_sibling || !kdat.has_clone3_set_tid) {
+			lock_last_pid();
+			last_pid_locked = true;
+		}
 
 		if (!kdat.has_clone3_set_tid) {
 			if (external_pidns) {
@@ -1432,14 +1638,17 @@ static inline int fork_with_pid(struct pstree_item *item)
 	strip = CLONE_NEWNET | CLONE_NEWCGROUP | CLONE_NEWTIME;
 	if (!(item == root_item && is_simple_userns_tree()))
 		strip |= CLONE_NEWUSER;
+	syscall_clone_flags = ca.clone_flags;
+	if (parallel_sibling)
+		syscall_clone_flags |= CLONE_PARENT;
 
 	if (kdat.has_clone3_set_tid) {
 		if (item->pid->ns_level == 1)
 			ret = clone3_with_pid_noasan(restore_task_with_children, &ca,
-						     ca.clone_flags & ~strip, SIGCHLD, pid);
+						     syscall_clone_flags & ~strip, SIGCHLD, pid);
 		else
 			ret = clone3_with_nested_pid_noasan(restore_task_with_children, &ca,
-							    ca.clone_flags & ~strip,
+							    syscall_clone_flags & ~strip,
 							    SIGCHLD, item->pid);
 	} else {
 		BUG_ON(item->pid->ns_level >= 1);
@@ -1448,6 +1657,19 @@ static inline int fork_with_pid(struct pstree_item *item)
 				   (ca.clone_flags & ~strip) | SIGCHLD, &ca);
 	}
 	if (ret < 0) {
+		pr_err("fork_with_pid failed item uid=%d local=%d real=%d parent_local=%d flags=0x%lx stripped_flags=0x%lx ns_level=%d root_ns_mask=0x%lx tfork=%d\n",
+		       uid(item), pid, realpid(item),
+		       item->parent ? localpid(item->parent) : -1,
+		       ca.clone_flags, ca.clone_flags & ~strip,
+		       item->pid->ns_level, root_ns_mask,
+		       opts.tfork.active ? 1 : 0);
+		if (item->pid->ns_level > 0)
+			pr_err("fork_with_pid pid chain uid=%d ns=%d/%d/%d/%d\n",
+			       uid(item),
+			       item->pid->ns[0].ns_pid,
+			       item->pid->ns_level > 1 ? item->pid->ns[1].ns_pid : -1,
+			       item->pid->ns_level > 2 ? item->pid->ns[2].ns_pid : -1,
+			       item->pid->ns_level > 3 ? item->pid->ns[3].ns_pid : -1);
 		pr_perror("Can't fork for %d", pid);
 		if (errno == EEXIST)
 			set_cr_errno(EEXIST);
@@ -1462,12 +1684,17 @@ static inline int fork_with_pid(struct pstree_item *item)
 	arch_shstk_unlock(item, ca.core, ret);
 
 err_unlock:
-	if (!(ca.clone_flags & CLONE_NEWPID))
+	if (last_pid_locked)
 		unlock_last_pid();
 
 	if (ca.core)
 		core_entry__free_unpacked(ca.core, NULL);
 	return ret;
+}
+
+static inline int fork_with_pid(struct pstree_item *item)
+{
+	return fork_with_pid_mode(item, false);
 }
 
 static pid_t userns_maps_helper_pid = -1;
@@ -1739,6 +1966,161 @@ static int mount_proc(void)
 	return ret;
 }
 
+#define TFORK_PARALLEL_SIBLING_MAX_WORKERS 16
+#define TFORK_PARALLEL_SIBLING_MIN_CHILDREN 32
+
+struct tfork_parallel_sibling_arg {
+	int worker_index;
+	int worker_count;
+	bool before_setsid;
+};
+
+static int tfork_parallel_sibling_worker_count(void)
+{
+	const char *value;
+	char *end = NULL;
+	long workers;
+
+	/*
+	 * Restrict the prototype to one bounded helper pool for root children.
+	 * Recursing into every wide subtree can multiply helpers without bound.
+	 */
+	if (!opts.tfork.active || current != root_item)
+		return 0;
+	value = getenv("CRIU_TFORK_PARALLEL_SIBLINGS");
+	if (!value || !value[0])
+		return 0;
+	workers = strtol(value, &end, 10);
+	if (!*end && workers == 0)
+		return 0;
+	if (*end || workers < 2) {
+		pr_warn("tfork: ignoring invalid CRIU_TFORK_PARALLEL_SIBLINGS=%s\n", value);
+		return 0;
+	}
+	if (workers > TFORK_PARALLEL_SIBLING_MAX_WORKERS)
+		workers = TFORK_PARALLEL_SIBLING_MAX_WORKERS;
+	return workers;
+}
+
+static bool tfork_parallel_sibling_matches(struct pstree_item *child, bool before_setsid)
+{
+	return restore_before_setsid(child) == before_setsid;
+}
+
+static int tfork_parallel_sibling_main(void *opaque)
+{
+	struct tfork_parallel_sibling_arg *arg = opaque;
+	struct pstree_item *child;
+	sigset_t unblock;
+	int ordinal = 0;
+
+	/* The root blocks SIGCHLD while it owns/reaps the temporary helpers. */
+	sigemptyset(&unblock);
+	sigaddset(&unblock, SIGCHLD);
+	if (sigprocmask(SIG_UNBLOCK, &unblock, NULL)) {
+		pr_perror("tfork: parallel sibling helper cannot unblock SIGCHLD");
+		return 1;
+	}
+
+	list_for_each_entry(child, &current->children, sibling) {
+		if (!tfork_parallel_sibling_matches(child, arg->before_setsid))
+			continue;
+		if ((ordinal++ % arg->worker_count) != arg->worker_index)
+			continue;
+		if (arg->before_setsid)
+			BUG_ON(child->born_sid != -1 && getsid(0) != child->born_sid);
+		if (fork_with_pid_mode(child, true) < 0)
+			return 1;
+	}
+	return 0;
+}
+
+/*
+ * Return 0 when the matching children were created, 1 when the guarded path
+ * is ineligible (the caller should use the serial loop), and -1 after a
+ * partial/failed parallel attempt.
+ */
+static int tfork_create_siblings_parallel(bool before_setsid, int requested_workers)
+{
+	struct tfork_parallel_sibling_arg args[TFORK_PARALLEL_SIBLING_MAX_WORKERS];
+	pid_t helpers[TFORK_PARALLEL_SIBLING_MAX_WORKERS] = {};
+	struct pstree_item *child;
+	sigset_t oldmask;
+	int child_count = 0, workers, launched = 0, i, ret = -1;
+
+	if (!kdat.has_clone3_set_tid)
+		return 1;
+
+	list_for_each_entry(child, &current->children, sibling) {
+		if (!tfork_parallel_sibling_matches(child, before_setsid))
+			continue;
+		child_count++;
+		/*
+		 * CLONE_PARENT is added only to the helper's clone3 syscall so
+		 * that the restored child remains a child of current. Nested PID
+		 * namespace creation and pre-existing CLONE_PARENT semantics need
+		 * a separate dependency proof and stay on the serial path.
+		 */
+		if (rsti(child)->clone_flags & (CLONE_PARENT | CLONE_NEWPID | CLONE_VM | CLONE_THREAD))
+			return 1;
+	}
+	/* Keep small process trees on the cheaper and better-tested serial path. */
+	if (child_count < TFORK_PARALLEL_SIBLING_MIN_CHILDREN)
+		return 1;
+
+	workers = requested_workers;
+	if (workers > child_count)
+		workers = child_count;
+	if (workers > TFORK_PARALLEL_SIBLING_MAX_WORKERS)
+		workers = TFORK_PARALLEL_SIBLING_MAX_WORKERS;
+
+	if (block_sigmask(&oldmask, SIGCHLD))
+		return -1;
+
+	pr_info("tfork: creating %d %s-setsid siblings with %d temporary helpers\n",
+		child_count, before_setsid ? "pre" : "post", workers);
+	for (i = 0; i < workers; i++) {
+		pid_t helper_pid = pstree_get_free_pid(current);
+
+		args[i].worker_index = i;
+		args[i].worker_count = workers;
+		args[i].before_setsid = before_setsid;
+		helpers[i] = clone3_with_pid_noasan(tfork_parallel_sibling_main, &args[i],
+						       0, SIGCHLD, helper_pid);
+		if (helpers[i] < 0) {
+			pr_perror("tfork: cannot create parallel sibling helper at vpid %d", helper_pid);
+			goto kill_helpers;
+		}
+		launched++;
+	}
+
+	ret = 0;
+	for (i = 0; i < launched; i++) {
+		int status = 0;
+		pid_t waited;
+
+		do {
+			waited = waitpid(helpers[i], &status, 0);
+		} while (waited < 0 && errno == EINTR);
+		if (waited != helpers[i] || !WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+			pr_err("tfork: parallel sibling helper %d failed (waited=%d status=0x%x)\n",
+			       helpers[i], waited, status);
+			ret = -1;
+		}
+	}
+	if (restore_sigmask(&oldmask))
+		ret = -1;
+	return ret;
+
+kill_helpers:
+	for (i = 0; i < launched; i++)
+		kill(helpers[i], SIGKILL);
+	for (i = 0; i < launched; i++)
+		waitpid(helpers[i], NULL, 0);
+	restore_sigmask(&oldmask);
+	return -1;
+}
+
 /*
  * Tasks cannot change sid (session id) arbitrary, but can either
  * inherit one from ancestor, or create a new one with id equal to
@@ -1749,30 +2131,43 @@ static int create_children_and_session(void)
 {
 	int ret;
 	struct pstree_item *child;
+	int parallel_workers = tfork_parallel_sibling_worker_count();
 
 	pr_info("Restoring children in alien sessions:\n");
-	list_for_each_entry(child, &current->children, sibling) {
-		if (!restore_before_setsid(child))
-			continue;
+	ret = parallel_workers > 1 ?
+		tfork_create_siblings_parallel(true, parallel_workers) : 1;
+	if (ret < 0)
+		return ret;
+	if (ret > 0) {
+		list_for_each_entry(child, &current->children, sibling) {
+			if (!restore_before_setsid(child))
+				continue;
 
-		BUG_ON(child->born_sid != -1 && getsid(0) != child->born_sid);
+			BUG_ON(child->born_sid != -1 && getsid(0) != child->born_sid);
 
-		ret = fork_with_pid(child);
-		if (ret < 0)
-			return ret;
+			ret = fork_with_pid(child);
+			if (ret < 0)
+				return ret;
+		}
 	}
 
 	if (current->parent)
 		restore_sid();
 
 	pr_info("Restoring children in our session:\n");
-	list_for_each_entry(child, &current->children, sibling) {
-		if (restore_before_setsid(child))
-			continue;
+	ret = parallel_workers > 1 ?
+		tfork_create_siblings_parallel(false, parallel_workers) : 1;
+	if (ret < 0)
+		return ret;
+	if (ret > 0) {
+		list_for_each_entry(child, &current->children, sibling) {
+			if (restore_before_setsid(child))
+				continue;
 
-		ret = fork_with_pid(child);
-		if (ret < 0)
-			return ret;
+			ret = fork_with_pid(child);
+			if (ret < 0)
+				return ret;
+		}
 	}
 
 	return 0;
@@ -2431,6 +2826,7 @@ static int restore_root_task(struct pstree_item *init)
 		pr_err("Failed to prepare namespace before tasks\n");
 		return -1;
 	}
+	tfork_restore_profile_mark("root-pre-restore-and-namespace-prep");
 
 	if (localpid(init) == INIT_PID) {
 		if (!(root_ns_mask & CLONE_NEWPID)) {
@@ -2480,6 +2876,7 @@ static int restore_root_task(struct pstree_item *init)
 		pr_err("fork_with_pid failed: %d\n", ret);
 		goto out;
 	}
+	tfork_restore_profile_mark("fork-root-task");
 
 	if (is_simple_userns_tree()) {
 		if (prepare_userns(init)) {
@@ -2538,6 +2935,7 @@ static int restore_root_task(struct pstree_item *init)
 		pr_err("restore_wait_inprogress_tasks failed: %d\n", ret);
 		goto out_kill;
 	}
+	tfork_restore_profile_mark("wait-namespaces-created");
 
 	ret = run_scripts(ACT_SETUP_NS);
 	if (ret) {
@@ -2554,6 +2952,7 @@ static int restore_root_task(struct pstree_item *init)
 		pr_err("Root task logs above show which step failed (err_step).\n");
 		goto out_kill;
 	}
+	tfork_restore_profile_mark("prepare-namespaces-stage");
 
 	if (root_ns_mask & CLONE_NEWNS) {
 		mnt_ns_fd = open_proc(init->pid->real, "ns/mnt");
@@ -2598,6 +2997,7 @@ skip_ns_bouncing:
 		pr_err("restore_wait_inprogress_tasks (post-fork) failed: %d\n", ret);
 		goto out_kill;
 	}
+	tfork_restore_profile_mark("post-fork-wait");
 
 	ret = apply_memfd_seals();
 	if (ret < 0) {
@@ -2641,6 +3041,7 @@ skip_ns_bouncing:
 		pr_err("restore_switch_stage RESTORE_SIGCHLD failed: %d\n", ret);
 		goto out_kill;
 	}
+	tfork_restore_profile_mark("restore-sigchld-stage");
 
 	ret = stop_usernsd();
 	if (ret < 0) {
@@ -2696,8 +3097,10 @@ skip_ns_bouncing:
 		pr_err("write_restored_pid failed\n");
 		goto out_kill;
 	}
+	tfork_restore_profile_mark("post-restore-housekeeping");
 
 	network_unlock();
+	tfork_restore_profile_mark("network-unlock");
 
 	/*
 	 * Stop getting sigchld, after we resume the tasks they
@@ -2714,11 +3117,13 @@ skip_ns_bouncing:
 		pr_err("attach_to_tasks failed\n");
 		goto out_kill_network_unlocked;
 	}
+	tfork_restore_profile_mark("attach-restored-tasks");
 
 	if (restore_switch_stage(CR_STATE_RESTORE_CREDS)) {
 		pr_err("restore_switch_stage RESTORE_CREDS failed\n");
 		goto out_kill_network_unlocked;
 	}
+	tfork_restore_profile_mark("restore-creds-stage");
 
 	timing_stop(TIME_RESTORE);
 
@@ -2733,6 +3138,7 @@ skip_ns_bouncing:
 	}
 
 	__restore_switch_stage(CR_STATE_COMPLETE);
+	tfork_restore_profile_mark("catch-lazy-and-complete");
 
 	ret = compel_stop_on_syscall(task_entries->nr_threads, __NR(rt_sigreturn, 0), __NR(rt_sigreturn, 1));
 	if (ret) {
@@ -2745,6 +3151,7 @@ skip_ns_bouncing:
 	/* just before releasing threads we have to restore rseq_cs */
 	if (restore_rseq_cs())
 		pr_err("Unable to restore rseq_cs state\n");
+	tfork_restore_profile_mark("stop-finalize-and-rseq");
 
 	/*
 	 * Some external devices such as GPUs might need a very late
@@ -2784,6 +3191,7 @@ skip_ns_bouncing:
 		pr_err("finalize_restore_detach failed\n");
 		goto out_kill_network_unlocked;
 	}
+	tfork_restore_profile_mark("hooks-freezer-and-detach");
 
 	pr_info("Restore finished successfully. Tasks resumed.\n");
 	write_stats(RESTORE_STATS);
@@ -2902,6 +3310,7 @@ int cr_restore_tasks(void)
 
 	if (init_service_fd())
 		return 1;
+	tfork_restore_profile_init();
 
 	if (check_async_memdump_inflight() < 0)
 		return -1;
@@ -2913,6 +3322,7 @@ int cr_restore_tasks(void)
 		if (tfork_read_cropt())
 			return -1;
 	}
+	tfork_restore_profile_mark("inventory-and-cropt");
 
 	if (init_stats(RESTORE_STATS))
 		return -1;
@@ -2958,6 +3368,7 @@ int cr_restore_tasks(void)
 			}
 		}
 	}
+	tfork_restore_profile_mark("task-entries-and-pstree");
 
 	if (fdstore_init())
 		return -1;
@@ -2976,6 +3387,7 @@ int cr_restore_tasks(void)
 
 	if (crtools_prepare_shared() < 0)
 		goto err;
+	tfork_restore_profile_mark("fdstore-plugins-and-shared");
 
 	if (prepare_cgroup())
 		goto clean_cgroup;
@@ -2985,8 +3397,10 @@ int cr_restore_tasks(void)
 
 	if (prepare_lazy_pages_socket() < 0)
 		goto clean_cgroup;
+	tfork_restore_profile_mark("cgroup-signals-and-lazy-pages");
 
 	ret = restore_root_task(root_item);
+	tfork_restore_profile_mark("restore-root-returned");
 clean_cgroup:
 	fini_cgroup();
 err:
@@ -4045,6 +4459,7 @@ static int sigreturn_restore(struct task_restore_args *task_args, unsigned long 
 	task_args->vdso_rt_size = vdso_rt_size;
 	task_args->can_map_vdso = kdat.can_map_vdso;
 	task_args->has_clone3_set_tid = kdat.has_clone3_set_tid;
+	task_args->tfork_active = opts.tfork.active;
 
 	new_sp = restorer_stack(task_args->t->mz);
 
