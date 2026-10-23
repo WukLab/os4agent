@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+
+if which xfce4-session > /dev/null 2>&1 || which gnome-session > /dev/null 2>&1 || [[ "${PIXELFLUX_WAYLAND,,}" == "true" ]]; then
+  sleep infinity
+fi
+
+if [ ! -f "${HOME}/.xsettingsd" ]; then
+  echo "Xft/DPI 98304" > "${HOME}/.xsettingsd"
+fi
+chown abc:abc "${HOME}/.xsettingsd"
+
+exec s6-setuidgid abc \
+  xsettingsd

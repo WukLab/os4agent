@@ -1,0 +1,440 @@
+#!/usr/bin/with-contenv bash
+
+if [[ "${PIXELFLUX_WAYLAND,,}" == "true" ]];then
+  CONF_DIR="$HOME/.config/labwc"
+  DEF_AUTOSTART="/defaults/autostart_wayland"
+  DEF_MENU="/defaults/menu_wayland.xml"
+  DEF_RC="/defaults/labwc.xml"
+  if [[ "${PELORUS,,}" == "true" ]]; then
+    printf "5000" > /run/s6/container_environment/PIXELFLUX_CU
+    if [ -z "${PIXELFLUX_CU_TOKEN}" ]; then
+      printf "%s" "$(openssl rand -hex 32)" > /run/s6/container_environment/PIXELFLUX_CU_TOKEN
+    fi
+    printf "/pelorus" > /run/s6/container_environment/ROOT_PATH
+  fi
+else
+  CONF_DIR="$HOME/.config/openbox"
+  DEF_AUTOSTART="/defaults/autostart"
+  DEF_MENU="/defaults/menu.xml"
+fi
+
+mkdir -p "$HOME/.config"
+chown abc:abc "$HOME/.config"
+if [[ ! -f "$CONF_DIR/autostart" ]]; then
+  mkdir -p "$CONF_DIR"
+  if [[ -f "$DEF_AUTOSTART" ]]; then
+    cp "$DEF_AUTOSTART" "$CONF_DIR/autostart"
+    chown abc:abc "$CONF_DIR" "$CONF_DIR/autostart"
+  fi
+fi
+if [[ ! -f "$CONF_DIR/menu.xml" ]]; then
+  mkdir -p "$CONF_DIR" && \
+  cp "$DEF_MENU" "$CONF_DIR/menu.xml"
+  chown abc:abc "$CONF_DIR" "$CONF_DIR/menu.xml"
+fi
+
+rm -Rf "$HOME/.XDG"
+mkdir -p "$HOME/.XDG"
+chown abc:abc "$HOME/.XDG"
+printf "$HOME/.XDG" > /run/s6/container_environment/XDG_RUNTIME_DIR
+
+if [[ "${PATH}" != *"games"* ]]; then
+  printf "/usr/local/games:/usr/games:${PATH}" > /run/s6/container_environment/PATH
+fi
+
+rm -f /defaults/pid /defaults/native /dev/shm/audio.lock
+
+if [ ! -z ${LC_ALL+x} ]; then
+  printf "${LC_ALL%.UTF-8}" > /run/s6/container_environment/LANGUAGE
+  printf "${LC_ALL}" > /run/s6/container_environment/LANG
+fi
+
+if [[ ${HARDEN_DESKTOP,,} == "true" ]]; then
+  export DISABLE_OPEN_TOOLS="true"
+  export DISABLE_SUDO="true"
+  export DISABLE_TERMINALS="true"
+  if [ -z ${SELKIES_FILE_TRANSFERS+x} ]; then
+    printf "" > /run/s6/container_environment/SELKIES_FILE_TRANSFERS
+  fi
+  if [ -z ${SELKIES_COMMAND_ENABLED+x} ]; then
+    printf "false" > /run/s6/container_environment/SELKIES_COMMAND_ENABLED
+  fi
+  if [ -z ${SELKIES_PRINTING_ENABLED+x} ]; then
+    export SELKIES_PRINTING_ENABLED="false"
+    printf "false" > /run/s6/container_environment/SELKIES_PRINTING_ENABLED
+  fi
+  if [ -z ${SELKIES_UI_SIDEBAR_SHOW_FILES+x} ]; then
+    printf "false" > /run/s6/container_environment/SELKIES_UI_SIDEBAR_SHOW_FILES
+  fi
+  if [ -z ${SELKIES_UI_SIDEBAR_SHOW_APPS+x} ]; then
+    printf "false" > /run/s6/container_environment/SELKIES_UI_SIDEBAR_SHOW_APPS
+  fi
+fi
+if [ -z "${CUPS_SERVER}" ] && [[ "${SELKIES_PRINTING_ENABLED,,}" != "false" ]]; then
+  printf "$HOME/.XDG/selkies-cups/cups.sock" > /run/s6/container_environment/CUPS_SERVER
+fi
+
+if [[ ${HARDEN_DESKTOP,,} != "true" ]] && [ -z ${SELKIES_COMMAND_ENABLED+x} ]; then
+  printf "true" > /run/s6/container_environment/SELKIES_COMMAND_ENABLED
+fi
+if [[ ${HARDEN_OPENBOX,,} == "true" ]]; then
+  export DISABLE_CLOSE_BUTTON="true"
+  export DISABLE_MOUSE_BUTTONS="true"
+  export HARDEN_KEYBINDS="true"
+  if [ -z ${RESTART_APP+x} ]; then
+    export RESTART_APP=true
+    printf "true" > /run/s6/container_environment/RESTART_APP
+  fi
+fi
+
+xdg_open_path=$(which xdg-open 2>/dev/null)
+exo_open_path=$(which exo-open 2>/dev/null)
+if [[ ${DISABLE_OPEN_TOOLS,,} == "true" ]]; then
+  echo "[ls.io-init] Disabling xdg-open and exo-open"
+  [ -n "$xdg_open_path" ] && chmod 0000 "$xdg_open_path"
+  [ -n "$exo_open_path" ] && chmod 0000 "$exo_open_path"
+else
+  [ -n "$xdg_open_path" ] && chmod 755 "$xdg_open_path"
+  [ -n "$exo_open_path" ] && chmod 755 "$exo_open_path"
+fi
+
+sudo_path=$(which sudo 2>/dev/null)
+if [[ ${DISABLE_SUDO,,} == "true" ]]; then
+  echo "[ls.io-init] Disabling sudo binary and corrupting sudoers config"
+  [ -n "$sudo_path" ] && chmod 0000 "$sudo_path"
+  sed -i "s/NOPASSWD/CORRUPT_FILE/g" /etc/sudoers
+else
+  [ -n "$sudo_path" ] && chmod 4755 "$sudo_path"
+  sed -i "s/CORRUPT_FILE/NOPASSWD/g" /etc/sudoers
+fi
+
+USER_MENU_DIR="$CONF_DIR"
+USER_MENU_XML="$USER_MENU_DIR/menu.xml"
+USER_MENU_BAK="$USER_MENU_DIR/menu.xml.bak"
+TERMINAL_NAMES=("xterm" "st" "stterm" "uxterm" "lxterminal" "gnome-terminal" "konsole" "xfce4-terminal" "terminator" "foot" "weston-terminal")
+if [ -f "$USER_MENU_XML" ] && [ ! -f "$USER_MENU_BAK" ]; then
+  echo "[ls.io-init] Creating initial backup of menu.xml"
+  cp "$USER_MENU_XML" "$USER_MENU_BAK"
+  chown abc:abc "$USER_MENU_BAK"
+fi
+if [[ ${DISABLE_TERMINALS,,} == "true" ]]; then
+  echo "[ls.io-init] Disabling terminal binaries and removing from menu"
+  [ -f "$USER_MENU_BAK" ] && cp "$USER_MENU_BAK" "$USER_MENU_XML"
+  for term_name in "${TERMINAL_NAMES[@]}"; do
+    term_path=$(which "$term_name" 2>/dev/null)
+    if [ -n "$term_path" ]; then
+      chmod 0000 "$term_path"
+      escaped_path=$(echo "$term_path" | sed 's/[&/\]/\\&/g')
+      sed -i "/<command>${escaped_path}<\/command>/d" "$USER_MENU_XML"
+    fi
+  done
+  chown abc:abc "$USER_MENU_XML"
+else
+  if [ -f "$USER_MENU_BAK" ]; then
+    cp "$USER_MENU_BAK" "$USER_MENU_XML"
+    chown abc:abc "$USER_MENU_XML"
+  fi
+  for term_name in "${TERMINAL_NAMES[@]}"; do
+    term_path=$(which "$term_name" 2>/dev/null)
+    if [ -n "$term_path" ] && [ ! -x "$term_path" ]; then
+      chmod 755 "$term_path"
+    fi
+  done
+fi
+
+AUTOSTART_SCRIPT="$CONF_DIR/autostart"
+if [ -f "$AUTOSTART_SCRIPT" ]; then
+  if [[ ${RESTART_APP,,} == "true" ]]; then
+    echo "[ls.io-init] RESTART_APP is set. Setting autostart owner to root and making read-only for user"
+    chown root:abc "$AUTOSTART_SCRIPT"
+    chmod 550 "$AUTOSTART_SCRIPT"
+  else
+    chown abc:abc "$AUTOSTART_SCRIPT"
+    chmod 644 "$AUTOSTART_SCRIPT"
+  fi
+fi
+
+if [[ "${PIXELFLUX_WAYLAND,,}" == "true" ]];then
+  USER_RC_XML="$CONF_DIR/rc.xml"
+  if [[ -f "$DEF_RC" ]]; then
+    echo "[ls.io-init] Generating labwc rc.xml from template"
+    cp "$DEF_RC" "$USER_RC_XML"
+    chown abc:abc "$USER_RC_XML"
+
+    if [[ "${DISABLE_CLOSE_BUTTON,,}" == "true" ]]; then 
+      echo "[ls.io-init] Disabling close button"
+      sed -i 's/close//' "$USER_RC_XML"
+    fi
+    if [[ ${DISABLE_WINDOW_BUTTONS,,} == "true" ]]; then
+      echo "[ls.io-init] Disabling window buttons"
+      sed -i -E '/<layout>/s/(iconify|max|close),?//g' "$USER_RC_XML"
+    fi
+    if [[ ${DISABLE_MOUSE_BUTTONS,,} == "true" ]]; then
+      echo "[ls.io-init] Disabling right and middle mouse clicks"
+      sed -i -e '/<mousebind button="Right"/,/<\/mousebind>/d' \
+             -e '/<mousebind button="Middle"/,/<\/mousebind>/d' "$USER_RC_XML"
+    fi
+    if [[ ! -z ${NO_DECOR+x} ]]; then
+      echo "[ls.io-init] Removing window decorations"
+      sed -i 's/serverDecoration="yes"/serverDecoration="no"/' "$USER_RC_XML"
+    fi
+    if [[ ! -z ${NO_FULL+x} ]]; then
+      echo "[ls.io-init] Disabling auto-maximization"
+      sed -i '/<windowRule identifier="\*"><action name="Maximize" \/><\/windowRule>/d' "$USER_RC_XML"
+    fi
+    if [[ ${HARDEN_KEYBINDS,,} == "true" ]]; then
+        echo "[ls.io-init] Disabling dangerous keybinds"
+        KEYS_TO_DISABLE=(
+            "A-F4"
+            "A-Escape"
+            "A-space"
+            "W-e"
+        )
+        for key in "${KEYS_TO_DISABLE[@]}"; do
+            sed -i "/<keybind key=\"${key}\"/I,/<\/keybind>/{s/^/    <!-- /;s/$/ -->/}" "$USER_RC_XML"
+        done
+    fi
+
+    if [[ ${DISABLE_MOUSE_BUTTONS,,} == "true" || ${HARDEN_KEYBINDS,,} == "true" ]]; then
+      echo "[ls.io-init] Locking labwc rc.xml to prevent security overrides"
+      chown root:abc "$USER_RC_XML"
+      chmod 444 "$USER_RC_XML"
+    fi
+  fi
+else
+  SYS_RC_XML="/etc/xdg/openbox/rc.xml"
+  SYS_RC_BAK="/etc/xdg/openbox/rc.xml.bak"
+  if [ ! -f "$SYS_RC_BAK" ]; then
+    echo "[ls.io-init] Creating initial backup of system rc.xml"
+    cp "$SYS_RC_XML" "$SYS_RC_BAK"
+  fi
+  cp "$SYS_RC_BAK" "$SYS_RC_XML"
+  if [[ "${DISABLE_CLOSE_BUTTON,,}" == "true" ]]; then
+    echo "[ls.io-init] Disabling close button"
+    sed -i '/<titleLayout>/s/C//' "$SYS_RC_XML"
+  fi
+  if [[ ${DISABLE_WINDOW_BUTTONS,,} == "true" ]]; then
+    echo "[ls.io-init] Disabling window buttons"
+    sed -i '/<titleLayout>/s/[IMC]//g' "$SYS_RC_XML"
+  fi
+  if [[ ${DISABLE_MOUSE_BUTTONS,,} == "true" ]]; then
+    echo "[ls.io-init] Disabling right and middle mouse clicks"
+    sed -i -e '/<mousebind button="Right"/,/<\/mousebind>/d' \
+           -e '/<mousebind button="Middle"/,/<\/mousebind>/d' "$SYS_RC_XML"
+  fi
+  if [[ ! -z ${NO_DECOR+x} ]]; then
+    echo "[ls.io-init] Removing window decorations"
+    sed -i 's/<application class="\*">/&<decor>no<\/decor>/' "$SYS_RC_XML"
+  fi
+  if [[ ! -z ${NO_FULL+x} ]]; then
+    echo "[ls.io-init] Disabling maximization"
+    sed -i '/<maximized>yes<\/maximized>/d' "$SYS_RC_XML"
+  fi
+  if [[ ${HARDEN_KEYBINDS,,} == "true" ]]; then
+      echo "[ls.io-init] Disabling dangerous keybinds"
+      KEYS_TO_DISABLE=(
+          "A-F4"
+          "A-Escape"
+          "A-space"
+          "W-e"
+      )
+      for key in "${KEYS_TO_DISABLE[@]}"; do
+          sed -i "/<keybind key=\"${key}\"/,/<\/keybind>/{s/^/    <!-- /;s/$/ -->/}" "$SYS_RC_XML"
+      done
+  fi
+
+  USER_RC_XML="$CONF_DIR/rc.xml"
+  if [[ ${DISABLE_MOUSE_BUTTONS,,} == "true" || ${HARDEN_KEYBINDS,,} == "true" ]]; then
+    echo "[ls.io-init] Locking user rc.xml to prevent security overrides"
+    mkdir -p "$(dirname $USER_RC_XML)"
+    chown abc:abc "$(dirname $USER_RC_XML)"
+    cp "$SYS_RC_XML" "$USER_RC_XML"
+    chown root:abc "$USER_RC_XML"
+    chmod 444 "$USER_RC_XML"
+  else
+    if [ -f "$USER_RC_XML" ] && [ "$(stat -c '%U' $USER_RC_XML)" == "root" ]; then
+      echo "[ls.io-init] Hardening disabled, removing locked user rc.xml"
+      rm -f "$USER_RC_XML"
+    fi
+  fi
+fi
+
+proot_updated=false
+if [ ! -f "$HOME/.local/bin/proot-apps" ]; then
+  mkdir -p "$HOME/.local/bin/"
+  cp /proot-apps/* "$HOME/.local/bin/"
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+  proot_updated=true
+elif ! diff -q /proot-apps/pversion "$HOME/.local/bin/pversion" > /dev/null; then
+  cp /proot-apps/* "$HOME/.local/bin/"
+  proot_updated=true
+fi
+if [ "$(readlink "$HOME/.local/bin/bwrap" 2>/dev/null)" != "proot" ]; then
+  ln -sfn proot "$HOME/.local/bin/bwrap"
+  proot_updated=true
+fi
+rm -f "$HOME/.local/bin/proot-bwrap"
+if ! grep -qsF 'source <(proot-apps completion bash)' "$HOME/.bashrc"; then
+  echo 'source <(proot-apps completion bash)' >> "$HOME/.bashrc"
+  chown abc:abc "$HOME/.bashrc"
+fi
+if [ "$proot_updated" = true ]; then
+    chown -R abc:abc "$HOME/.local"
+    [ -f "$HOME/.bashrc" ] && chown abc:abc "$HOME/.bashrc"
+fi
+
+if [ -z ${BWRAP+x} ]; then
+  printf "$HOME/.local/bin/bwrap" > /run/s6/container_environment/BWRAP
+fi
+
+if [[ "${NO_STEAM,,}" == "true" ]]; then
+  rm -f /usr/local/bin/steam
+  if grep -qs '#SELKIESSHIM' /usr/bin/steam; then
+    rm -f /usr/bin/steam
+  fi
+elif [ -e /usr/local/bin/steam ] && [ ! -e /usr/bin/steam ]; then
+  ln -s /usr/local/bin/steam /usr/bin/steam
+fi
+
+if ! which nvidia-smi && [ -e "/dev/dri/renderD128" ] && [ ! -e "/dev/dri/renderD129" ] && [ -z ${DRI_NODE+x} ]; then
+  printf "/dev/dri/renderD128" > /run/s6/container_environment/DRI_NODE
+fi
+if [[ "${PIXELFLUX_WAYLAND}" == "true" ]] && [ -e "/dev/dri/renderD128" ] && [ ! -e "/dev/dri/renderD129" ] && [ -z ${DRI_NODE+x} ]; then
+  printf "/dev/dri/renderD128" > /run/s6/container_environment/DRI_NODE
+  if [ -z ${DRINODE+x} ]; then
+    printf "/dev/dri/renderD128" > /run/s6/container_environment/DRINODE
+  fi
+fi
+
+mkdir -pm1777 /dev/input
+if [[ -z ${NO_GAMEPAD+x} ]] && mknod /dev/input/js0 c 13 0; then
+  printf "/usr/lib/selkies_input_interposer.so:/opt/lib/libudev.so.1.0.0-fake" > /run/s6/container_environment/LD_PRELOAD
+  mknod /dev/input/js1 c 13 1
+  mknod /dev/input/js2 c 13 2
+  mknod /dev/input/js3 c 13 3
+  mknod /dev/input/event1000 c 13 1064
+  mknod /dev/input/event1001 c 13 1065
+  mknod /dev/input/event1002 c 13 1066
+  mknod /dev/input/event1003 c 13 1067
+  chmod 777 /dev/input/js* /dev/input/event*
+elif [[ -z ${NO_GAMEPAD+x} ]] && touch /dev/input/js0; then
+  printf "/usr/lib/selkies_input_interposer.so:/opt/lib/libudev.so.1.0.0-fake" > /run/s6/container_environment/LD_PRELOAD
+  touch /dev/input/js1
+  touch /dev/input/js2
+  touch /dev/input/js3
+  touch /dev/input/event1000
+  touch /dev/input/event1001
+  touch /dev/input/event1002
+  touch /dev/input/event1003
+  chmod 777 /dev/input/js* /dev/input/event*
+else
+  printf "false|locked" > /run/s6/container_environment/SELKIES_UI_SIDEBAR_SHOW_GAMEPADS
+  printf "false|locked" > /run/s6/container_environment/SELKIES_GAMEPAD_ENABLED
+  printf "false|locked" > /run/s6/container_environment/SELKIES_ENABLE_PLAYER2
+  printf "false|locked" > /run/s6/container_environment/SELKIES_ENABLE_PLAYER3
+  printf "false|locked" > /run/s6/container_environment/SELKIES_ENABLE_PLAYER4
+  printf "false" > /run/s6/container_environment/SELKIES_GAMEPAD_ON_START
+  printf "false" > /run/s6/container_environment/SELKIES_UINPUT_GAMEPAD
+fi
+
+PAD_FILES=(
+  "$HOME/.config/eden/qt-config.ini"
+  "$HOME/.config/azahar-emu/qt-config.ini"
+  "$HOME/.local/share/xemu/xemu/xemu.toml"
+  "$HOME"/.config/Cemu/controllerProfiles/*.xml
+  "$HOME/.config/dolphin-emu/GCPadNew.ini"
+)
+for pad_file in "${PAD_FILES[@]}"; do
+  if [[ -f "$pad_file" ]] && grep -qE '(000081b8|00000000)4d6963726f736f6674205800|^Device = SDL/[0-9]+/Microsoft X-Box 360 pad' "$pad_file"; then
+    echo "[ls.io-init] Migrating legacy gamepad id in $pad_file"
+    sed -i \
+      -e 's/000081b84d6963726f736f6674205800/030081b85e0400008e02000014010000/g' \
+      -e 's/000000004d6963726f736f6674205800/030000005e0400008e02000014010000/g' \
+      -e 's|^\(Device = SDL/[0-9]*\)/Microsoft X-Box 360 pad|\1/Xbox 360 Controller|' \
+      "$pad_file"
+    chown abc:abc "$pad_file"
+  fi
+done
+
+if [[ -z ${NO_WEBCAM+x} ]] && { [[ -f /dev/video0 ]] || { [[ ! -e /dev/video0 ]] && { mknod /dev/video0 c 81 0 2>/dev/null || touch /dev/video0 2>/dev/null; }; }; }; then
+  chmod 777 /dev/video0
+  printf "true" > /run/s6/container_environment/SELKIES_WEBCAM_ENABLED
+  printf "true" > /run/s6/container_environment/SELKIES_UI_SIDEBAR_SHOW_WEBCAM
+  if [[ -s /run/s6/container_environment/LD_PRELOAD ]]; then
+    printf "%s:/usr/lib/selkies_v4l2_interposer.so" "$(cat /run/s6/container_environment/LD_PRELOAD)" > /run/s6/container_environment/LD_PRELOAD
+  else
+    printf "/usr/lib/selkies_v4l2_interposer.so" > /run/s6/container_environment/LD_PRELOAD
+  fi
+fi
+
+if [[ -z ${CUSTOM_WS_PORT+x} ]]; then
+  printf "8082" > /run/s6/container_environment/CUSTOM_WS_PORT
+fi
+
+WEBRTC_ENV_VARS=(
+  SELKIES_RTC_CONFIG_JSON
+  SELKIES_TURN_REST_URI
+  SELKIES_TURN_REST_API_KEY
+  SELKIES_TURN_REST_USERNAME
+  SELKIES_TURN_HOST
+  SELKIES_TURN_PORT
+  SELKIES_TURN_PROTOCOL
+  SELKIES_TURN_TLS
+  SELKIES_TURN_SHARED_SECRET
+  SELKIES_TURN_USERNAME
+  SELKIES_TURN_PASSWORD
+  SELKIES_STUN_HOST
+  SELKIES_STUN_PORT
+  SELKIES_WEBRTC_PUBLIC_IP
+  SELKIES_ENABLE_CLOUDFLARE_TURN
+  SELKIES_CLOUDFLARE_TURN_TOKEN_ID
+  SELKIES_CLOUDFLARE_TURN_API_TOKEN
+)
+WEBRTC_CONFIGURED="false"
+for webrtc_var in "${WEBRTC_ENV_VARS[@]}"; do
+  if [[ -n "${!webrtc_var}" ]]; then
+    echo "[ls.io-init] ${webrtc_var} is set, enabling WebRTC in the dashboard"
+    WEBRTC_CONFIGURED="true"
+    break
+  fi
+done
+if [[ "${SELKIES_MODE,,}" == "webrtc" ]]; then
+  WEBRTC_CONFIGURED="true"
+fi
+if [[ "${WEBRTC_CONFIGURED}" == "true" ]]; then
+  if [[ -z ${SELKIES_MODE+x} ]]; then
+    printf "webrtc" > /run/s6/container_environment/SELKIES_MODE
+  fi
+  if [[ -z ${SELKIES_ENABLE_DUAL_MODE+x} ]]; then
+    printf "true" > /run/s6/container_environment/SELKIES_ENABLE_DUAL_MODE
+  fi
+elif [[ -z ${SELKIES_ENABLE_DUAL_MODE+x} ]]; then
+  printf "false" > /run/s6/container_environment/SELKIES_ENABLE_DUAL_MODE
+fi
+
+if [ ! -z ${SELKIES_H264_CRF+x} ] && [ -z ${SELKIES_VIDEO_CRF+x} ]; then
+  printf "${SELKIES_H264_CRF}" > /run/s6/container_environment/SELKIES_VIDEO_CRF
+fi
+if [ ! -z ${SELKIES_H264_FULLCOLOR+x} ] && [ -z ${SELKIES_VIDEO_FULLCOLOR+x} ]; then
+  printf "${SELKIES_H264_FULLCOLOR}" > /run/s6/container_environment/SELKIES_VIDEO_FULLCOLOR
+fi
+if [ ! -z ${SELKIES_H264_PAINTOVER_CRF+x} ] && [ -z ${SELKIES_VIDEO_PAINTOVER_CRF+x} ]; then
+  printf "${SELKIES_H264_PAINTOVER_CRF}" > /run/s6/container_environment/SELKIES_VIDEO_PAINTOVER_CRF
+fi
+if [ ! -z ${SELKIES_H264_PAINTOVER_BURST_FRAMES+x} ] && [ -z ${SELKIES_VIDEO_PAINTOVER_BURST_FRAMES+x} ]; then
+  printf "${SELKIES_H264_PAINTOVER_BURST_FRAMES}" > /run/s6/container_environment/SELKIES_VIDEO_PAINTOVER_BURST_FRAMES
+fi
+if [ ! -z ${SELKIES_IS_MANUAL_RESOLUTION_MODE+x} ] && [ -z ${SELKIES_MANUAL_RESOLUTION+x} ]; then
+  printf "${SELKIES_IS_MANUAL_RESOLUTION_MODE}" > /run/s6/container_environment/SELKIES_MANUAL_RESOLUTION
+fi
+if [ ! -z ${SELKIES_H264_STREAMING_MODE+x} ]; then
+  printf "${SELKIES_H264_STREAMING_MODE}" > /run/s6/container_environment/SELKIES_VIDEO_STREAMING_MODE
+fi
+if [ ! -z ${SELKIES_CLIPBOARD_ENABLED+x} ] && [ -z ${SELKIES_ENABLE_CLIPBOARD+x} ]; then
+  printf "${SELKIES_CLIPBOARD_ENABLED%%|*}" > /run/s6/container_environment/SELKIES_ENABLE_CLIPBOARD
+fi
+case "${SELKIES_ENCODER}" in
+  *x264enc*)
+    printf "${SELKIES_ENCODER}" | sed 's/x264enc/h264enc/g' > /run/s6/container_environment/SELKIES_ENCODER
+    ;;
+esac

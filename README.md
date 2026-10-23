@@ -133,7 +133,7 @@ sudo ./podman-tfork.sh run -d \
       -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC \
       -e CUSTOM_USER=admin -e PASSWORD=changeme \
       -p 3101:3001 \
-      ghcr.io/wuklab/webtop:ubuntu-kde
+      ghcr.io/wuklab/webtop:ubuntu-gnome42
 ```
 
 ## Clone 4

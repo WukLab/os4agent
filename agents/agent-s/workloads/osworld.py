@@ -885,7 +885,7 @@ OSWORLD = Workload(
 
 
     source_ready_probe=(
-        "pgrep -x plasmashell >/dev/null && pgrep -x kwin_x11 >/dev/null "
+        "pgrep -x gnome-shell >/dev/null "
         "&& pgrep -x Xvfb >/dev/null "
         "&& DISPLAY=:1 xdpyinfo >/dev/null 2>&1"
     ),

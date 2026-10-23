@@ -43,8 +43,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=ubuntu-kde
-            type=sha,prefix=ubuntu-kde-,format=short
+            type=raw,value=ubuntu-gnome42
+            type=sha,prefix=ubuntu-gnome42-,format=short
 
       - name: Build and push
         uses: docker/build-push-action@v6

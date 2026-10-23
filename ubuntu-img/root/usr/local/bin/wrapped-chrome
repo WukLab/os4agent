@@ -1,0 +1,9 @@
+#! /bin/bash
+
+BIN=/usr/bin/google-chrome-stable
+
+if ! pgrep chrome > /dev/null;then
+  rm -f $HOME/.config/google-chrome/Singleton*
+fi
+
+${BIN} --password-store=basic --no-sandbox --test-type --no-first-run --no-default-browser-check --force-renderer-accessibility "$@"

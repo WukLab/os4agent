@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Trust desktop launchers
+Exec=/usr/local/bin/trust-desktop-launchers
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-Phase=Applications

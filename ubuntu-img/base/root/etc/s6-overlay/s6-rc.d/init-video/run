@@ -1,0 +1,137 @@
+#!/usr/bin/with-contenv bash
+
+FILES=$(find /dev/dri /dev/dvb -type c -print 2>/dev/null)
+
+for i in $FILES
+do
+    VIDEO_GID=$(stat -c '%g' "${i}")
+    VIDEO_UID=$(stat -c '%u' "${i}")
+    if id -u abc | grep -qw "${VIDEO_UID}"; then
+        echo "**** permissions for ${i} are good ****"
+    else
+        if id -G abc | grep -qw "${VIDEO_GID}" && [ $(stat -c '%A' "${i}" | cut -b 5,6) = "rw" ]; then
+            echo "**** permissions for ${i} are good ****"
+        elif ! id -G abc | grep -qw "${VIDEO_GID}"; then
+            VIDEO_NAME=$(getent group "${VIDEO_GID}" | awk -F: '{print $1}')
+            if [ -z "${VIDEO_NAME}" ]; then
+                VIDEO_NAME="video$(head /dev/urandom | tr -dc 'a-z0-9' | head -c4)"
+                groupadd "${VIDEO_NAME}"
+                groupmod -g "${VIDEO_GID}" "${VIDEO_NAME}"
+                echo "**** creating video group ${VIDEO_NAME} with id ${VIDEO_GID} ****"
+            fi
+            echo "**** adding ${i} to video group ${VIDEO_NAME} with id ${VIDEO_GID} ****"
+            usermod -a -G "${VIDEO_NAME}" abc
+        fi
+        if [ $(stat -c '%A' "${i}" | cut -b 5,6) != "rw" ]; then
+            echo -e "**** The device ${i} does not have group read/write permissions, attempting to fix inside the container.If it doesn't work, you can run the following on your docker host: ****\nsudo chmod g+rw ${i}\n"
+            chmod g+rw "${i}"
+        fi
+    fi
+done
+
+if [ "$(uname -m)" = "x86_64" ] \
+  && ls /dev/dri/renderD* 1>/dev/null 2>&1 \
+  && [ -z ${AUTO_GPU+x} ] \
+  && [ -z ${DRI_NODE+x} ] \
+  && [ -z ${DRINODE+x} ]; then
+  printf "true" > /run/s6/container_environment/AUTO_GPU
+  AUTO_GPU=true
+fi
+
+if [ "$(uname -m)" = "x86_64" ] \
+  && ! which nvidia-smi > /dev/null 2>&1; then
+  ENCODING_DEVICE="${DRI_NODE:-}"
+  if [ -z "${ENCODING_DEVICE}" ] && [[ "${AUTO_GPU,,}" == "true" ]]; then
+    ENCODING_DEVICE=$(ls /dev/dri/renderD* 2>/dev/null | head -n1)
+  fi
+  if [ -n "${ENCODING_DEVICE}" ] && [ -e "${ENCODING_DEVICE}" ]; then
+    if LIBVA_DRIVER_NAME=i965 vainfo --display drm --device "${ENCODING_DEVICE}" > /dev/null 2>&1; then
+      echo "**** Intel i965 driver required for this GPU ****"
+      printf "i965" > /run/s6/container_environment/LIBVA_DRIVER_NAME
+    fi
+  fi
+fi
+
+if which nvidia-smi > /dev/null 2>&1 && ls -A /dev/dri 2>/dev/null; then
+    echo "**** NVIDIA GPU detected ****"
+    OPENCL_ICDS=$(find /etc/OpenCL/vendors -name '*nvidia*.icd' 2>/dev/null)
+    if [ -z "${OPENCL_ICDS}" ]; then
+        echo "**** Setting up OpenCL ICD for NVIDIA ****"
+        mkdir -pm755 /etc/OpenCL/vendors/
+        echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+    fi
+    ICDS=$(find /usr/share/vulkan/icd.d /etc/vulkan/icd.d -name '*nvidia*.json' 2>/dev/null)
+    if [ -z "${ICDS}" ]; then
+        echo "**** Setting up Vulkan ICD for NVIDIA ****"
+        VULKAN_API_VERSION=$(ldconfig -p | grep "libvulkan.so" | awk '{print $NF}' | xargs readlink | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+        if [ -z "${VULKAN_API_VERSION}" ]; then
+            VULKAN_API_VERSION="1.1.0"
+        fi
+        mkdir -pm755 /etc/vulkan/icd.d/
+        cat > /etc/vulkan/icd.d/nvidia_icd.json << EOF
+{
+    "file_format_version" : "1.0.0",
+    "ICD": {
+        "library_path": "libGLX_nvidia.so.0",
+        "api_version" : "${VULKAN_API_VERSION}"
+    }
+}
+EOF
+    fi
+    EGLS=$(find /usr/share/glvnd/egl_vendor.d /etc/glvnd/egl_vendor.d -name '*nvidia*.json' 2>/dev/null)
+    if [ -z "${EGLS}" ]; then
+        echo "**** Setting up EGL vendor file for NVIDIA ****"
+        mkdir -pm755 /etc/glvnd/egl_vendor.d/
+        cat > /etc/glvnd/egl_vendor.d/10_nvidia.json << EOF
+{
+    "file_format_version" : "1.0.0",
+    "ICD": {
+        "library_path": "libEGL_nvidia.so.0"
+    }
+}
+EOF
+    fi
+    if ! ldconfig -p | grep -q "nvidia-drm_gbm.so"; then
+        GBM_PATHS=(
+            "/usr/lib/x86_64-linux-gnu/gbm/nvidia-drm_gbm.so"
+            "/usr/lib/aarch64-linux-gnu/gbm/nvidia-drm_gbm.so"
+            "/usr/lib64/gbm/nvidia-drm_gbm.so"
+            "/usr/lib/gbm/nvidia-drm_gbm.so"
+            "/usr/local/lib/gbm/nvidia-drm_gbm.so"
+            "/usr/local/lib64/gbm/nvidia-drm_gbm.so"
+        )
+        GBM_SRC=""
+        for p in "${GBM_PATHS[@]}"; do
+            if [ -f "${p}" ]; then GBM_SRC="${p}"; break; fi
+        done
+        if [ -n "${GBM_SRC}" ]; then
+            echo "**** Fixing GBM library linkage ****"
+            LIB_PATH=$(ldconfig -p | grep "libc.so.6" | head -n1 | awk -F '=> ' '{print $2}' | xargs dirname)
+            if [ -z "${LIB_PATH}" ]; then LIB_PATH="/usr/lib"; fi
+            if [ -d "${LIB_PATH}/gbm" ]; then
+                GBM_DEST="${LIB_PATH}/gbm"
+            else
+                GBM_DEST="${LIB_PATH}"
+            fi
+            cp "${GBM_SRC}" "${GBM_DEST}/"
+            ldconfig
+        fi
+    fi
+    GLX_NODE="${DRINODE:-}"
+    if [ -z "${GLX_NODE}" ]; then
+        for node in /dev/dri/renderD*; do
+            [ -e "${node}" ] || continue
+            drv="$(readlink -f "/sys/class/drm/$(basename "${node}")/device/driver" 2>/dev/null)"
+            case "${drv##*/}" in nvidia|nvidia-drm) GLX_NODE="${node}"; break ;; esac
+        done
+    fi
+    if [ -n "${GLX_NODE}" ] && [ "${DISABLE_DRI3,,}" == "false" ]; then
+        drv="$(readlink -f "/sys/class/drm/$(basename "${GLX_NODE}")/device/driver" 2>/dev/null)"
+        case "${drv##*/}" in
+            nvidia|nvidia-drm)
+                echo "**** Routing GLX to the NVIDIA library ****"
+                printf "nvidia" > /run/s6/container_environment/__GLX_VENDOR_LIBRARY_NAME
+                ;;
+        esac
+    fi
+fi

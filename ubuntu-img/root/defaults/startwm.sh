@@ -1,31 +1,11 @@
 #!/bin/bash
 
-if [ ! -f $HOME/.config/kwinrc ]; then
-  kwriteconfig5 --file $HOME/.config/kwinrc --group Compositing --key Enabled false
-fi
-if [ ! -f $HOME/.config/kscreenlockerrc ]; then
-  kwriteconfig5 --file $HOME/.config/kscreenlockerrc --group Daemon --key Autolock false
-fi
-
 setterm blank 0
 setterm powerdown 0
 
 sudo rm -f /usr/share/dbus-1/system-services/org.freedesktop.UDisks2.service
 mkdir -p "${HOME}/.config/autostart" "${HOME}/.XDG" "${HOME}/.local/share/"
 chmod 700 "${HOME}/.XDG"
-touch "${HOME}/.local/share/user-places.xbel"
-
-PERM_FIX_PID=
-if [ ! -d $HOME/.config/kde.org ]; then
-  (
-    loop_end_time=$((SECONDS + 30))
-    while [ $SECONDS -lt $loop_end_time ]; do
-        find "$HOME/.cache" "$HOME/.config" "$HOME/.local" -type f -perm 000 -exec chmod 644 {} + 2>/dev/null
-        sleep .1
-    done
-  ) &
-  PERM_FIX_PID=$!
-fi
 
 STARTUP_FILE="${HOME}/.config/autostart/autostart.desktop"
 if [ ! -f "${STARTUP_FILE}" ]; then
@@ -35,7 +15,7 @@ if [ ! -f "${STARTUP_FILE}" ]; then
   echo "Name=autostart" >> $STARTUP_FILE
   echo "Path=" >> $STARTUP_FILE
   echo "Type=Application" >> $STARTUP_FILE
-  echo "X-KDE-AutostartScript=true" >> $STARTUP_FILE
+  echo "X-GNOME-Autostart-enabled=true" >> $STARTUP_FILE
   chmod +x $STARTUP_FILE
 fi
 
@@ -45,9 +25,11 @@ if which nvidia-smi > /dev/null 2>&1 && ls -A /dev/dri 2>/dev/null && [ "${DISAB
   export GALLIUM_DRIVER=zink
 fi
 
-if [ -n "$PERM_FIX_PID" ]; then
-  kill "$PERM_FIX_PID" 2>/dev/null
-  wait "$PERM_FIX_PID" 2>/dev/null
-fi
+export XDG_SESSION_TYPE=x11
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+export XDG_SESSION_DESKTOP=ubuntu
+export DESKTOP_SESSION=ubuntu
+export GNOME_SHELL_SESSION_MODE=ubuntu
 
-exec dbus-launch --exit-with-session /usr/bin/startplasma-x11 > /dev/null 2>&1
+exec dbus-launch --exit-with-session \
+  /usr/bin/gnome-session --builtin --session=ubuntu > "${HOME}/.xsession-errors" 2>&1

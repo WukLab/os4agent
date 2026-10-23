@@ -1,0 +1,28 @@
+#!/usr/bin/with-contenv bash
+
+set -euo pipefail
+
+CODE_USER=/config/.config/Code/User
+if [ ! -f "${CODE_USER}/settings.json" ]; then
+    mkdir -p "${CODE_USER}"
+    cat > "${CODE_USER}/settings.json" <<'JSON'
+{
+    "workbench.startupEditor": "none",
+    "workbench.welcomePage.walkthroughs.openOnInstall": false,
+    "chat.disableAIFeatures": true,
+    "security.workspace.trust.enabled": false,
+    "security.workspace.trust.startupPrompt": "never",
+    "security.workspace.trust.emptyWindow": false
+}
+JSON
+fi
+
+CHROME_DEFAULT=/config/.config/google-chrome/Default
+if [ ! -f "${CHROME_DEFAULT}/Preferences" ]; then
+    mkdir -p "${CHROME_DEFAULT}"
+    cat > "${CHROME_DEFAULT}/Preferences" <<'JSON'
+{"signin":{"avatar_button_promo_dict":{"AvatarButtonSigninPromoShownCount":99,"AvatarButtonSigninPromoUsedCount":99}}}
+JSON
+fi
+
+chown -R abc:abc /config/.config

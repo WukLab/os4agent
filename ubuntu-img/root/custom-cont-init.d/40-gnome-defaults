@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+set -euo pipefail
+
+mkdir -p /config/.local/share/gnome-shell
+touch /config/.local/share/gnome-shell/lock-warning-shown
+
+mkdir -p /config/.cache
+
+chown -R abc:abc /config/.local
+chown abc:abc /config/.cache
