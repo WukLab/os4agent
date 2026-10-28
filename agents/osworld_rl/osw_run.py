@@ -35,6 +35,11 @@ ap.add_argument("--shuffle-seed", type=int, default=-1, help="shuffle the batch 
 ap.add_argument("--sync-groups", type=int, default=0, help="all groups fork, then all roll out, then all tear down together")
 ap.add_argument("--setup-concurrency", type=int, default=0, help="task groups booting and setting up at once (0 = no limit)")
 ap.add_argument("--mem-limit-gib", type=float, default=0, help="stop the run when host used memory passes this (0 = off)")
+ap.add_argument("--obs-timeout", type=float, default=600,
+                help="seconds to wait for a slow desktop before giving up: accessibility tree / screenshot (OSWorld: 3 x 60 s), "
+         "AENV fork pairing, post-fork fix-ups, boot")
+ap.add_argument("--release-copies", type=int, default=0,
+                help="remove each rollout's copy as soon as its rollout is scored (default: when its whole group is done)")
 # agent
 ap.add_argument("--model", default=os.environ.get("SERVED", "qwen3vl8b"))
 ap.add_argument("--temperature", type=float, default=1.0)
@@ -42,6 +47,12 @@ ap.add_argument("--replay", default="", help="trace dir to replay instead of cal
 ap.add_argument("--replay-latency", type=float, default=1.0, help="replay: sleep this x the recorded model latency per step")
 ap.add_argument("--spec", choices=["off", "tage"], default=os.environ.get("SPEC", "off"), help="shadow TAGE action predictor")
 ap.add_argument("--spec-topk", type=int, default=8)
+ap.add_argument("--spec-exec", type=int, default=0,
+                help="speculative execution: fork each rollout's desktop K times per step and run TAGE's top-K guesses "
+                     "while the model thinks; adopt the fork whose guess the model picks (turns on --spec tage)")
+ap.add_argument("--prefix-cache", default="",
+                help="dir of the prefix cache: hash(system, task, actions so far) -> checkpoint on disk, shared by epochs")
+ap.add_argument("--prefix-depth", type=int, default=3, help="prefix cache: save checkpoints for prefixes up to this long")
 # containers (tfork / criu / stock-criu)
 ap.add_argument("--image", default="ghcr.io/wuklab/webtop:ubuntu-kde-osworld")
 ap.add_argument("--os4agent", default="/mnt/ssd2/os4agent")
@@ -64,6 +75,8 @@ from desktop_env import desktop_env as dem  # noqa: E402  (needs sys.path above)
 from desktop_env.desktop_env import DesktopEnv  # noqa: E402
 from a11y_owl_agent import A11yAgent, linearize, refind, to_code  # noqa: E402
 from toolspec.online import OnlineTage  # noqa: E402
+from toolspec.keys import action_key  # noqa: E402
+from spec_exec import ActionBook, PrefixCache  # noqa: E402
 
 OUT = (CWD / a.result_dir).resolve()
 OUT.mkdir(parents=True, exist_ok=True)
@@ -71,13 +84,16 @@ REPLAY = (CWD / a.replay).resolve() if a.replay else None
 RUN = OUT.name.replace("_", "-")[:40]
 DESK = HERE / "desk_osw.sh"  # desktop start script, identical on every system
 PORTS = ("5000", "9222", "8006", "8080")  # OSWorld server, Chrome CDP, VNC, VLC
-SPEC = OnlineTage(a.spec_topk) if a.spec == "tage" else None
+SPEC = OnlineTage(max(a.spec_topk, a.spec_exec)) if a.spec == "tage" or a.spec_exec else None
+BOOK = ActionBook() if a.spec_exec else None
+PREFIX = PrefixCache(str((CWD / a.prefix_cache).resolve()), a.prefix_depth) if a.prefix_cache else None
 LOCK, ENV_LOCK, SPEC_LOCK = threading.Lock(), threading.Lock(), threading.Lock()
 FORK_SEM = threading.Semaphore(a.fork_concurrency)
 SETUP_SEM = threading.Semaphore(a.setup_concurrency) if a.setup_concurrency else contextlib.nullcontext()
 ABORT = threading.Event()  # set by the sampler when host memory passes --mem-limit-gib
 FORKED = DONE = None       # --sync-groups: Gates every group passes after its fork and after its rollouts
 MEM = None
+AENV_CGROUP_PID = None  # aenv-server's pid: every Firecracker VM is charged to that container's cgroup
 BASES = []  # --base-fork: (name, addr, pid) per task index
 
 
@@ -116,21 +132,24 @@ def check_abort():
 
 
 class Gate:
-    """Waits until n groups have arrived, or the run is aborted."""
+    """Holds every group until all n have arrived and the last one has run on_last, or the run is aborted."""
 
     def __init__(self, n):
-        self.n, self.k, self.cond = n, 0, threading.Condition()
+        self.n, self.k, self.open, self.cond = n, 0, False, threading.Condition()
 
-    def arrive(self):
-        """-> True for the last group to arrive."""
+    def arrive(self, on_last=lambda: None):
         with self.cond:
             self.k += 1
-            self.cond.notify_all()
-            return self.k == self.n
+            last = self.k == self.n
+        if last:
+            on_last()  # nobody is released before this finishes
+            with self.cond:
+                self.open = True
+                self.cond.notify_all()
 
     def wait(self):
         with self.cond:
-            while self.k < self.n and not ABORT.is_set():
+            while not self.open and not ABORT.is_set():
                 self.cond.wait(1)
 
 
@@ -213,8 +232,10 @@ class Mem:
 
     @staticmethod
     def _cpu():
+        # user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice: guest time is already inside user,
+        # so the total is the first 8 fields (summing all 10 counted VM time twice and understated busy CPU under AENV)
         v = list(map(int, open("/proc/stat").readline().split()[1:]))
-        return v[0] + v[1], v[2], v[4], sum(v)
+        return v[0] + v[1], v[2] + v[5] + v[6], v[4], sum(v[:8]), v[8] + v[9]
 
     def add(self, name, pid, group):
         self.pid[name], self.owner[name] = pid, group
@@ -240,6 +261,11 @@ class Mem:
         host = {"used_mib": used, "avail_mib": m["MemAvailable"] // 1024, "used_delta_mib": used - self.base_used,
                 "anon_mib": m["AnonPages"] // 1024, "shmem_mib": m["Shmem"] // 1024, "cached_mib": m["Cached"] // 1024}
         total = {k: round(sum(c.get(k, 0) for c in per.values()), 1) for k in TOTAL_KEYS}
+        if AENV_CGROUP_PID and group is None:  # AENV: the cgroup numbers are the one cgroup holding all VMs
+            try:
+                total.update({k: v for k, v in cgroup_mem(AENV_CGROUP_PID).items()})
+            except OSError:
+                pass
         return {"containers": per, "total": total, "host": host}
 
     def _loop(self):
@@ -250,7 +276,8 @@ class Mem:
                 d = [x - y for x, y in zip(c, self.cpu0)]
                 self.cpu0, t = c, d[3] or 1
                 rec = {"t": time.time(), "phases": dict(self.phase), "load1": os.getloadavg()[0],
-                       "cpu": {"user": round(d[0] / t, 4), "sys": round(d[1] / t, 4), "iowait": round(d[2] / t, 4)},
+                       "cpu": {"user": round(d[0] / t, 4), "sys": round(d[1] / t, 4), "iowait": round(d[2] / t, 4),
+                               "guest": round(d[4] / t, 4)},
                        **self.snapshot()}
                 append_jsonl(OUT / "mem.jsonl", rec)
                 if a.mem_limit_gib and rec["host"]["used_mib"] > a.mem_limit_gib * 1024 and not ABORT.is_set():
@@ -338,8 +365,8 @@ class Podman:
                 return r.stdout
         raise RuntimeError(f"{tag} failed 5x")
 
-    def fork(self, src, n, task, on_copy=lambda *_: None):
-        """-> [(name, addr, pid)]"""
+    def fork(self, src, n, task, on_copy=lambda *_: None, part=""):
+        """-> [(name, addr, pid)]. part keeps clone names unique when one source is forked several times."""
         ghost = f"--tfork-ghost-limit={64 << 20}"
         if self.system in ("tfork", "criu"):
             self.p("exec", src, "true")  # let tini reap exec children before the freeze
@@ -348,7 +375,7 @@ class Podman:
             flags = [f"--copies={n}", "--persistent=async", "--tfork-tcp-close", ghost]
             if a.overlay_rootfs:
                 flags.append("--tfork-overlay-btrfs")
-            names = container_ids(self._clone(src, f"{src}-k", flags, "tfork_clone", task=task))
+            names = container_ids(self._clone(src, f"{src}-k{part}", flags, "tfork_clone", task=task))
         elif self.system == "criu":  # CKPT: N serial single-copy clones, each a full dump + restore
             flags = ["--copies=1", "--persistent=sync", "--tfork-tcp-close", ghost]
             if a.full_memcopy:
@@ -356,7 +383,7 @@ class Podman:
             names = []
             for i in range(n):
                 check_abort()
-                names += container_ids(self._clone(src, f"{src}-k{i}", flags, "ckpt_clone", task=task, copy=i))
+                names += container_ids(self._clone(src, f"{src}-k{part}{i}", flags, "ckpt_clone", task=task, copy=i))
                 on_copy(names[-1], *self.info(names[-1]))
         else:
             names = self._checkpoint_restore(src, n, task)
@@ -381,7 +408,20 @@ class Podman:
             tar.unlink(missing_ok=True)
 
     def run_in(self, name, cmd):
-        return self.p("exec", name, "bash", "-c", cmd, check=False, timeout=60)
+        return self.p("exec", name, "bash", "-c", cmd, check=False, timeout=a.obs_timeout)
+
+    def save(self, name, path):
+        """Checkpoint a running desktop to disk (--prefix-cache); it keeps running."""
+        self.p("container", "checkpoint", "--leave-running", "--tcp-established", "--compress=none", f"--export={path}.tar",
+               name, timeout=a.obs_timeout)
+        return {"system": self.system, "path": f"{path}.tar"}
+
+    def load(self, entry, name):
+        """A new desktop restored from a save() checkpoint. -> (name, addr, pid)"""
+        pub = [x for p in PORTS for x in ("--publish", p)] if self.slirp else []
+        self.p("container", "restore", f"--import={entry['path']}", "--name", name, "--ignore-static-ip",
+               "--ignore-static-mac", *pub, timeout=a.obs_timeout)
+        return (name, *self.info(name))
 
     def save_checkpoint(self, clone, dest, task):
         """Reflink-copy a CKPT clone's CRIU image (its tfork bundle img/) to dest."""
@@ -393,8 +433,8 @@ class Podman:
             secs=round(time.time() - t0, 2))
 
     def rm(self, names):
-        if names:
-            self.p("rm", "-f", *names, check=False, timeout=300)
+        if names:  # -t 0: kill at once; the desktop ignores SIGTERM, so the default 10 s wait only delays freeing memory
+            self.p("rm", "-f", "-t", "0", *names, check=False, timeout=300)
 
 
 # ---------------------------------------------------------------- AENV (Firecracker microVMs)
@@ -454,7 +494,8 @@ class Aenv:
     def __init__(self):
         self.key = Path(a.aenv_key).read_text().strip()
         self.env = {**os.environ, "HOME": a.aenv_home}
-        self.srv = int(sh(["docker", "inspect", "aenv-server", "--format", "{{.State.Pid}}"]).stdout)
+        global AENV_CGROUP_PID
+        self.srv = AENV_CGROUP_PID = int(sh(["docker", "inspect", "aenv-server", "--format", "{{.State.Pid}}"]).stdout)
         self.fw, self.pid, self.ip = {}, {}, {}  # sandbox -> forwarders / VMM pid / slot address
         self.owned, self.lock = set(), threading.Lock()
 
@@ -479,9 +520,9 @@ class Aenv:
                 pass
         return out
 
-    def claim(self, before, n, timeout=60):
+    def claim(self, before, n, timeout=None):
         """The n VMMs that became active since `before` (call under self.lock)."""
-        t0, new = time.time(), []
+        t0, new, timeout = time.time(), [], timeout or a.obs_timeout
         while time.time() - t0 < timeout:
             new = sorted(self.active_vmms() - before - self.owned)
             if len(new) >= n:
@@ -523,7 +564,7 @@ class Aenv:
         self.cli("exec", sb, "--", "bash", "-c", "setsid nohup bash /tmp/desk_osw.sh >/dev/null 2>&1 < /dev/null &")
         return sb, *self.info(sb)
 
-    def fork(self, src, n, task, on_copy=None):
+    def fork(self, src, n, task, on_copy=None, part=""):
         with self.lock:
             before, t0 = self.active_vmms(), time.time()
             res = self.api("POST", f"/sandboxes/{src}/fork", {"count": n, "timeout": 7200})
@@ -540,21 +581,37 @@ class Aenv:
     def _pair(self, kids, vmms):
         """Match each forked sandbox to its VMM: tag it via AENV exec, read the tag back over each VM's direct address."""
         for k in kids:
-            self.cli("exec", k, "--", "sh", "-c", f"echo {k} > /tmp/.aenv_sandbox_id", timeout=120)
+            self.cli("exec", k, "--", "sh", "-c", f"echo {k} > /tmp/.aenv_sandbox_id", timeout=a.obs_timeout)
+        deadline = time.time() + a.obs_timeout  # a just-forked VM on a busy host can take minutes to answer
         for vmm in vmms:
             ip = self.slot_ip(vmm)
-            for _ in range(6):  # a just-resumed VM can be slow to answer
-                if (k := self.whoami(ip)) in kids:
-                    break
+            while (k := self.whoami(ip)) not in kids:
+                if time.time() > deadline:
+                    raise RuntimeError(f"aenv fork: VM {ip} answered {k!r} (empty = no answer), not one of this fork's copies, "
+                                       f"within {a.obs_timeout:.0f}s")
+                check_abort()
                 time.sleep(10)
-            else:
-                raise RuntimeError(f"aenv fork: VM {ip} answered {k!r}, not one of this fork's copies")
             self.pid[k], self.ip[k] = vmm, ip
         if len({self.ip.get(k) for k in kids}) != len(kids):
             raise RuntimeError("aenv fork: copies and VMs did not pair 1:1")
 
     def run_in(self, name, cmd):
-        return self.cli("exec", name, "--", "bash", "-c", cmd, check=False, timeout=60)
+        return self.cli("exec", name, "--", "bash", "-c", cmd, check=False, timeout=a.obs_timeout)
+
+    def save(self, sb, path):
+        """Persistent AENV snapshot of a running sandbox (--prefix-cache)."""
+        snap = "pfx-" + os.path.basename(path)
+        self.cli("snapshot", "create", sb, "--name", snap, timeout=a.obs_timeout)
+        return {"system": "aenv", "snapshot": snap}
+
+    def load(self, entry, _name):
+        """A new sandbox started from a save() snapshot. -> (sandbox, addr, ("vm", pid))"""
+        with self.lock:
+            before = self.active_vmms()
+            sb = self.cli("start", entry["snapshot"], "--detach", "--timeout", "7200").stdout.split()[-1]
+            self.pid[sb] = self.claim(before, 1)[0]
+        self.ip[sb] = self.slot_ip(self.pid[sb])
+        return (sb, *self.info(sb))
 
     def rm(self, names):
         for n in names:
@@ -609,11 +666,27 @@ class FixedManager:
 def make_env(addr):
     with ENV_LOCK:  # the provider factory is module-global
         dem.create_vm_manager_and_provider = lambda *_a, **_k: (FixedManager(), FixedProvider(addr))
-        return DesktopEnv(provider_name="docker", path_to_vm=f"external-{addr}", action_space="pyautogui",
-                          require_a11y_tree=True, headless=True, recording_update="off")
+        env = DesktopEnv(provider_name="docker", path_to_vm=f"external-{addr}", action_space="pyautogui",
+                         require_a11y_tree=True, headless=True, recording_update="off")
+    # One long wait instead of OSWorld's 3 x 60 s: a timed-out request keeps running in the desktop's server, so
+    # retrying a slow (CPU-starved) desktop only stacks more tree builds on it.
+    env.controller.request_timeout, env.controller.retry_times = a.obs_timeout, 1
+    return env
 
 
-def wait_ready(addr, timeout=240):
+def observe(env, obs=None):
+    """An observation with an accessibility tree: refetch until it has one or --obs-timeout runs out."""
+    t0 = time.time()
+    while obs is None or obs.get("accessibility_tree") is None:
+        if time.time() - t0 > a.obs_timeout:
+            raise TimeoutError(f"no accessibility tree from the desktop in {a.obs_timeout:.0f}s")
+        check_abort()
+        obs = env._get_obs()
+    return obs
+
+
+def wait_ready(addr, timeout=None):
+    timeout = timeout or max(240, a.obs_timeout)
     host, port = addr.split(":")[:2]
     t0 = time.time()
     while time.time() - t0 < timeout:
@@ -699,23 +772,120 @@ def save_eval_evidence(env, d):
         pass
 
 
-def rollout(task, domain, k, name, addr, d):
-    d.mkdir(parents=True, exist_ok=True)
-    tm = {"copy": name, "t_start": time.time()}
+def task_env(addr, task):
     env = make_env(addr)
     env._set_task_info(task)
     env.setup_controller.reset_cache_dir(env.cache_dir)
+    return env
+
+
+def adopt(sysm, kid, new, gi, task):
+    """Rollout copy `kid` ([name, addr, pid], updated in place) becomes desktop `new`; the old one is freed."""
+    old = kid[0]
+    sysm.rm([old])
+    MEM.drop(old)
+    kid[:] = list(new)
+    MEM.add(new[0], new[2], gi)
+    return task_env(new[1], task)
+
+
+class Speculation:
+    """--spec-exec: while the model thinks, fork the rollout's desktop once per TAGE guess and run each guess."""
+
+    def __init__(self, sysm, kid, task, guesses, rows, gi, part):
+        self.sysm, self.task, self.gi, self.t0 = sysm, task, gi, time.time()
+        self.plan = [(g, c) for g in guesses if (c := BOOK.code_for(g, rows))][:a.spec_exec]
+        self.forks, self.results, self.err, self.fork_s = [], [], None, 0.0
+        self.th = threading.Thread(target=self._run, args=(kid[0], part), daemon=True)
+        if self.plan:
+            self.th.start()
+
+    def _run(self, src, part):
+        try:
+            self.forks = [list(f) for f in self.sysm.fork(src, len(self.plan), self.task["id"], part=part)]
+            for nm, _, pid in self.forks:
+                MEM.add(nm, pid, self.gi)
+            fixup_copies(self.sysm, self.forks, self.task)
+            self.fork_s = time.time() - self.t0
+
+            def run_guess(i):
+                env = task_env(self.forks[i][1], self.task)
+                obs, _, done, _ = env.step(self.plan[i][1])
+                return env, (obs if done else observe(env, obs)), done
+            with ThreadPoolExecutor(len(self.forks)) as ex:
+                self.results = list(ex.map(run_guess, range(len(self.forks))))
+        except Exception as e:
+            self.err = repr(e)[-300:]
+
+    def finish(self, key):
+        """-> (fork desktop, env, obs, done) of the fork that ran `key`, or None. Every other fork is freed."""
+        if not self.plan:
+            return None
+        t_wait = time.time()
+        self.th.join()
+        idx = next((i for i, (g, _) in enumerate(self.plan) if g == key), None) if self.results else None
+        losers = [f[0] for j, f in enumerate(self.forks) if j != idx]
+        self.sysm.rm(losers)
+        for nm in losers:
+            MEM.drop(nm)
+        log("spec_exec", task=self.task["id"], g=self.gi, guesses=len(self.plan), hit=idx, fork_s=round(self.fork_s, 2),
+            total_s=round(time.time() - self.t0, 2), waited_s=round(time.time() - t_wait, 2), error=self.err)
+        return (self.forks[idx], *self.results[idx]) if idx is not None else None
+
+
+def prefix_restore(sysm, task, keys, kid, gi, n):
+    """--prefix-cache hit: replace the rollout's desktop with the checkpoint saved after `keys`. -> (env, obs) or None"""
+    entry = PREFIX.get(a.system, task["id"], keys)
+    if not entry:
+        return None
+    t0 = time.time()
+    try:
+        new = sysm.load(entry, f"{kid[0][:24]}-p{n}")
+        fixup_copies(sysm, [new], task)
+        env = adopt(sysm, kid, new, gi, task)
+        obs = observe(env)
+    except Exception as e:
+        log("prefix_restore_failed", task=task["id"], g=gi, step=n, error=repr(e)[-300:])
+        return None
+    log("prefix_hit", task=task["id"], g=gi, step=n, secs=round(time.time() - t0, 2))
+    return env, obs
+
+
+def prefix_save(sysm, task, keys, kid, gi, n):
+    """Save the rollout's desktop under `keys` unless the prefix is too deep, saved already, or being saved."""
+    k = PREFIX.claim(a.system, task["id"], keys)
+    if not k:
+        return
+    t0, entry = time.time(), None
+    try:
+        entry = sysm.save(kid[0], os.path.join(PREFIX.root, k))
+        log("prefix_saved", task=task["id"], g=gi, step=n, secs=round(time.time() - t0, 2))
+    except Exception as e:
+        log("prefix_save_failed", task=task["id"], g=gi, step=n, error=repr(e)[-300:])
+    finally:
+        PREFIX.put(k, entry)
+
+
+def rollout(task, domain, k, kid, d, sysm=None, gi=None):
+    """kid: [name, addr, pid] of the rollout's desktop; speculation / the prefix cache may swap it (updated in place)."""
+    d.mkdir(parents=True, exist_ok=True)
+    tm = {"copy": kid[0], "t_start": time.time()}
+    env = task_env(kid[1], task)
+    hist, spec = [], None  # keys of the actions issued so far (the prefix); this step's pending speculation
     agent = ReplayAgent(REPLAY / domain / f"{task['id']}__g{k}") if REPLAY else A11yAgent(a.model, temperature=a.temperature)
     agent.reset()
     agent.log = str(d / "chat.jsonl")
     reward, steps, err = 0.0, 0, None
     try:
-        obs = env._get_obs()
+        obs = observe(env)
         for n in range(1, a.max_steps + 1):
             check_abort()
+            guesses = []
             if SPEC:
                 with SPEC_LOCK:
-                    SPEC.decide(task["id"], str(d))
+                    guesses = SPEC.decide(task["id"], str(d))["guesses"]
+            if a.spec_exec and guesses:
+                spec = Speculation(sysm, kid, task, guesses, linearize(obs["accessibility_tree"])[1], gi, f"s{k}x{n}-")
             _, codes = agent.predict(task["instruction"], obs)
             act, rows = agent.last["action"], agent.last["rows"]
             i = act.get("id", act.get("from"))
@@ -727,8 +897,28 @@ def rollout(task, domain, k, name, addr, d):
                 with SPEC_LOCK:
                     if sp := SPEC.reveal(task["id"], str(d), act, hit):
                         rec["spec"] = sp
+            key = action_key(act, hit)
+            if BOOK:
+                BOOK.remember(key, act, hit)
             t0 = time.time()
-            obs, _, done, _ = env.step(codes[0])
+            took, spec = (spec.finish(key) if spec else None), None
+            if took:  # a speculative fork already ran this action
+                fork, env_new, obs, done = took
+                old = kid[0]
+                kid[:] = fork
+                sysm.rm([old])
+                MEM.drop(old)
+                env, rec["skipped"] = env_new, "spec"
+            elif PREFIX and key is not None and (hit_ := prefix_restore(sysm, task, hist + [key], kid, gi, n)):
+                (env, obs), done, rec["skipped"] = hit_, False, "prefix"
+            else:
+                obs, _, done, _ = env.step(codes[0])
+                if not done:
+                    obs = observe(env, obs)
+                    if PREFIX and key is not None:
+                        prefix_save(sysm, task, hist + [key], kid, gi, n)
+            if key is not None:
+                hist.append(key)
             rec["exec_s"] = round(time.time() - t0, 3)
             if obs.get("screenshot"):
                 (d / f"step_{n}.png").write_bytes(obs["screenshot"])
@@ -745,6 +935,8 @@ def rollout(task, domain, k, name, addr, d):
     except Exception as e:
         err = repr(e)
         traceback.print_exc()
+    if spec:
+        spec.finish(None)
     tm.update(t_end=time.time(), steps=steps, error=err, **({"replay": agent.stats} if REPLAY else {}))
     (d / "result.txt").write_text(f"{reward}\n")
     (d / "timing.json").write_text(json.dumps(tm, indent=1))
@@ -767,7 +959,7 @@ def boot(sysm, name, owner, label):
 
 def group(sysm, gi, domain, tid, rep=0):
     task = json.load(open(OSW / f"evaluation_examples/examples/{domain}/{tid}.json"))
-    src, kids, forked = f"osw-{RUN}-t{gi}", [], False
+    src, kids, forked, released = f"osw-{RUN}-t{gi}", [], False, set()
     name = f"{tid}__r{rep}" if rep else tid  # repeats of a task (--groups > batch size) get their own dirs
     try:
         with SETUP_SEM:
@@ -805,8 +997,20 @@ def group(sysm, gi, domain, tid, rep=0):
             check_abort()
 
         MEM.phase[gi] = "rollouts"
+
+        kids = [list(kid) for kid in kids]  # [name, addr, pid]; a rollout may swap its desktop
+
+        def run(k, kid):
+            reward = rollout(task, domain, k, kid, OUT / domain / f"{name}__g{k}", sysm, gi)
+            if a.release_copies:  # free this copy now instead of when the whole group is done
+                t0 = time.time()
+                sysm.rm([kid[0]])
+                MEM.drop(kid[0])
+                released.add(kid[0])
+                log("copy_released", task=tid, g=gi, k=k, secs=round(time.time() - t0, 2))
+            return reward
         with ThreadPoolExecutor(len(kids)) as ex:
-            rewards = list(ex.map(lambda x: rollout(task, domain, x[0], *x[1][:2], OUT / domain / f"{name}__g{x[0]}"), enumerate(kids)))
+            rewards = list(ex.map(run, range(len(kids)), kids))
         log("group_done", task=tid, g=gi, rewards=rewards, mean=sum(rewards) / len(rewards), **MEM.snapshot(gi))
     except Exception as e:
         log("group_error", task=tid, g=gi, error=repr(e)[-1500:])
@@ -814,10 +1018,10 @@ def group(sysm, gi, domain, tid, rep=0):
     finally:
         if FORKED:  # a failed group still has to arrive, or the others would wait for it forever
             if not forked:
-                FORKED.arrive()
+                FORKED.arrive(lambda: log("all_forked", **MEM.snapshot()))
             sync_point(DONE, "all_done")
         MEM.phase[gi] = "teardown"
-        names = [src] + [nm for nm, *_ in kids]
+        names = [src] + [nm for nm, *_ in kids if nm not in released]
         sysm.rm(names)
         for nm in names:
             MEM.drop(nm)
@@ -825,21 +1029,22 @@ def group(sysm, gi, domain, tid, rep=0):
 
 
 def sync_point(gate, event):
-    """Arrive at gate and wait for every group; the last one in logs a snapshot of the whole run."""
-    if gate.arrive():
-        log(event, **MEM.snapshot())
+    """Arrive at gate and wait for every group; the last one in logs a snapshot of the whole run before anyone moves on
+    (at a few hundred desktops the snapshot takes ~20 s, and teardown must not start during it)."""
+    gate.arrive(lambda: log(event, **MEM.snapshot()))
     gate.wait()
 
 
 def base_fork(sysm, n):
     """Boot one desktop and fork it into n task sources; the base stays up until the end."""
     base, *_ = boot(sysm, f"osw-{RUN}-base", "base", "base")
-    t0 = time.time()
-    kids = sysm.fork(base, n, "base")
+    t0, kids = time.time(), []
+    for i in range(0, n, 8):  # 8 copies per clone, the size tfork is tested at
+        kids += sysm.fork(base, min(8, n - i), "base", part=f"{i // 8}-")
     fixup_copies(sysm, kids)
     for nm, addr, pid in kids:
         MEM.add(nm, pid, "base")  # re-owned by its group once that group starts
-        wait_ready(addr, 120)
+        wait_ready(addr)
     log("base_fork", copies=len(kids), secs=round(time.time() - t0, 2), **MEM.snapshot("base"))
     BASES.extend(kids)
     return base
@@ -854,6 +1059,8 @@ def main():
         random.Random(a.shuffle_seed).shuffle(tasks)
     n = a.groups or len(tasks)
     todo = [(*tasks[i % len(tasks)], i // len(tasks)) for i in range(n)]  # (domain, task, repeat)
+    if a.sync_groups and a.release_copies:
+        raise SystemExit("--release-copies frees copies as rollouts end; --sync-groups holds them all until the end. Pick one.")
     if a.sync_groups:
         FORKED, DONE = Gate(n), Gate(n)
     (OUT / "config.json").write_text(json.dumps(vars(a), indent=1))
