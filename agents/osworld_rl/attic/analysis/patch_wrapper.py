@@ -1,0 +1,21 @@
+import sys
+p = sys.argv[1]; s = open(p).read()
+anchor = 'exec env \\\n    CONTAINERS_CONF="$CONTAINERS_CONF" \\'
+assert anchor in s and "tfork_fix_cgroup_path" not in s
+fix = r'''# Clone of a clone: crun writes an empty "cgroup-path" into every tfork copy's /run/crun/<id>/status
+# (tfork_save_per_copy_status), and since WukLab#1 the clone path freezes CGROUP_ROOT + that field, so cloning a
+# copy fails with "Neither a cgroupv1 ... or cgroupv2 (cgroup.freeze) control file found". Fill in the source's
+# real cgroup before the clone. ponytail: remove once crun records the per-copy cgroup itself.
+tfork_fix_cgroup_path() {
+    local src="${@: -1}" fmt id pid st cg
+    fmt=$(CONTAINERS_CONF="$CONTAINERS_CONF" "${REPO}/podman/bin/podman" inspect "$src" --format '{{.Id}} {{.State.Pid}}' 2>/dev/null) || return 0
+    read -r id pid <<<"$fmt"; st="/run/crun/$id/status"
+    [[ -n "$id" && "${pid:-0}" -gt 0 && -w "$st" ]] || return 0
+    grep -qE '"cgroup-path": *""' "$st" || return 0
+    cg=$(cut -d: -f3- "/proc/$pid/cgroup" 2>/dev/null | head -1)
+    [[ -n "$cg" ]] && sed -i -E "s#\"cgroup-path\": *\"\"#\"cgroup-path\": \"$cg\"#" "$st"
+}
+if [[ " $* " == *" clone "* && " $* " == *" --live "* ]]; then tfork_fix_cgroup_path "$@"; fi
+
+'''
+s = s.replace(anchor, fix + anchor, 1); open(p, "w").write(s); print("patched")

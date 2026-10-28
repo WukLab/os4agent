@@ -1,0 +1,6 @@
+.env
+__pycache__/
+.DS_Store
+setup/aenv/.api-key
+setup/aenv/fork.json
+results/
