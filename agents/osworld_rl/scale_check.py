@@ -31,16 +31,16 @@ def running(name, n, groups, events, mem, by):
     if not mem:
         return f"{name}: starting"
     now = mem[-1]
-    phases = ", ".join(f"{v} {k}" for k, v in collections.Counter(now["phases"].values()).most_common()) or "-"
+    phases = ", ".join(f"{v} in {k}" for k, v in collections.Counter(now["phases"].values()).most_common()) or "none started"
     errs = sum(1 for e in by["rollout_done"] if e["error"])
     peak = max(r["total"].get("cg_ws_mib", 0) for r in mem) / G
-    return (f"{name}: {(now['t'] - events[0]['t']) / 60:.1f} min, groups in {phases}\n"
-            f"    envs alive {len(now['containers'])}/{groups * 9}, working set {now['total'].get('cg_ws_mib', 0) / G:.2f} GiB "
+    return (f"{name}: {(now['t'] - events[0]['t']) / 60:.1f} min, {groups} groups: {phases}\n"
+            f"    envs alive {len(now['containers'])} (expect {groups * 9}, +1 with a base desktop), working set {now['total'].get('cg_ws_mib', 0) / G:.2f} GiB "
             f"(peak {peak:.2f}), rollouts {len(by['rollout_done'])}/{n} done, {errs} errors")
 
 
-def finished(name, n, groups, mem, by):
-    """Run the checks; -> (table row, per-group working set)."""
+def finished(name, n, groups, mem, by, base):
+    """Run the checks; -> (table row, per-group working set). base: the run forked its sources from one desktop."""
     if by["mem_limit"]:
         return f"stopped at the memory limit ({by['mem_limit'][0]['used_gib']} GiB used)", None
     if by["group_error"]:
@@ -57,8 +57,8 @@ def finished(name, n, groups, mem, by):
     for ev in ("all_forked", "all_done"):
         if ev not in snaps:
             warn(name, f"no {ev} snapshot")
-        elif len(snaps[ev]["containers"]) != groups * 9:
-            warn(name, f"{ev}: {len(snaps[ev]['containers'])}/{groups * 9} envs alive")
+        elif len(snaps[ev]["containers"]) != groups * 9 + base:
+            warn(name, f"{ev}: {len(snaps[ev]['containers'])}/{groups * 9 + base} envs alive")
 
     peak = max(mem, key=lambda r: r["total"].get("cg_ws_mib", 0))
     t = peak["total"]
@@ -75,7 +75,7 @@ def finished(name, n, groups, mem, by):
         warn(name, f"end-of-rollouts working set {done['cg_ws_mib'] / G:.1f} is well below the peak {t['cg_ws_mib'] / G:.1f} GiB")
 
     src = copy = 0.0
-    if "all_forked" in snaps:  # copies are named by container id, or <source>-k<i>
+    if "all_forked" in snaps and not base:  # copies are named by container id, or <source>-k<i>
         envs = snaps["all_forked"]["containers"]
         src = sum(c["cg_ws_mib"] for k, c in envs.items() if k.startswith("osw-") and "-k" not in k) / G / groups
         copy = (sum(c["cg_ws_mib"] for c in envs.values()) / G / groups - src) / 8
@@ -108,7 +108,8 @@ def main():
         if not by["run_done"]:
             live.append(running(name, n, groups, events, mem, by))
             continue
-        row, pg = finished(name, n, groups, mem, by)
+        base = int(json.load(open(run / "config.json")).get("base_fork", 0))
+        row, pg = finished(name, n, groups, mem, by, base)
         rows.append(f"  {sys_:6s} {n:5d} {seed:>2}  | {row}")
         if pg is not None:
             per_group[sys_].setdefault(n, []).append(pg)
