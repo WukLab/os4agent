@@ -1097,6 +1097,9 @@ func (r *Runtime) removeContainer(ctx context.Context, c *Container, opts ctrRmO
 	if err := c.cleanup(ctx); err != nil {
 		reportErrorf("cleaning up container %s: %w", c.ID(), err)
 	}
+	if c.config.ExternalSetup && c.config.TforkPersistent != "" {
+		c.CleanupExternalCloneStorage()
+	}
 
 	// Remove all active exec sessions
 	// removing the exec sessions might temporarily unlock the container's lock.  Using it

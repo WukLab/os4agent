@@ -1564,8 +1564,10 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
   cleanup_free char *freezer_path = NULL;
   cleanup_free char *rootfs_path = NULL;
   cleanup_free char *source_cgroup_path = NULL;
+  cleanup_free char *descriptors_path = NULL;
   cleanup_close int image_fd = -1;
   cleanup_close int work_fd = -1;
+  const char *descriptors;
   pid_t source_pid = 0;
   int cgroup_mode;
   int ret;
@@ -1601,6 +1603,17 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
   if (UNLIKELY (source_pid <= 0))
     return crun_make_error (err, 0, "source state.json reports invalid pid %d", (int) source_pid);
 
+  /* A tfork clone's state has no cgroup-path: podman moves the clone into
+     its own cgroup after restore.  Freeze where the source really lives.  */
+  if (source_cgroup_path[0] == '\0')
+    {
+      free (source_cgroup_path);
+      source_cgroup_path = NULL;
+      ret = libcrun_get_cgroup_process (source_pid, &source_cgroup_path, false, err);
+      if (UNLIKELY (ret < 0))
+        return crun_error_wrap (err, "resolve cgroup of tfork source pid %d", (int) source_pid);
+    }
+
   ret = libcriu_wrapper->criu_init_opts ();
   if (UNLIKELY (ret < 0))
     return crun_make_error (err, 0, "criu_init_opts failed: %d", ret);
@@ -1612,6 +1625,20 @@ libcrun_container_tfork_linux_criu (libcrun_container_t *container, libcrun_chec
   if (UNLIKELY (image_fd == -1))
     return crun_make_error (err, errno, "open `%s`", cr_options->image_path);
   libcriu_wrapper->criu_set_images_dir_fd (image_fd);
+
+  /* Same contract as checkpoint: `crun restore` of a persistent tfork image
+     needs the source's stdio targets to reconnect them.  */
+  ret = libcrun_save_external_descriptors (container, source_pid, err);
+  if (UNLIKELY (ret < 0))
+    return ret;
+  descriptors = libcrun_get_external_descriptors (container);
+
+  ret = append_paths (&descriptors_path, err, cr_options->image_path, DESCRIPTORS_FILENAME, NULL);
+  if (UNLIKELY (ret < 0))
+    return ret;
+  ret = write_file (descriptors_path, descriptors, strlen (descriptors), err);
+  if (UNLIKELY (ret < 0))
+    return crun_error_wrap (err, "error saving CRIU descriptors file");
 
   if (cr_options->work_path != NULL)
     {

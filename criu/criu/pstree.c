@@ -16,6 +16,9 @@
 #include "util.h"
 #include "net.h"
 #include "timens.h"
+#include "image.h"
+#include "servicefd.h"
+#include "mem.h"
 
 #include "protobuf.h"
 #include "images/pstree.pb-c.h"
@@ -553,6 +556,152 @@ cleanup:
 err:
 	pr_info("----------------------------------------\n");
 	close_image(img);
+	return ret;
+}
+
+struct parent_uid {
+	pid_t key;
+	int uid;
+};
+
+/* The pid a task has in the root task's pid namespace (ns[] is innermost-first). */
+static int item_root_key(struct pstree_item *item, pid_t *key)
+{
+	int idx = item->pid->ns_level - root_item->pid->ns_level;
+
+	if (idx < 0 || idx >= item->pid->ns_level)
+		return -1;
+	*key = item->pid->ns[idx].ns_pid;
+	return 0;
+}
+
+static int entry_root_key(PstreeEntry *e, size_t root_n_ns, pid_t *key)
+{
+	ThreadEntry *t;
+
+	if (e->n_threads == 0)
+		return -1;
+	t = e->threads[0];
+	if (t->n_ns < root_n_ns)
+		return -1;
+	*key = t->ns[t->n_ns - root_n_ns]->nspid;
+	return 0;
+}
+
+/*
+ * An incremental dump resolves PE_PARENT through the parent's
+ * pagemap-<uid>.img, so a task must keep the uid it had in the parent
+ * image.  Collection hands out uids in seize order, which shifts whenever
+ * an earlier task gains or loses a thread.  Re-key every task that already
+ * existed at the parent dump by its pid in the root task's pid namespace;
+ * everything else, and every non-leader thread, gets a uid above the
+ * parent's range so it can never alias a parent image.
+ */
+int pstree_stabilize_uids(void)
+{
+	PstreeFileEntry *pf = NULL;
+	InventoryEntry *parent_ie = NULL;
+	struct parent_uid *map = NULL;
+	struct pstree_item *item;
+	struct cr_img *img;
+	size_t root_n_ns, nr_map = 0, i, j;
+	int dir, ret = -1, parent_max = 0;
+	int matched = 0, reused = 0, fresh = 0;
+
+	if (!opts.img_parent)
+		return 0;
+
+	if (open_parent(get_service_fd(IMG_FD_OFF), &dir))
+		return -1;
+	if (dir < 0)
+		return 0;
+
+	img = open_image_at(dir, CR_FD_PSTREE, O_RSTR);
+	if (!img)
+		goto out;
+	ret = pb_read_one_eof(img, &pf, PB_PSTREE_FILE);
+	close_image(img);
+	if (ret <= 0) {
+		pr_err("Can't read parent pstree image\n");
+		ret = -1;
+		goto out;
+	}
+	ret = -1;
+
+	if (pf->n_tree == 0 || pf->tree[0]->n_threads == 0) {
+		pr_err("Parent pstree image has no root task\n");
+		goto out;
+	}
+	root_n_ns = pf->tree[0]->threads[0]->n_ns;
+
+	map = xmalloc(sizeof(*map) * pf->n_tree);
+	if (!map)
+		goto out;
+
+	for (i = 0; i < pf->n_tree; i++) {
+		PstreeEntry *e = pf->tree[i];
+
+		for (j = 0; j < e->n_threads; j++) {
+			if (e->threads[j]->uid < HELPER_UID_BASE && (int)e->threads[j]->uid > parent_max)
+				parent_max = e->threads[j]->uid;
+		}
+		if (e->uid >= HELPER_UID_BASE)
+			continue;
+		if ((int)e->uid > parent_max)
+			parent_max = e->uid;
+		if (entry_root_key(e, root_n_ns, &map[nr_map].key)) {
+			pr_err("Parent task uid %u has no pid in the root pid namespace\n", e->uid);
+			goto out;
+		}
+		map[nr_map++].uid = e->uid;
+	}
+
+	parent_ie = get_parent_inventory();
+	if (!parent_ie)
+		pr_warn("No parent inventory: no task keeps its parent uid\n");
+
+	atomic_set(&pid_uid_generator, parent_max);
+
+	for_each_pstree_item(item) {
+		int new_uid = 0;
+		pid_t key;
+
+		if (item_root_key(item, &key)) {
+			pr_err("Task %d has no pid in the root pid namespace\n", item->pid->real);
+			goto out;
+		}
+		for (i = 0; i < nr_map; i++) {
+			if (map[i].key == key)
+				break;
+		}
+		if (i < nr_map) {
+			matched++;
+			if (parent_ie && task_started_after_dump(item->pid->real, NULL, parent_ie) == 0) {
+				new_uid = map[i].uid;
+				reused++;
+			}
+		}
+		if (!new_uid) {
+			new_uid = atomic_inc_return(&pid_uid_generator);
+			fresh++;
+		}
+
+		item->pid->uid = new_uid;
+		item->threads[0].uid = new_uid;
+		for (j = 1; j < item->nr_threads; j++)
+			item->threads[j].uid = atomic_inc_return(&pid_uid_generator);
+	}
+
+	pr_info("Task uids keyed to parent image: %d matched, %d kept, %d new (parent max uid %d)\n",
+		matched, reused, fresh, parent_max);
+	ret = 0;
+out:
+	xfree(map);
+	if (pf)
+		pstree_file_entry__free_unpacked(pf, NULL);
+	if (parent_ie)
+		inventory_entry__free_unpacked(parent_ie, NULL);
+	close(dir);
 	return ret;
 }
 

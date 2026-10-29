@@ -518,5 +518,11 @@ type ContainerCloneOptions struct {
 	TforkInjectSourceFiles []string
 }
 
+// ContainerTforkRestoreOptions describes `podman container tfork-restore`,
+// which creates a new container from a persistent tfork clone's image.
+type ContainerTforkRestoreOptions struct {
+	Name string
+}
+
 // ContainerUpdateOptions containers options for updating an existing containers cgroup configuration
 type ContainerUpdateOptions = types.ContainerUpdateOptions

@@ -153,6 +153,7 @@ extern int prepare_dummy_pstree(void);
 extern int pstree_get_total_size(void);
 
 extern int dump_pstree(struct pstree_item *root_item);
+extern int pstree_stabilize_uids(void);
 
 struct pstree_item *pstree_item_by_pid_ns(int pidns_id, pid_t pid_in_ns);
 struct pstree_item *pstree_item_by_real(pid_t global_pid);

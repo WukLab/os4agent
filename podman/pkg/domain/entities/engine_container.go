@@ -21,6 +21,7 @@ type ContainerEngine interface { //nolint:interfacebloat
 	ContainerCheckpoint(ctx context.Context, namesOrIds []string, options CheckpointOptions) ([]*CheckpointReport, error)
 	ContainerCleanup(ctx context.Context, namesOrIds []string, options ContainerCleanupOptions) ([]*ContainerCleanupReport, error)
 	ContainerClone(ctx context.Context, ctrClone ContainerCloneOptions) (*ContainerCreateReport, error)
+	ContainerTforkRestore(ctx context.Context, nameOrID string, options ContainerTforkRestoreOptions) (*ContainerCreateReport, error)
 	ContainerCommit(ctx context.Context, nameOrID string, options CommitOptions) (*CommitReport, error)
 	ContainerCopyFromArchive(ctx context.Context, nameOrID, path string, reader io.Reader, options CopyOptions) (ContainerCopyFunc, error)
 	ContainerCopyToArchive(ctx context.Context, nameOrID string, path string, writer io.Writer) (ContainerCopyFunc, error)

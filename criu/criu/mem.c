@@ -377,13 +377,38 @@ static int xfer_pages(struct page_pipe *pp, struct page_xfer *xfer)
 	return ret;
 }
 
-static int detect_pid_reuse(struct pstree_item *item, struct proc_pid_stat *pps, InventoryEntry *parent_ie)
+int task_started_after_dump(pid_t real, struct proc_pid_stat *pps, InventoryEntry *parent_ie)
 {
 	unsigned long long dump_ticks;
 	struct proc_pid_stat pps_buf;
 	unsigned long long tps; /* ticks per second */
 	int ret;
 
+	tps = sysconf(_SC_CLK_TCK);
+	if (tps == -1) {
+		pr_perror("Failed to get clock ticks via sysconf");
+		return -1;
+	}
+
+	if (!pps) {
+		pps = &pps_buf;
+		ret = parse_pid_stat(real, pps);
+		if (ret < 0)
+			return -1;
+	}
+
+	dump_ticks = parent_ie->dump_uptime / (USEC_PER_SEC / tps);
+
+	if (pps->start_time >= dump_ticks) {
+		/* Print "*" if unsure */
+		pr_warn("Pid reuse%s detected for pid %d\n", pps->start_time == dump_ticks ? "*" : "", real);
+		return 1;
+	}
+	return 0;
+}
+
+static int detect_pid_reuse(struct pstree_item *item, struct proc_pid_stat *pps, InventoryEntry *parent_ie)
+{
 	/* Check pid reuse using pidfds */
 	if (pidfd_store_ready())
 		return pidfd_store_check_pid_reuse(item->pid->real);
@@ -394,27 +419,7 @@ static int detect_pid_reuse(struct pstree_item *item, struct proc_pid_stat *pps,
 		return -1;
 	}
 
-	tps = sysconf(_SC_CLK_TCK);
-	if (tps == -1) {
-		pr_perror("Failed to get clock ticks via sysconf");
-		return -1;
-	}
-
-	if (!pps) {
-		pps = &pps_buf;
-		ret = parse_pid_stat(item->pid->real, pps);
-		if (ret < 0)
-			return -1;
-	}
-
-	dump_ticks = parent_ie->dump_uptime / (USEC_PER_SEC / tps);
-
-	if (pps->start_time >= dump_ticks) {
-		/* Print "*" if unsure */
-		pr_warn("Pid reuse%s detected for pid %d\n", pps->start_time == dump_ticks ? "*" : "", item->pid->real);
-		return 1;
-	}
-	return 0;
+	return task_started_after_dump(item->pid->real, pps, parent_ie);
 }
 
 static int generate_vma_iovs(struct pstree_item *item, struct vma_area *vma, struct page_pipe *pp,
@@ -677,6 +682,76 @@ static bool helper_dumps_vma(struct vma_area *vma)
 	return true;
 }
 
+struct fork_dump_runs {
+	struct cr_img *pmi;
+	struct iovec *iovs;
+	unsigned int idx;
+	struct page_read *parent;
+	unsigned long nr_present, nr_parent, nr_downgraded;
+};
+
+static int fork_dump_flush_run(struct fork_dump_runs *r, u64 start, u64 pages, unsigned int flags)
+{
+	PagemapEntry pe = PAGEMAP_ENTRY__INIT;
+	unsigned long end = start + pages * PAGE_SIZE, missing;
+
+	/*
+	 * A PE_PARENT run the parent image cannot serve fails restore, or
+	 * worse.  The helper holds a snapshot of these pages, so dump them.
+	 */
+	if ((flags & PE_PARENT) && r->parent && !pagemap_covers_range(r->parent, start, end, &missing)) {
+		pr_warn("Async memdump: %#lx not in parent image, dumping %#lx-%#lx in full\n",
+			missing, (unsigned long)start, end);
+		flags = PE_PRESENT;
+		r->nr_downgraded += pages;
+	}
+
+	if (flags & PE_PRESENT) {
+		r->iovs[r->idx].iov_base = decode_pointer(start);
+		r->iovs[r->idx].iov_len = pages * PAGE_SIZE;
+		r->idx++;
+		r->nr_present += pages;
+	} else {
+		r->nr_parent += pages;
+	}
+	pe.vaddr = start;
+	pe.nr_pages = pages;
+	pe.has_nr_pages = true;
+	pe.has_flags = true;
+	pe.flags = flags;
+	return pb_write_one(r->pmi, &pe, PB_PAGEMAP);
+}
+
+static struct page_read *fork_dump_open_parent(struct pstree_item *item)
+{
+	struct page_read *pr;
+	int pfd, ret;
+
+	if (open_parent(get_service_fd(IMG_FD_OFF), &pfd) || pfd < 0)
+		return NULL;
+	pr = xzalloc(sizeof(*pr));
+	if (!pr) {
+		close(pfd);
+		return NULL;
+	}
+	ret = open_page_read_at(pfd, uid(item), pr, PR_TASK);
+	close(pfd);
+	if (ret <= 0) {
+		xfree(pr);
+		return NULL;
+	}
+	return pr;
+}
+
+static void fork_dump_close_parent(struct fork_dump_runs *r)
+{
+	if (!r->parent)
+		return;
+	r->parent->close(r->parent);
+	xfree(r->parent);
+	r->parent = NULL;
+}
+
 int parasite_fork_dump_pages_seized(struct pstree_item *item,
 				    struct vm_area_list *vma_area_list,
 				    struct mem_dump_ctl *mdc,
@@ -702,11 +777,10 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 	unsigned int nr_aios = 0;
 	char ack;
 	unsigned long max_iovs = 0;
-	unsigned int idx = 0;
+	struct fork_dump_runs runs = {};
 	u32 pages_id = 0;
 	bool has_parent = false;
 	int possible_pid_reuse = 0;
-	unsigned long nr_pe_present = 0, nr_pe_parent = 0;
 
 	list_for_each_entry(vma, &vma_area_list->h, list) {
 		if (helper_dumps_vma(vma))
@@ -762,6 +836,13 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 			has_parent = !possible_pid_reuse;
 		}
 	}
+	if (has_parent) {
+		runs.parent = fork_dump_open_parent(item);
+		if (!runs.parent) {
+			pr_warn("Async memdump: no parent pagemap for task %d, dumping it in full\n", uid(item));
+			has_parent = false;
+		}
+	}
 
 	if (max_iovs > 0) {
 		iovs_fd = memfd_create("criu-fork-dump-iovs", MFD_CLOEXEC);
@@ -785,6 +866,8 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 		iovs = (struct iovec *)iovs_map;
 		aio_blob = (char *)iovs_map + iovs_bytes;
 	}
+	runs.pmi = pmi;
+	runs.iovs = iovs;
 
 	if (aio_total_bytes > 0) {
 		size_t off = 0;
@@ -839,12 +922,12 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 			size_t len = vma->e->end - vma->e->start;
 			PagemapEntry pe = PAGEMAP_ENTRY__INIT;
 
-			iovs[idx].iov_base = (void *)(uintptr_t)
+			iovs[runs.idx].iov_base = (void *)(uintptr_t)
 				(HELPER_IOV_AIO_FLAG | (iovs_bytes + aio_off));
-			iovs[idx].iov_len = len;
-			idx++;
+			iovs[runs.idx].iov_len = len;
+			runs.idx++;
 			aio_off += len;
-			nr_pe_present += len / PAGE_SIZE;
+			runs.nr_present += len / PAGE_SIZE;
 
 			pe.vaddr = vma->e->start;
 			pe.nr_pages = len / PAGE_SIZE;
@@ -882,22 +965,7 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 			if (!dumpable) {
 
 				if (run_pages > 0) {
-					PagemapEntry pe = PAGEMAP_ENTRY__INIT;
-
-					if (run_flags & PE_PRESENT) {
-						iovs[idx].iov_base = decode_pointer(run_start);
-						iovs[idx].iov_len = run_pages * PAGE_SIZE;
-						idx++;
-						nr_pe_present += run_pages;
-					} else {
-						nr_pe_parent += run_pages;
-					}
-					pe.vaddr = run_start;
-					pe.nr_pages = run_pages;
-					pe.has_nr_pages = true;
-					pe.has_flags = true;
-					pe.flags = run_flags;
-					if (pb_write_one(pmi, &pe, PB_PAGEMAP) < 0)
+					if (fork_dump_flush_run(&runs, run_start, run_pages, run_flags) < 0)
 						goto err_pi;
 					run_pages = 0;
 				}
@@ -910,22 +978,7 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 					? PE_PARENT : PE_PRESENT;
 
 			if (run_pages > 0 && next_flags != run_flags) {
-				PagemapEntry pe = PAGEMAP_ENTRY__INIT;
-
-				if (run_flags & PE_PRESENT) {
-					iovs[idx].iov_base = decode_pointer(run_start);
-					iovs[idx].iov_len = run_pages * PAGE_SIZE;
-					idx++;
-					nr_pe_present += run_pages;
-				} else {
-					nr_pe_parent += run_pages;
-				}
-				pe.vaddr = run_start;
-				pe.nr_pages = run_pages;
-				pe.has_nr_pages = true;
-				pe.has_flags = true;
-				pe.flags = run_flags;
-				if (pb_write_one(pmi, &pe, PB_PAGEMAP) < 0)
+				if (fork_dump_flush_run(&runs, run_start, run_pages, run_flags) < 0)
 					goto err_pi;
 				run_pages = 0;
 			}
@@ -938,28 +991,12 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 			vaddr += PAGE_SIZE;
 		}
 
-		if (run_pages > 0) {
-			PagemapEntry pe = PAGEMAP_ENTRY__INIT;
-
-			if (run_flags & PE_PRESENT) {
-				iovs[idx].iov_base = decode_pointer(run_start);
-				iovs[idx].iov_len = run_pages * PAGE_SIZE;
-				idx++;
-				nr_pe_present += run_pages;
-			} else {
-				nr_pe_parent += run_pages;
-			}
-			pe.vaddr = run_start;
-			pe.nr_pages = run_pages;
-			pe.has_nr_pages = true;
-			pe.has_flags = true;
-			pe.flags = run_flags;
-			if (pb_write_one(pmi, &pe, PB_PAGEMAP) < 0)
-				goto err_pi;
-		}
+		if (run_pages > 0 && fork_dump_flush_run(&runs, run_start, run_pages, run_flags) < 0)
+			goto err_pi;
 	}
+	fork_dump_close_parent(&runs);
 
-	args->nr_iovs = idx;
+	args->nr_iovs = runs.idx;
 	args->iovs_bytes = iovs_bytes;
 	args->aio_bytes = aio_total_bytes;
 
@@ -977,9 +1014,12 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 	pr_info("Async memdump: %u iov runs (worst-case capacity %lu); "
 		"PE_PRESENT %lu pages, PE_PARENT %lu pages%s "
 		"(aio: %u rings, %zu bytes)\n",
-		idx, max_iovs, nr_pe_present, nr_pe_parent,
+		runs.idx, max_iovs, runs.nr_present, runs.nr_parent,
 		has_parent ? " (incremental)" : "",
 		nr_aios, aio_total_bytes);
+	if (runs.nr_downgraded)
+		pr_warn("Async memdump: task %d: %lu PE_PARENT pages missing from the parent image were dumped in full\n",
+			uid(item), runs.nr_downgraded);
 
 	close_image(pmi);
 	pmi = NULL;
@@ -1034,7 +1074,7 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 
 	pr_info("Async memdump helper forked (target real pid %d, helper "
 		"vpid %d, %u iov runs to dump)\n",
-		item->pid->real, args->child_pid, idx);
+		item->pid->real, args->child_pid, runs.idx);
 
 	if (opts.tfork.dumpd_sock < 0) {
 		pr_err("dumpd_sock not initialized\n");
@@ -1065,6 +1105,7 @@ int parasite_fork_dump_pages_seized(struct pstree_item *item,
 	return 0;
 
 err_pi:
+	fork_dump_close_parent(&runs);
 	if (pmc_inited)
 		pmc_fini(&pmc);
 	if (iovs_map != MAP_FAILED)

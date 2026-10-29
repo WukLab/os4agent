@@ -235,10 +235,19 @@ static int __restore_wait_inprogress_tasks(int participants)
 {
 	int ret;
 	futex_t *np = &task_entries->nr_in_progress;
-	const int tfork_restore_wait_timeout_ms = 10000;
+	/*
+	 * A clone's tasks fault in file pages from a cold rootfs snapshot
+	 * while restoring; on rotational storage, behind the writeback of a
+	 * sync memdump, that takes tens of seconds for a desktop workload.
+	 */
+	int tfork_restore_wait_timeout_ms = 60000;
+	const char *wait_env = getenv("CRIU_TFORK_RESTORE_WAIT_MS");
 	uint64_t profile_started = 0;
 	unsigned int profile_seq = 0;
 	int profile_initial = 0;
+
+	if (wait_env && atoi(wait_env) > 0)
+		tfork_restore_wait_timeout_ms = atoi(wait_env);
 
 	if (tfork_restore_profile) {
 		profile_started = tfork_restore_profile_now();

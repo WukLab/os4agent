@@ -238,6 +238,12 @@ type ContainerState struct {
 	CheckpointPath   string    `json:"checkpointPath,omitempty"`
 	RestoreLog       string    `json:"restoreLog,omitempty"`
 	Restored         bool      `json:"restored,omitempty"`
+
+	// TforkLastDump is the image dir of the most recent persistent
+	// (soft-dirty tracking) tfork dump attempted on this container.
+	// Every such dump resets the soft-dirty bits, so an incremental
+	// dump may only chain onto this one.
+	TforkLastDump string `json:"tforkLastDump,omitempty"`
 }
 
 // ContainerNamedVolume is a named volume that will be mounted into the

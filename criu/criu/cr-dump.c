@@ -2164,6 +2164,9 @@ int cr_pre_dump_tasks(pid_t pid)
 	if (collect_pstree())
 		goto err;
 
+	if (pstree_stabilize_uids())
+		goto err;
+
 	if (collect_pstree_ids_predump())
 		goto err;
 
@@ -2184,6 +2187,10 @@ int cr_pre_dump_tasks(pid_t pid)
 		inventory_entry__free_unpacked(parent_ie, NULL);
 		parent_ie = NULL;
 	}
+
+	/* The next dump in the chain re-keys task uids from it. */
+	if (dump_pstree(root_item))
+		goto err;
 
 	ret = cr_dump_shmem();
 	if (ret)
@@ -2401,6 +2408,9 @@ int cr_dump_tasks(pid_t pid)
 	 */
 
 	if (collect_pstree())
+		goto err;
+
+	if (pstree_stabilize_uids())
 		goto err;
 
 	if (checkpoint_devices())

@@ -144,6 +144,19 @@ sudo ./podman-tfork.sh container clone --live --copies=4 \
       --name webtop-fan webtop-src
 ```
 
+## Restore a clone from disk
+
+A `--persistent` clone keeps an on-disk image of the source at clone time.
+Turn it back into a running container, while the clone runs or after it
+was stopped:
+
+```bash
+sudo ./podman-tfork.sh container tfork-restore --name webtop-restored webtop-fan-0
+```
+
+See [docs/TFORK_RESTORE.md](docs/TFORK_RESTORE.md) for incremental
+chains, lifecycle, timeouts and troubleshooting.
+
 ## Live-clone flags & environment
 
 Flags below attach to `podman container clone --live`. Run

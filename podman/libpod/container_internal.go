@@ -2248,7 +2248,12 @@ func (c *Container) cleanup(ctx context.Context) error {
 			}
 		}
 
-		c.CleanupExternalCloneStorage()
+		// A persistent clone's bundle holds its on-disk image; keep it
+		// across stop so `podman container tfork-restore` can use it.
+		// removeContainer reaps it.
+		if c.config.TforkPersistent == "" {
+			c.CleanupExternalCloneStorage()
+		}
 	}
 
 	// Unmount storage

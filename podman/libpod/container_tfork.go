@@ -59,28 +59,55 @@ func (c *Container) TforkWaitDumpDone(timeout time.Duration) (TforkDumpState, er
 	}
 }
 
-func (r *Runtime) FindLatestDoneTforkChild(sourceID string) (*Container, error) {
-	all, err := r.GetAllContainers()
+// RecordTforkDump records imgDir as the most recent soft-dirty-tracking
+// dump of c.  Call it before the dump runs: an attempt that fails after
+// dumping pages has still reset the soft-dirty bits.
+func (c *Container) RecordTforkDump(imgDir string) error {
+	if !c.batched {
+		c.lock.Lock()
+		defer c.lock.Unlock()
+
+		if err := c.syncContainer(); err != nil {
+			return err
+		}
+	}
+	c.state.TforkLastDump = imgDir
+	return c.save()
+}
+
+// TforkChainParent returns the clone holding c's most recent
+// soft-dirty-tracking dump: the only image an incremental dump of c may
+// chain onto, since any later dump would have reset the soft-dirty bits.
+// It returns nil, with that dump's image dir, when the image is no longer
+// held by a clone (the clone failed, was rolled back or was removed).
+func (c *Container) TforkChainParent() (*Container, string, error) {
+	if !c.batched {
+		c.lock.Lock()
+		defer c.lock.Unlock()
+
+		if err := c.syncContainer(); err != nil {
+			return nil, "", err
+		}
+	}
+	last := c.state.TforkLastDump
+	if last == "" {
+		return nil, "", nil
+	}
+
+	all, err := c.runtime.GetAllContainers()
 	if err != nil {
-		return nil, fmt.Errorf("list containers: %w", err)
+		return nil, last, fmt.Errorf("list containers: %w", err)
 	}
-	var best *Container
-	for _, c := range all {
-		if c.config.TforkSourceID != sourceID {
+	for _, ctr := range all {
+		if ctr.config.TforkSourceID != c.ID() || ctr.config.TforkPersistent == "" || ctr.config.TforkImgDir != last {
 			continue
 		}
-		if c.config.TforkPersistent == "" {
-			continue
+		if _, err := os.Stat(last); err != nil {
+			return nil, last, nil
 		}
-		st, err := c.TforkDumpStatus()
-		if err != nil || st != TforkDumpStateDone {
-			continue
-		}
-		if best == nil || c.config.CreatedTime.After(best.config.CreatedTime) {
-			best = c
-		}
+		return ctr, last, nil
 	}
-	return best, nil
+	return nil, last, nil
 }
 
 func (c *Container) TforkImgDir() string {

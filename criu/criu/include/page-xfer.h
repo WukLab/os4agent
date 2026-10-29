@@ -57,6 +57,7 @@ extern int connect_to_page_server_to_recv(int epfd);
 extern int disconnect_from_page_server(void);
 
 extern int check_parent_page_xfer(int fd_type, unsigned long id);
+extern bool pagemap_covers_range(struct page_read *p, unsigned long off, unsigned long end, unsigned long *missing);
 
 /*
  * The post-copy migration makes it necessary to receive pages from

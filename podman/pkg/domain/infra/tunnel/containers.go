@@ -1095,6 +1095,10 @@ func (ic *ContainerEngine) ContainerClone(_ context.Context, _ entities.Containe
 	return nil, errors.New("cloning a container is not supported on the remote client")
 }
 
+func (ic *ContainerEngine) ContainerTforkRestore(_ context.Context, _ string, _ entities.ContainerTforkRestoreOptions) (*entities.ContainerCreateReport, error) {
+	return nil, errors.New("restoring a tfork image is not supported on the remote client")
+}
+
 // ContainerUpdate finds and updates the given container's cgroup config with the specified options
 func (ic *ContainerEngine) ContainerUpdate(_ context.Context, updateOptions *entities.ContainerUpdateOptions) (string, error) {
 	updateOptions.ProcessSpecgen()

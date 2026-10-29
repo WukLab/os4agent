@@ -34,7 +34,7 @@ import (
 const (
 	tforkSourceFreezeTimeout = 10 * time.Second
 	tforkSourceThawTimeout   = 10 * time.Second
-	tforkCloneReadyTimeout   = 60 * time.Second
+	tforkCloneReadyTimeout   = 120 * time.Second // dump phase + CRIU's 60 s restore wait
 	tforkCgroupPollInterval  = 50 * time.Millisecond
 	tforkClonePollInterval   = 200 * time.Millisecond
 )
@@ -527,8 +527,8 @@ func (ic *ContainerEngine) containerCloneLive(ctx context.Context, opts entities
 		dumpdHolderStartTime = hstart
 		defer func() {
 			if retErr != nil && dumpdHolderPid > 0 {
-				_ = syscall.Kill(dumpdHolderPid, syscall.SIGKILL)
-				logrus.Warnf("tfork: clone setup failed (%v); killed dumpd-holder pid=%d",
+				killTforkDumpdHolder(dumpdHolderPid)
+				logrus.Warnf("tfork: clone setup failed (%v); killed dumpd-holder pgid=%d",
 					retErr, dumpdHolderPid)
 			}
 		}()
@@ -547,20 +547,34 @@ func (ic *ContainerEngine) containerCloneLive(ctx context.Context, opts entities
 	parentCloneID := ""
 	parentImgDir := ""
 	if opts.WithPrevious {
-		parent, err := ic.Libpod.FindLatestDoneTforkChild(src.ID())
+		parent, lastDump, err := src.TforkChainParent()
 		if err != nil {
-			return nil, fmt.Errorf("--with-previous: scan for chain parent: %w", err)
+			return nil, fmt.Errorf("--with-previous: find chain parent: %w", err)
 		}
-		if parent == nil {
-			return nil, fmt.Errorf("--with-previous: no prior done persistent clone of source %q to chain from", src.ID())
+		switch {
+		case parent != nil:
+			parentCloneID = parent.ID()
+			parentImgDir = parent.TforkImgDir()
+			// CRIU stores this verbatim as the img/parent symlink and follows it
+			// from inside the restored tasks' root, where an absolute host path
+			// does not resolve; relative to imgDir it resolves via the image dir fd.
+			relParent, err := filepath.Rel(imgDir, parentImgDir)
+			if err != nil {
+				return nil, fmt.Errorf("--with-previous: parent image-dir %s relative to %s: %w", parentImgDir, imgDir, err)
+			}
+			crunArgs = append(crunArgs, "--parent-path", relParent)
+			logrus.Infof("tfork: --with-previous chains off clone %s (imgDir=%s)", parentCloneID, parentImgDir)
+		case lastDump == "":
+			return nil, fmt.Errorf("--with-previous: no prior persistent clone of source %q to chain from", src.ID())
+		default:
+			logrus.Warnf("tfork: --with-previous: the last tracked dump of %s (%s) is no longer held by a clone; taking a full dump",
+				src.Name(), lastDump)
 		}
-		parentCloneID = parent.ID()
-		parentImgDir = parent.TforkImgDir()
-		if parentImgDir == "" {
-			return nil, fmt.Errorf("--with-previous: chain parent %s has no recorded image-dir", parentCloneID)
+	}
+	if opts.Persistent != "" {
+		if err := src.RecordTforkDump(imgDir); err != nil {
+			return nil, fmt.Errorf("record tracked dump of %s: %w", src.Name(), err)
 		}
-		crunArgs = append(crunArgs, "--parent-path", parentImgDir)
-		logrus.Infof("tfork: --with-previous chains off clone %s (imgDir=%s)", parentCloneID, parentImgDir)
 	}
 	if err := tforkInjectFault("before_restore"); err != nil {
 		return nil, err
@@ -1608,13 +1622,21 @@ func spawnTforkDumpdHolder() (int, uint64, error) {
 	pid := cmd.Process.Pid
 	startTime, stErr := libpod.ReadProcStartTime(pid)
 	if stErr != nil {
-		_ = syscall.Kill(pid, syscall.SIGKILL)
+		killTforkDumpdHolder(pid)
 		return 0, 0, fmt.Errorf("read dumpd-holder /proc/%d/stat: %w", pid, stErr)
 	}
 	if err := cmd.Process.Release(); err != nil {
 		logrus.Warnf("tfork: dumpd-holder Process.Release(): %v", err)
 	}
 	return pid, startTime, nil
+}
+
+// killTforkDumpdHolder kills the holder's whole process group: pid is the
+// setsid'd bash, and killing only it orphans its `sleep infinity` to init.
+func killTforkDumpdHolder(pid int) {
+	if err := syscall.Kill(-pid, syscall.SIGKILL); errors.Is(err, syscall.ESRCH) {
+		_ = syscall.Kill(pid, syscall.SIGKILL)
+	}
 }
 
 func tforkAbortCrunCmd(crunCmd *exec.Cmd, src *libpod.Container, bundleDir string, copies int) {

@@ -275,29 +275,24 @@ static int write_pages_loc(struct page_xfer *xfer, int p, unsigned long len)
 	return 0;
 }
 
-static int check_pagehole_in_parent(struct page_read *p, struct iovec *iov)
+/*
+ * Returns true if every page of [off, end) has a pagemap entry in @p, from
+ * which the data will be read on restore.  Otherwise *missing is the first
+ * uncovered address.  Calls must come in increasing address order.
+ *
+ * This is the optimized version of the page-by-page
+ * read_pagemap_page routine.
+ */
+bool pagemap_covers_range(struct page_read *p, unsigned long off, unsigned long end, unsigned long *missing)
 {
-	int ret;
-	unsigned long off, end;
-
-	/*
-	 * Try to find pagemap entry in parent, from which
-	 * the data will be read on restore.
-	 *
-	 * This is the optimized version of the page-by-page
-	 * read_pagemap_page routine.
-	 */
-
-	pr_debug("Checking %p - %p hole\n", iov->iov_base, iov->iov_base + iov->iov_len);
-	off = (unsigned long)iov->iov_base;
-	end = off + iov->iov_len;
 	while (1) {
 		unsigned long pend;
+		int ret;
 
 		ret = p->seek_pagemap(p, off);
 		if (ret <= 0 || !p->pe) {
-			pr_err("Missing %lx in parent pagemap\n", off);
-			return -1;
+			*missing = off;
+			return false;
 		}
 
 		pr_debug("\tFound %" PRIx64 " - %" PRIx64 "\n",
@@ -311,11 +306,23 @@ static int check_pagehole_in_parent(struct page_read *p, struct iovec *iov)
 
 		pend = p->pe->vaddr + pagemap_len(p->pe);
 		if (end <= pend)
-			return 0;
+			return true;
 
 		pr_debug("\t\tcontinue on %lx\n", pend);
 		off = pend;
 	}
+}
+
+static int check_pagehole_in_parent(struct page_read *p, struct iovec *iov)
+{
+	unsigned long off = (unsigned long)iov->iov_base, missing;
+
+	pr_debug("Checking %p - %p hole\n", iov->iov_base, iov->iov_base + iov->iov_len);
+	if (!pagemap_covers_range(p, off, off + iov->iov_len, &missing)) {
+		pr_err("Missing %lx in parent pagemap\n", missing);
+		return -1;
+	}
+	return 0;
 }
 
 static int write_pagemap_loc(struct page_xfer *xfer, struct iovec *iov, u32 flags)
