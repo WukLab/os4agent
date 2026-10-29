@@ -53,6 +53,9 @@ ap.add_argument("--spec-exec", type=int, default=0,
 ap.add_argument("--prefix-cache", default="",
                 help="dir of the prefix cache: hash(system, task, actions so far) -> checkpoint on disk, shared by epochs")
 ap.add_argument("--prefix-depth", type=int, default=3, help="prefix cache: save checkpoints for prefixes up to this long")
+ap.add_argument("--spec-warm", nargs="*", default=[],
+                help="result dirs (e.g. earlier epochs) whose traj.jsonl the predictor learns before the run, and whose "
+                     "actions the spec-exec action book learns; otherwise both start empty in every run")
 # containers (tfork / criu / stock-criu)
 ap.add_argument("--image", default="ghcr.io/wuklab/webtop:ubuntu-kde-osworld")
 ap.add_argument("--os4agent", default="/mnt/ssd2/os4agent")
@@ -411,13 +414,32 @@ class Podman:
         return self.p("exec", name, "bash", "-c", cmd, check=False, timeout=a.obs_timeout)
 
     def save(self, name, path):
-        """Checkpoint a running desktop to disk (--prefix-cache); it keeps running."""
+        """Save a running desktop to disk (--prefix-cache); it keeps running. tfork / criu: a persistent live clone,
+        stopped once its dump is done (docs/TFORK_RESTORE.md: the image is the desktop at clone time; `podman container
+        checkpoint` does not handle clones). stock-criu: a checkpoint tar."""
+        if self.system in ("tfork", "criu"):
+            self.p("exec", name, "true")  # let tini reap exec children before the freeze, as fork() does
+            flags = ["--copies=1", "--persistent=async", "--tfork-tcp-close", f"--tfork-ghost-limit={64 << 20}"]
+            clone = container_ids(self._clone(name, f"pfx-{os.path.basename(path)}", flags, "prefix_clone"))[0]
+            t0 = time.time()
+            while (st := self.p("inspect", clone, "--format", "{{.Tfork.DumpStatus}}").stdout.strip()) != "done":
+                if st not in ("", "pending", "inflight") or time.time() - t0 > a.obs_timeout:
+                    self.p("rm", "-f", "-t", "0", clone, check=False)
+                    raise RuntimeError(f"prefix clone {clone[:12]}: dump status {st!r} after {time.time() - t0:.0f}s")
+                time.sleep(1)
+            self.p("stop", "-t", "0", clone)  # a stopped persistent clone keeps its bundle and image
+            return {"system": self.system, "clone": clone}
         self.p("container", "checkpoint", "--leave-running", "--tcp-established", "--compress=none", f"--export={path}.tar",
                name, timeout=a.obs_timeout)
         return {"system": self.system, "path": f"{path}.tar"}
 
     def load(self, entry, name):
-        """A new desktop restored from a save() checkpoint. -> (name, addr, pid)"""
+        """A new desktop restored from a save() entry. -> (name, addr, pid)"""
+        if "clone" in entry:  # each tfork-restore is an independent new container; the clone stays for the next one
+            self.p("container", "tfork-restore", "--name", name, entry["clone"], timeout=a.obs_timeout)
+            addr, pid = self.info(name)
+            wait_ready(addr)
+            return name, addr, pid
         pub = [x for p in PORTS for x in ("--publish", p)] if self.slirp else []
         self.p("container", "restore", f"--import={entry['path']}", "--name", name, "--ignore-static-ip",
                "--ignore-static-mac", *pub, timeout=a.obs_timeout)
@@ -1061,6 +1083,19 @@ def main():
     todo = [(*tasks[i % len(tasks)], i // len(tasks)) for i in range(n)]  # (domain, task, repeat)
     if a.sync_groups and a.release_copies:
         raise SystemExit("--release-copies frees copies as rollouts end; --sync-groups holds them all until the end. Pick one.")
+    if a.prefix_cache and a.system == "tfork" and a.overlay_rootfs:
+        raise SystemExit("--prefix-cache needs --overlay-rootfs 0: a save clones the rollout copy, and an overlay copy's "
+                         "rootfs is an overlay mount, which can't be snapshotted (docs/TFORK_RESTORE.md)")
+    if SPEC and a.spec_warm:
+        dirs = [str((CWD / d).resolve()) for d in a.spec_warm]
+        reveals = SPEC.warm(dirs)  # traj.jsonl rows: action, a11y_hit, action_timestamp, step_num
+        if BOOK:
+            for t in (p for d in dirs for p in glob.glob(f"{d}/**/*__g*/traj.jsonl", recursive=True)):
+                for s in (json.loads(l) for l in open(t) if l.strip()):
+                    if "action" in s:
+                        act = json.loads(s["action"])
+                        BOOK.remember(action_key(act, s.get("a11y_hit")), act, s.get("a11y_hit"))
+        log("spec_warm", dirs=dirs, reveals=reveals, book_keys=len(BOOK.acts) if BOOK else 0)
     if a.sync_groups:
         FORKED, DONE = Gate(n), Gate(n)
     (OUT / "config.json").write_text(json.dumps(vars(a), indent=1))
