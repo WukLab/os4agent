@@ -1,0 +1,9 @@
+# wa-shop-orig-browser (shopping site + Chromium 102, logs emptied) with Chromium 142 as the agent's browser: forked
+# Chromium 102 renderers crash on their next navigation (NOTES.md), 142 survives (test_fork.py --chrome-bundle).
+# The bundle only adds /opt/chr (its own libraries and musl loader); the image's Alpine 3.16 packages are untouched and
+# Chromium 102 stays installed, unused. Built by setup/build_image_chr142.sh, which puts the bundle tar in the context.
+FROM wa-shop-orig-browser:latest
+ADD chr-142.0.7444.59.tar /
+COPY chromium142.ini /etc/supervisor.d/chromium.ini
+RUN /opt/chr/chromium/chromium --version && /opt/chr/bin/socat -V | head -2
+EXPOSE 9222

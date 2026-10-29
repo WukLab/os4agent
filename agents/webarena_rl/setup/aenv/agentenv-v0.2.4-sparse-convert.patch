@@ -1,0 +1,17 @@
+diff --git a/storage/overlaybd/src/tools/oci.rs b/storage/overlaybd/src/tools/oci.rs
+index ed17a7e..ede8f48 100644
+--- a/storage/overlaybd/src/tools/oci.rs
++++ b/storage/overlaybd/src/tools/oci.rs
+@@ -105,7 +105,11 @@ impl OverlaybdTools {
+     ) -> Result<StepSummary, ToolExecutionError> {
+         self.ensure_binary_exists(&self.create_bin)?;
+         let mut cmd = self.base_command(&self.create_bin, work_dir);
+-        cmd.arg(&req.data_file)
++        // wuklab patch: a sparse RW layer (-s) for the conversion. The default log-structured layer appends every
++        // block rewrite, so unpacking a large image (WebArena: one ~111 GB layer, many small files) grew it past
++        // 142 GB before the commit, which writes a second copy. Only the conversion creates layers here.
++        cmd.arg("-s")
++            .arg(&req.data_file)
+             .arg(&req.index_file)
+             .arg(req.virtual_size_gib.to_string());
+         run(cmd).await
