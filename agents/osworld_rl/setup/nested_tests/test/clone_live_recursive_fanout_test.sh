@@ -44,7 +44,7 @@ clone() {   # <src> <gen> -> ids on stdout
     sudo "$PODMAN" exec "$src" sh -c "touch /GEN$((gen - 1))MARK" 2>/dev/null
     if ! sudo "$PODMAN" container clone --live --copies="$COPIES" --persistent=async --name "$PREFIX-g$gen-${src:0:6}" "$src" >"$out" 2>&1; then
         { echo "FAIL: gen-$gen clone of ${src:0:12} (see $out)"
-          grep -m3 "Error" "$(grep -o '/mnt/btrfs/[^ "]*crun-tfork.log' "$out" | head -1)" 2>/dev/null; } >&2
+          grep -m3 "Error" "$(grep -o '/mnt/ssd3/[^ "]*crun-tfork.log' "$out" | head -1)" 2>/dev/null; } >&2
         echo x >> "$FAILF"; return
     fi
     grep -E '^[0-9a-f]{64}$' "$out"

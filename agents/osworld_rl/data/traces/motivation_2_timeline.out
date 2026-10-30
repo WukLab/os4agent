@@ -1,0 +1,6 @@
+08:47:29 tfork -> traces/motivation_2_timeline/tfork_live
+08:58:57 LIVE DONE
+08:58:57 criu -> traces/motivation_2_timeline/criu_replay
+09:17:01 aenv -> traces/motivation_2_timeline/aenv_replay
+/mnt/ssd2/vikranth/osworld/traces/run_motivation2.sh: line 21: syntax error near unexpected token `done'
+/mnt/ssd2/vikranth/osworld/traces/run_motivation2.sh: line 21: `done'

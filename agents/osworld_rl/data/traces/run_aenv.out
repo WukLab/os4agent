@@ -1,0 +1,6 @@
+record done 13:55:03
+{"t": 1793368489.1963115, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 6, "k": 4, "secs": 0.58}
+{"t": 1793368489.259306, "event": "group_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 6, "rewards": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mean": 0.0, "containers": {"osw-rec128e2-shot-t6": {"rss_mib": 1594.6, "pss_mib": 888.0, "pss_anon_mib": 570.9, "pss_file_mib": 303.7, "pss_shmem_mib": 13.4, "nprocs": 25, "cg_mib": 1301.7, "cg_ws_mib": 1246.6, "cg_anon_mib": 570.9, "cg_file_
+{"t": 1793368489.896739, "event": "run_done", "aborted": false}
+aenv rc=0 14:16:25
+rc=done

@@ -57,7 +57,7 @@ cleanup_state() {
     # umount pass leaves nested mounts behind).
     for _retry in 1 2 3 4 5 6 7 8; do
         local _mounts
-        _mounts=$(awk '$3=="overlay" && index($2,"/mnt/btrfs/podman/storage/tfork-bundles/")==1 {print $2}' /proc/mounts)
+        _mounts=$(awk '$3=="overlay" && index($2,"/mnt/ssd3/podman/storage/tfork-bundles/")==1 {print $2}' /proc/mounts)
         [ -z "$_mounts" ] && break
         while read -r m; do
             [ -n "$m" ] && sudo umount -l "$m" 2>/dev/null
@@ -65,7 +65,7 @@ cleanup_state() {
     done
     # Now safe to delete subvols (frozen snap-* are RO so order matters:
     # try non-RO first, then RO last after marking writable)
-    sudo find /mnt/btrfs/podman/storage/tfork-bundles -mindepth 2 \
+    sudo find /mnt/ssd3/podman/storage/tfork-bundles -mindepth 2 \
         \( -name "upper*" -o -name "parent-upper-frozen" -o -name "snap-i*" \) \
         2>/dev/null \
         | while read s; do
@@ -76,7 +76,7 @@ cleanup_state() {
                 sudo btrfs subvolume delete "$s" 2>/dev/null
             fi
           done
-    sudo find /mnt/btrfs/podman/storage/tfork-bundles -mindepth 2 \
+    sudo find /mnt/ssd3/podman/storage/tfork-bundles -mindepth 2 \
         \( -name "rootfs*" -o -name "snap-ro" -o -name "snap" -o -name "snap-*" \) \
         2>/dev/null \
         | while read s; do
@@ -87,7 +87,7 @@ cleanup_state() {
                 sudo btrfs subvolume delete "$s" 2>/dev/null
             fi
           done
-    sudo rm -rf /mnt/btrfs/podman/storage/tfork-bundles 2>/dev/null
+    sudo rm -rf /mnt/ssd3/podman/storage/tfork-bundles 2>/dev/null
     sudo find /run/crun -maxdepth 1 -mindepth 1 -type d -exec rm -rf {} + 2>/dev/null
     set -e
 }
@@ -97,12 +97,12 @@ bundle_for_name() {
 }
 
 subvol_count_tfork() {
-    sudo btrfs subvolume list /mnt/btrfs 2>/dev/null \
+    sudo btrfs subvolume list /mnt/ssd3 2>/dev/null \
         | grep -c tfork-bundles || true
 }
 
 tfork_bundles_du() {
-    sudo du -sb /mnt/btrfs/podman/storage/tfork-bundles 2>/dev/null \
+    sudo du -sb /mnt/ssd3/podman/storage/tfork-bundles 2>/dev/null \
         | awk '{print $1}' || echo 0
 }
 
@@ -124,7 +124,7 @@ echo "=== chain stress: depth=$DEPTH ===" | tee -a "$REPORT"
 echo "--- 0. baseline ---" | tee -a "$REPORT"
 BASE_SUBVOLS=$(subvol_count_tfork)
 BASE_DU=$(tfork_bundles_du)
-DF_BEFORE=$(df -h /mnt/btrfs | tail -1)
+DF_BEFORE=$(df -h /mnt/ssd3 | tail -1)
 echo "    base subvols(tfork-bundles)=$BASE_SUBVOLS  du=${BASE_DU}B  df: $DF_BEFORE" | tee -a "$REPORT"
 
 echo
@@ -152,7 +152,7 @@ for i in $(seq 1 $DEPTH); do
         echo "---- last 60 lines of $LOG ----" | tee -a "$REPORT"
         tail -60 "$LOG" | tee -a "$REPORT"
         echo "---- df ----" | tee -a "$REPORT"
-        df -h /mnt/btrfs | tee -a "$REPORT"
+        df -h /mnt/ssd3 | tee -a "$REPORT"
         echo "FAILED_AT_GEN=$i" | tee -a "$REPORT"
         exit 2
     fi
@@ -248,7 +248,7 @@ echo "    all $DEPTH markers inherited: OK (collapse-via-reflink across full cha
 MOUNTS_NOW=$(awk '/\/mnt\/btrfs\/.*tfork-bundles.*overlay/' /proc/mounts | wc -l)
 echo "    overlay mounts on tfork-bundles: $MOUNTS_NOW" | tee -a "$REPORT"
 
-DF_AFTER=$(df -h /mnt/btrfs | tail -1)
+DF_AFTER=$(df -h /mnt/ssd3 | tail -1)
 END_SUBVOLS=$(subvol_count_tfork)
 END_DU=$(tfork_bundles_du)
 echo "    df after: $DF_AFTER" | tee -a "$REPORT"

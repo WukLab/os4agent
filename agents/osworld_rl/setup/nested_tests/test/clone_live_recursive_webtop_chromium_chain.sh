@@ -15,13 +15,13 @@
 #                    └─ gen-4 wt-c-g4
 #                         └─ gen-5 wt-c-g5
 #
-# Bundles under /mnt/btrfs/podman/storage/tfork-bundles/ are
+# Bundles under /mnt/ssd3/podman/storage/tfork-bundles/ are
 # preserved after the run so each rung's tfork.log /
 # tfork-restore.log can be inspected. Driver-side clone outputs go
 # under $LOG_DIR.
 #
 # Prereqs:
-#   - btrfs storage at /mnt/btrfs/podman/storage
+#   - btrfs storage at /mnt/ssd3/podman/storage
 #   - kernel.io_uring_disabled=2  fs.nr_open=1048576
 #   - in-tree podman/crun/criu/conmon binaries built
 #   - localhost/ubuntu-webtop:test image present (or override IMAGE=)
@@ -56,10 +56,10 @@ cleanup_state() {
     sudo pkill -9 -f "crun.*tfork"          2>/dev/null
     sudo pkill -9 -f "criu.*restore --tfork" 2>/dev/null
     sleep 1
-    sudo rm -rf /mnt/btrfs/podman/storage/tfork-bundles/* 2>/dev/null
-    sudo btrfs subvolume list /mnt/btrfs/podman/storage 2>/dev/null \
+    sudo rm -rf /mnt/ssd3/podman/storage/tfork-bundles/* 2>/dev/null
+    sudo btrfs subvolume list /mnt/ssd3/podman/storage 2>/dev/null \
         | awk '/tfork-bundles/ {print $2}' | while read -r id; do
-            sudo btrfs subvolume delete --subvolid="$id" /mnt/btrfs >/dev/null 2>&1
+            sudo btrfs subvolume delete --subvolid="$id" /mnt/ssd3 >/dev/null 2>&1
         done
     set -e
 }
@@ -195,7 +195,7 @@ dump_failure_artefacts() {
     log "  --- tail $LOG_DIR/clone-$dst.log ---"
     tail -60 "$LOG_DIR/clone-$dst.log" 2>/dev/null | sed 's/^/    /' || true
     log "  --- search bundles for tfork.log / tfork-restore.log ---"
-    find /mnt/btrfs/podman/storage/tfork-bundles -maxdepth 4 \
+    find /mnt/ssd3/podman/storage/tfork-bundles -maxdepth 4 \
         \( -name 'tfork.log' -o -name 'tfork-restore.log' \) 2>/dev/null \
         > "$LOG_DIR/bundle-logs-$dst.list" || true
     sed 's/^/    /' "$LOG_DIR/bundle-logs-$dst.list" || true
@@ -251,6 +251,6 @@ sudo "$PODMAN" ps --filter name="${NAME_PREFIX}-" \
     --format '  {{.Names}}  state={{.Status}}  ports={{.Ports}}'
 log ""
 log "  driver logs   : $LOG_DIR/"
-log "  bundle logs   : /mnt/btrfs/podman/storage/tfork-bundles/"
+log "  bundle logs   : /mnt/ssd3/podman/storage/tfork-bundles/"
 log "  src ps snapshot: $LOG_DIR/src-ps-pre-clone.log"
 log "=== PASS ==="

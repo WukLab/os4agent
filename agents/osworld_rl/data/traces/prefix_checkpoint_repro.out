@@ -1,0 +1,22 @@
+source container id: bb0715a2f3e623315c0b2bb3ea067723fa652e6f9d29ed6d670fd269c46e9c3f
+tfork copy id:       e5b35dbd026cd16010e66a111ca7ec5417ec1d364216546d4743fb20deffc975
+
+== podman checkpoint on the tfork copy (what the prefix cache ran):
+$ podman container checkpoint --leave-running --tcp-established --compress=none --export=/tmp/repro.tar <copy>
+   Error: template configuration at /mnt/ssd3/podman/storage/libpod/containers/e5b35dbd026cd16010e66a111ca7ec5417ec1d364216546d4743fb20deffc975/userdata/config.json not found
+   exit code: 125
+
+== what podman keeps for each container (libpod/containers/<id>/userdata):
+  source: ls: cannot access '/mnt/ssd3/podman/storage/libpod/containers/bb0715a2f3e623315c0b2bb3ea067723fa652e6f9d29ed6d670fd269c46e9c3f/userdata': No such file or directory 
+  copy: config.dump secrets 
+
+== podman's view of the copy:
+   state=running pid=147668 oci-runtime=crun bundle=map[io.podman.annotations.label:disable io.podman.annotations.seccomp:unconfined io.podman.tfork.batch-id:f1a1a12b67052e8338650de19dff5d4a657357422ebb8eb44411b8a228ec84bc io.podman.tfork.clone-id:e5b35dbd026cd16010e66a111ca7ec5417ec1d364216546d4743fb20deffc975 io.podman.tfork.copy-index:0 io.podman.tfork.source-id:bb0715a2f3e623315c0b2bb3ea067723fa6
+   its tfork bundle: /mnt/ssd3/podman/storage/tfork-bundles/f1a1a12b67052e8338650de19dff5d4a657357422ebb8eb44411b8a228ec84bc/ (config.json crun-tfork.log img rootfs snap snap-ro upper work )
+
+== the same checkpoint on the source (a normal podman container), for comparison:
+   could not find symbol `criu_set_tfork_full_memcopy` in `libcriu.so`
+   Error: `/mnt/ssd2/os4agent/crun/crun checkpoint --image-path /mnt/ssd3/podman/storage/btrfs-containers/bb0715a2f3e623315c0b2bb3ea067723fa652e6f9d29ed6d670fd269c46e9c3f/userdata/checkpoint --work-path /mnt/ssd3/podman/storage/btrfs-containers/bb0715a2f3e623315c0b2bb3ea067723fa652e6f9d29ed6d670fd269c46e9c3f/userdata --leave-running --tcp-established --leave-running bb0715a2f3e623315c0b2bb3ea067723fa652e6f9d29ed6d670fd269c46e9c3f` failed: exit status 1
+   exit code: 125, archive: 
+
+cleaned up

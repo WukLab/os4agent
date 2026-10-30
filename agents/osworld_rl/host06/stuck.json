@@ -1,0 +1,15 @@
+{
+ "libreoffice_writer": [
+  "d53ff5ee-3b1a-431e-b2be-30ed2673079b",
+  "e246f6d8-78d7-44ac-b668-fcf47946cb50"
+ ],
+ "libreoffice_calc": [
+  "1273e544-688f-496b-8d89-3e0f40aa0606",
+  "1954cced-e748-45c4-9c26-9855b97fbc5e",
+  "42e0a640-4f19-4b28-973d-729602b5a4a7"
+ ],
+ "libreoffice_impress": [
+  "39be0d19-634d-4475-8768-09c130f5425d",
+  "5d901039-a89c-4bfb-967b-bf66f4df075e"
+ ]
+}

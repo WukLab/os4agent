@@ -1,0 +1,11 @@
+{
+  "defaultAction": "SCMP_ACT_ALLOW",
+  "syscalls": [
+    {
+      "names": ["pkey_alloc"],
+      "action": "SCMP_ACT_ERRNO",
+      "errnoRet": 28,
+      "comment": "ENOSPC = no free protection keys, as on a CPU without PKU. Chromium/V8 then never tag memory with pkeys; stock CRIU does not restore pkeys, and restored renderers crash (SIGTRAP) when they use them."
+    }
+  ]
+}

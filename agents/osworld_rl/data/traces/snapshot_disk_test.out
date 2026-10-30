@@ -1,0 +1,26 @@
+desktop started; letting it settle 60 s
+source desktop: memory.current 0.90 GiB, anon 0.39 GiB
+rootfs image size: 6.03 GiB
+
+### ckpt clone: rc=0, 3.0 s, free space dropped by 0.41 GiB
+== ckpt bundle: /mnt/ssd3/podman/storage/tfork-bundles/6b458b9ef8179e480eedc799c47407a79fcd94f6de3a4541d83e0464c9ee3416
+   img: total 0.41 GiB, exclusive 0.41 GiB, shared with other files 0.00 GiB
+   snap-ro: total 5.46 GiB, exclusive 0.00 GiB, shared with other files 5.46 GiB
+   whole bundle: 0.41 GiB outside the rootfs
+
+### overlay clone: rc=0, 24.0 s, free space dropped by 0.41 GiB
+== overlay bundle: /mnt/ssd3/podman/storage/tfork-bundles/72aed726b00d4f9a6704831ab36dc8b5ac32bac366e7adfcc0e46ae7a565df55
+   img: total 0.41 GiB, exclusive 0.41 GiB, shared with other files 0.00 GiB
+   snap-ro: total 5.46 GiB, exclusive 0.00 GiB, shared with other files 5.46 GiB
+   upper-0: 0.0 MiB
+   upper-1: 0.0 MiB
+   upper-2: 0.0 MiB
+   upper-3: 0.0 MiB
+   upper-4: 0.0 MiB
+   upper-5: 0.0 MiB
+   upper-6: 0.0 MiB
+   upper-7: 0.0 MiB
+   whole bundle: 0.41 GiB outside the rootfs
+
+cleaning up
+done; free space now 438.72 GiB

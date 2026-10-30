@@ -1,0 +1,6 @@
+grpo_think_reg/adapters/e6_shot
+grpo_think_reg/adapters/e3_shot
+grpo_think_reg/adapters/e1
+grpo_think_reg/adapters/e4_shot
+grpo_think_reg/adapters/e5_shot
+grpo_think_reg/adapters/e2

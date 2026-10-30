@@ -1,0 +1,10 @@
+epoch 4 recorded, training pol6s on the 2-GPU pod 17:45:37
+  warnings.warn(  # warn only once
+/root/venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+saved /root/adapters/e6_shot in 595s
+[rank0]:[W1030 17:58:43.204895687 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+== merge 17:58:45
+merged /root/adapters/e6_shot into Qwen/Qwen3-VL-8B-Thinking -> /root/merged/e6_shot in 26s
+== done 17:59:17
+pol6s pushed 18:00:07

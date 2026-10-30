@@ -1,5 +1,5 @@
 #!/bin/bash
 # podman for the ported nested-fork tests: WukLab-main binaries via podman-tfork.sh, pinned to the btrfs store + fixed containers.conf
 # (env is set here because the tests call `sudo $PODMAN`, which drops the caller environment). Failed clone bundles are kept.
-export PODMAN_TFORK_NO_REAP=1 CONTAINERS_STORAGE_CONF=/mnt/btrfs/podman/storage.conf CONTAINERS_CONF=/mnt/ssd2/vikranth/osworld/containers-os4agent.conf
+export PODMAN_TFORK_NO_REAP=1 CONTAINERS_STORAGE_CONF=/mnt/ssd3/podman/storage.conf CONTAINERS_CONF=/mnt/ssd2/vikranth/osworld/containers-os4agent.conf
 exec /mnt/ssd2/os4agent/podman-tfork.sh "$@"

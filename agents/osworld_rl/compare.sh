@@ -12,7 +12,7 @@ SYSTEMS=(); while [ $# -gt 0 ] && [ "$1" != "--" ]; do SYSTEMS+=("$1"); shift; d
 
 # host paths: override to match osw_run.py's --os4agent / --storage-conf / --aenv-key
 OS4AGENT=${OS4AGENT:-/mnt/ssd2/os4agent}
-STORAGE_CONF=${STORAGE_CONF:-/mnt/btrfs/podman/storage.conf}
+STORAGE_CONF=${STORAGE_CONF:-/mnt/ssd3/podman/storage.conf}
 AENV_KEY=${AENV_KEY:-/mnt/ssd2/aenv/env/secrets/api-key}
 P="sudo env PODMAN_TFORK_SKIP_SYSCTL=1 CONTAINERS_STORAGE_CONF=$STORAGE_CONF CONTAINERS_CONF=$PWD/containers-os4agent.conf $OS4AGENT/podman-tfork.sh"
 KEY=$(sudo cat "$AENV_KEY" 2>/dev/null)

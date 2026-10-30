@@ -1,0 +1,20 @@
+pol5s training (started by run_e45c.sh) 17:11:05
+saved /root/adapters/grpo_think_reg/e5_shot in 1061s
+== merge 17:21:52
+merged /root/adapters/grpo_think_reg/e5_shot into Qwen/Qwen3-VL-8B-Thinking -> /root/merged/grpo_think_reg/e5_shot in 22s
+== serve 17:22:17
+serving grpo_think_reg-pol5s from /root/merged/grpo_think_reg/e5_shot (GPU_UTIL=0.9 LORA=0 IMAGES=1): GPU KV cache size: 349,776 tokens
+== done 17:22:52
+merged /root/adapters/e5_shot into Qwen/Qwen3-VL-8B-Thinking -> /root/merged/e5_shot in 29s
+SERVING grpo_think_reg-pol5s on 2 GPUs
+serving grpo_think_reg-pol5s on the 2-GPU pod 17:25:03
+record traces/rec128e4_shot with grpo_think_reg-pol5s start 17:25:03
+record traces/rec128e4_shot rc=0 17:45:33
+train train_e6_shot.sh on traces/rec128e4_shot start 17:45:33
+pol6s trained on the 2-GPU pod, adapter pushed here
+== done 18:00:09
+SERVING grpo_think_reg-pol6s on 2 GPUs
+serving grpo_think_reg-pol6s on the 2-GPU pod 18:01:34
+record traces/rec128e5_shot with grpo_think_reg-pol6s start 18:01:34
+record traces/rec128e5_shot rc=0 18:21:05
+rc=done

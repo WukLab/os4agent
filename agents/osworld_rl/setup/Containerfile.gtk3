@@ -1,0 +1,5 @@
+# OSWorld KDE desktop + LibreOffice GTK3 VCL backend (as on the OSWorld GNOME VM). With the default qt5 backend the Calc
+# document's a11y role is "document frame", not "document spreadsheet", so the OSWorld a11y server misses its Calc branch.
+# Build: $P build -t localhost/webtop:ubuntu-kde-osworld-gtk3 -f Containerfile.gtk3 .   (desk_osw.sh sets SAL_USE_VCLPLUGIN=gtk3)
+FROM ghcr.io/wuklab/webtop:ubuntu-kde-osworld
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libreoffice-gtk3 && rm -rf /var/lib/apt/lists/*

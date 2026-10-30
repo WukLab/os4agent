@@ -1,0 +1,14 @@
+chrome            budget 1024: out   389 tok    4.7 s          finish=stop  Action: {"action": "click", "id": 81}
+libreoffice_calc  budget 1024: out  1167 tok   14.1 s (forced) finish=stop  Action: {"action": "click", "id": 25}
+N=  8 chrome            time median   6.0 s p90   6.4 s | out median   452 tok | 75.1 tok/s per request | actions 4/4
+N=  8 libreoffice_calc  time median  15.0 s p90  15.0 s | out median  1150 tok | 76.9 tok/s per request | actions 4/4
+N=  8 total    435 tok/s over 15 s
+N= 32 chrome            time median   7.9 s p90  13.0 s | out median   474 tok | 58.8 tok/s per request | actions 15/16
+N= 32 libreoffice_calc  time median  18.4 s p90  18.7 s | out median  1140 tok | 61.7 tok/s per request | actions 16/16
+N= 32 total   1412 tok/s over 19 s
+N= 64 chrome            time median   9.3 s p90  12.4 s | out median   452 tok | 48.2 tok/s per request | actions 32/32
+N= 64 libreoffice_calc  time median  21.2 s p90  21.6 s | out median  1146 tok | 53.8 tok/s per request | actions 32/32
+N= 64 total   2359 tok/s over 22 s
+N=128 chrome            time median  12.7 s p90  16.4 s | out median   438 tok | 34.8 tok/s per request | actions 64/64
+N=128 libreoffice_calc  time median  29.5 s p90  29.9 s | out median  1142 tok | 38.8 tok/s per request | actions 63/64
+N=128 total   3237 tok/s over 32 s

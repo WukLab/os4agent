@@ -1,0 +1,22 @@
+{"t": 1793377490.226622, "event": "host_mode", "system": "tfork", "io_uring_disabled": 2, "aenv_server": false}
+{"t": 1793377490.3401272, "event": "spec_warm", "dirs": ["/mnt/ssd2/vikranth/osworld/traces/rec128_shot"], "reveals": 1913, "book": 339}
+{"t": 1793377494.4196754, "event": "screen_warm", "dirs": ["/mnt/ssd2/vikranth/osworld/traces/cap30_shot", "/mnt/ssd2/vikranth/osworld/traces/diff15_shot", "/mnt/ssd2/vikranth/osworld/traces/fix16_shot", "/mnt/ssd2/vikranth/osworld/traces/incA_shot", "/mnt/ssd2/vikranth/osworld/traces/lo3_shot", "/mnt/ssd2/vikranth/osworld/traces/rec128_shot", "/mnt/ssd2/vikranth/osworld/traces/rec30_shot", "/mnt/ssd2/vikranth/osworld/traces/shot6_shot", "/mnt/ssd2/vikranth/osworld/traces/shot6v2_shot", "/mnt/ssd2/vikranth/osworld/traces/shot6v3_shot", "/mnt/ssd2/vikranth/osworld/traces/shot6v4_shot", "/mnt/ssd2/vikranth/osworld/traces/stop15_shot", "/mnt/ssd2/vikranth/osworld/traces/stuck_shot", "/mnt/ssd2/vikranth/osworld/traces/vlc1_shot"], "entries": 4940}
+{"t": 1793377494.4307454, "event": "run_start", "system": "tfork", "spec": "tage", "tasks": 16, "rollouts": 8, "host_baseline": {"used_mib": 13508, "avail_mib": 239541, "used_delta_mib": 159, "anon_mib": 1738, "shmem_mib": 124, "cached_mib": 48532}}
+{"t": 1793377523.6102297, "event": "boot", "task": "e246f6d8-78d7-44ac-b668-fcf47946cb50", "secs": 29.2, "ready_s": 5.2}
+{"t": 1793377524.141761, "event": "boot", "task": "357ef137-7eeb-4c80-a3bb-0951f26a8aff", "secs": 29.7, "ready_s": 6.2}
+{"t": 1793377524.306929, "event": "boot", "task": "d53ff5ee-3b1a-431e-b2be-30ed2673079b", "secs": 29.9, "ready_s": 6.3}
+{"t": 1793377524.4850245, "event": "boot", "task": "4188d3a4-077d-46b7-9c86-23e1a036f6c1", "secs": 30.1, "ready_s": 5.3}
+{"t": 1793377524.5783179, "event": "boot", "task": "1273e544-688f-496b-8d89-3e0f40aa0606", "secs": 30.1, "ready_s": 6.3}
+{"t": 1793377524.862581, "event": "boot", "task": "3ef2b351-8a84-4ff2-8724-d86eae9b842e", "secs": 30.4, "ready_s": 5.3}
+{"t": 1793377524.9484215, "event": "boot", "task": "b4f95342-463e-4179-8c3f-193cd7241fb2", "secs": 30.5, "ready_s": 5.2}
+{"t": 1793377524.9838464, "event": "boot", "task": "1954cced-e748-45c4-9c26-9855b97fbc5e", "secs": 30.6, "ready_s": 5.3}
+{"t": 1793377525.257626, "event": "boot", "task": "030eeff7-b492-4218-b312-701ec99ee0cc", "secs": 30.8, "ready_s": 6.2}
+{"t": 1793377525.2821598, "event": "boot", "task": "8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89", "secs": 30.8, "ready_s": 5.3}
+{"t": 1793377525.4545753, "event": "boot", "task": "7dbc52a6-11e0-4c9a-a2cb-1e36cfda80d8", "secs": 31.0, "ready_s": 6.3}
+{"t": 1793377525.4820707, "event": "boot", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "secs": 31.0, "ready_s": 6.3}
+{"t": 1793377525.6043613, "event": "boot", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "secs": 31.2, "ready_s": 6.3}
+{"t": 1793377526.464165, "event": "boot", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "secs": 32.0, "ready_s": 7.3}
+{"t": 1793377526.7048721, "event": "boot", "task": "5d901039-a89c-4bfb-967b-bf66f4df075e", "secs": 32.3, "ready_s": 7.3}
+{"t": 1793377526.806655, "event": "boot", "task": "12086550-11c0-466b-b367-1d9e75b3910e", "secs": 32.4, "ready_s": 7.2}
+{"t": 1793377532.4084303, "event": "setup", "task": "030eeff7-b492-4218-b312-701ec99ee0cc", "g": 13, "secs": 7.2}
+{"t": 1793377532.5195584, "event": "mem_before_fork", "task": "030eeff7-b492-4218-b312-701ec99ee0cc", "g": 13, "containers": {"osw-r128e2-PS2-t13": {"rss_mib": 2409.4, "pss_mib": 1087.3, "pss_anon_mib": 618.3, "pss_file_mib": 432.7, "pss_shmem_mib": 36.3, "nprocs": 38, "cg_mib": 1665.9, "cg_ws_mib": 1629.9, "cg_anon_mib": 618.3, "cg_file_mib": 985.8, "cg_shmem_mib": 74.5, "cg_kernel_mib": 57.3, "cg_inactive_file_mib": 36.0, "t": 13}}, "total": {"pss_mib": 1087.3, "pss_anon_mib": 618.3, "pss_file_mib": 432.7, "pss_shmem_mib": 36.3, "rss_mib": 2409.4, "cg_mib": 1665.9, "cg_ws_mib": 1629.9, "cg_anon_mib": 618.3, "cg_file_mib": 985.8, "cg_shmem_mib": 74.5, "cg_kernel_mib": 57.3, "cg_inactive_file_mib": 36.0}, "host": {"used_mib": 25002, "avail_mib": 228047, "used_delta_mib": 11653, "anon_mib": 11508, "shmem_mib": 964, "cached_mib": 60357}}

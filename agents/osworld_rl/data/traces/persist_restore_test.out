@@ -1,0 +1,13 @@
+source alive: http 200
+1. clone (persistent=async): rc=0, 2.1 s, copy 1f85dd3c5915, alive: http 200
+2. async dump done after 0 s: image dir /mnt/ssd3/podman/storage/tfork-bundles/a44c50a259d841ad40ade4efb037f7af3fb2ee686be1e0cf5ef3f14c5abbbba1/img, 429M, disk used so far 0.00 GiB
+3. stop copy: rc=0, 0.2 s, state exited
+   dump still there after stop: 794 files, 429M
+4. restore: rc=125, 0.1 s, state exited
+   Error: a complete checkpoint for this container cannot be found, cannot restore: faccessat /mnt/ssd3/podman/storage/libpod/containers/1f85dd3c5915d278303b44b23607ed3e170c8f30f77881b0014c143057b7f672/userdata/checkpoint/inventory.img: no such file or directory
+   restored copy alive: http 000
+5. restore again after a second stop (can one entry be reused?):
+   rc=125, alive: http 000
+   Error: a complete checkpoint for this container cannot be found, cannot restore: faccessat /mnt/ssd3/podman/storage/libpod/containers/1f85dd3c5915d278303b44b23607ed3e170c8f30f77881b0014c143057b7f672/userdata/checkpoint/inventory.img: no such file or directory
+total disk used by the entry: 0.00 GiB
+cleaned

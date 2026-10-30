@@ -1,0 +1,2 @@
+{"epoch": 0, "run": "osw_criu_e0", "served": "qwen3vl8b", "rollouts": 56, "mean_reward": 0.16071428571428573, "successes": 9, "rollout_secs": 784.8334703445435, "train_secs": 254.7391712665558, "adapter": "/mnt/ssd2/vikranth/osworld/pod_backup/osw_criu/adapters/e1", "trained": 181}
+{"epoch": 1, "run": "osw_criu_e1", "served": "pol1", "rollouts": 72, "mean_reward": 0.125, "successes": 9, "rollout_secs": 829.0369176864624, "train_secs": 210.25371265411377, "adapter": "/mnt/ssd2/vikranth/osworld/pod_backup/osw_criu/adapters/e2", "trained": 90}

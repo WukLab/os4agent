@@ -1,0 +1,13 @@
+04:05:36 traces/motivation_1_peak_memory_basefork/tfork_n8_s1: 1 groups x 8
+04:13:20 traces/motivation_1_peak_memory_basefork/tfork_n16_s1: 2 groups x 8
+04:23:41 traces/motivation_1_peak_memory_basefork/tfork_n32_s1: 4 groups x 8
+04:35:23 traces/motivation_1_peak_memory_basefork/tfork_n64_s1: 8 groups x 8
+04:45:25 traces/motivation_1_peak_memory_basefork/tfork_n128_s1: 16 groups x 8
+04:58:11 traces/motivation_1_peak_memory_basefork/tfork_n256_s1: 32 groups x 8
+05:17:53 traces/motivation_1_peak_memory_basefork/criu_n8_s1: 1 groups x 8
+05:26:16 traces/motivation_1_peak_memory_basefork/criu_n16_s1: 2 groups x 8
+05:37:52 traces/motivation_1_peak_memory_basefork/criu_n32_s1: 4 groups x 8
+05:51:22 traces/motivation_1_peak_memory_basefork/criu_n64_s1: 8 groups x 8
+06:07:12 traces/motivation_1_peak_memory_basefork/criu_n128_s1: 16 groups x 8
+06:27:50 traces/motivation_1_peak_memory_basefork/criu_n256_s1: 32 groups x 8
+07:04:12 sweep done; plot with: python3 scale_plot.py traces/motivation_1_peak_memory_basefork

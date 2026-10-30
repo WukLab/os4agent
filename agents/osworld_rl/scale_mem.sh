@@ -18,7 +18,7 @@ REPLAY_LATENCY=${REPLAY_LATENCY:-0}  # actions back to back; peak memory depends
 REC=${REC:-traces/rec32v2_tfork}
 TASKS=${TASKS:-grpo_batch32v2.json}
 OS4AGENT=${OS4AGENT:-/mnt/ssd2/os4agent}
-STORAGE_CONF=${STORAGE_CONF:-/mnt/btrfs/podman/storage.conf}
+STORAGE_CONF=${STORAGE_CONF:-/mnt/ssd3/podman/storage.conf}
 P="sudo env PODMAN_TFORK_SKIP_SYSCTL=1 CONTAINERS_STORAGE_CONF=$STORAGE_CONF CONTAINERS_CONF=$PWD/containers-os4agent.conf $OS4AGENT/podman-tfork.sh"
 mkdir -p "$OUT"
 cat > "$OUT/sweep.txt" <<END

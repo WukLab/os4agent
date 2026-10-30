@@ -1,0 +1,12 @@
+renderers in source: 4
+group copies: 8
+chain 2 gen 1: FAILED Error: crun tfork exited before 2 clones came up (got 1); see /mnt/ssd3/podman/storage/tfork-bundles/7ee7e799b8519bd82781616ce1fbd338e02a961bdbbc34327
+chain 0 gen 1: FAILED Error: crun tfork exited before 2 clones came up (got 1); see /mnt/ssd3/podman/storage/tfork-bundles/619c3a49383746a620fd227ed0d17dcf1ba5f41f396661217
+chain 7: 10 generations ok
+chain 4: 10 generations ok
+chain 3: 10 generations ok
+chain 6: 10 generations ok
+chain 5: 10 generations ok
+chain 1: 10 generations ok
+debug log size of one good clone: 52842718 bytes
+cr- containers to remove: 69

@@ -43,7 +43,7 @@ cleanup_state() {
     while read -r m; do
         sudo umount "$m" 2>/dev/null
     done < <(awk '/\/mnt\/btrfs\/.*tfork-bundles.*overlay/ {print $5}' /proc/mounts 2>/dev/null)
-    sudo find /mnt/btrfs/podman/storage/tfork-bundles -mindepth 2 \
+    sudo find /mnt/ssd3/podman/storage/tfork-bundles -mindepth 2 \
         \( -name "rootfs*" -o -name "snap-ro" -o -name "upper*" -o -name "snap-*" -o -name "parent-upper-frozen" \) \
         2>/dev/null \
         | while read s; do
@@ -53,7 +53,7 @@ cleanup_state() {
                 sudo btrfs subvolume delete "$s" 2>/dev/null
             fi
           done
-    sudo rm -rf /mnt/btrfs/podman/storage/tfork-bundles
+    sudo rm -rf /mnt/ssd3/podman/storage/tfork-bundles
     set -e
 }
 

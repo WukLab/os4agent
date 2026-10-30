@@ -1,0 +1,7 @@
+03:25:19 traces/motivation_1_peak_memory/tfork_n8_s1: 1 groups x 8
+03:32:37 traces/motivation_1_peak_memory/tfork_n8_s2: 1 groups x 8
+03:42:18 traces/motivation_1_peak_memory/tfork_n16_s1: 2 groups x 8
+03:52:59 traces/motivation_1_peak_memory/tfork_n8_s1 done already
+03:52:59 traces/motivation_1_peak_memory/tfork_n16_s1 done already
+03:52:59 traces/motivation_1_peak_memory/tfork_n32_s1: 4 groups x 8
+04:04:01 traces/motivation_1_peak_memory/tfork_n64_s1: 8 groups x 8

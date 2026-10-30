@@ -1,0 +1,10 @@
+{
+ "libreoffice_calc/4188d3a4-077d-46b7-9c86-23e1a036f6c1": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/4188d3a4-077d-46b7-9c86-23e1a036f6c1/Freeze_row_column2_gold.xlsx",
+ "libreoffice_calc/1273e544-688f-496b-8d89-3e0f40aa0606": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/1273e544-688f-496b-8d89-3e0f40aa0606/3_NetIncome_gt1.xlsx",
+ "libreoffice_calc/1954cced-e748-45c4-9c26-9855b97fbc5e": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/1954cced-e748-45c4-9c26-9855b97fbc5e/8_Invoices_gt1.xlsx",
+ "libreoffice_writer/d53ff5ee-3b1a-431e-b2be-30ed2673079b": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_writer/d53ff5ee-3b1a-431e-b2be-30ed2673079b/presentation_instruction_2023_Feb_Gold.docx",
+ "libreoffice_writer/e246f6d8-78d7-44ac-b668-fcf47946cb50": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_writer/e246f6d8-78d7-44ac-b668-fcf47946cb50/Y22-2119-assign4_Gold.docx",
+ "libreoffice_impress/73c99fb9-f828-43ce-b87a-01dc07faa224": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_impress/73c99fb9-f828-43ce-b87a-01dc07faa224/109_4_Gold.pptx",
+ "libreoffice_impress/39be0d19-634d-4475-8768-09c130f5425d": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_impress/39be0d19-634d-4475-8768-09c130f5425d/41_3_Gold.pptx",
+ "libreoffice_impress/9ec204e4-f0a3-42f8-8458-b772a6797cab": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_impress/9ec204e4-f0a3-42f8-8458-b772a6797cab/MLA_Workshop_061X_Works_Cited_Gold.pptx"
+}

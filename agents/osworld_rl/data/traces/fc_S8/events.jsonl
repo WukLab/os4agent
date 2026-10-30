@@ -1,0 +1,242 @@
+{"t": 1793296140.277806, "event": "host_mode", "system": "tfork", "io_uring_disabled": 2, "aenv_server": false}
+{"t": 1793296140.2786999, "event": "prefix_cleared", "dir": "/mnt/ssd2/vikranth/osworld/pfx_fc8", "aenv_snapshots_left": []}
+{"t": 1793296140.2882552, "event": "run_start", "system": "tfork", "spec": "off", "tasks": 2, "rollouts": 8, "host_baseline": {"used_mib": 9878, "avail_mib": 243172, "used_delta_mib": 0, "anon_mib": 1297, "shmem_mib": 106, "cached_mib": 84413}}
+{"t": 1793296163.6780555, "event": "boot", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "secs": 23.4, "ready_s": 3.1}
+{"t": 1793296163.7055738, "event": "boot", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "secs": 23.4, "ready_s": 3.1}
+{"t": 1793296169.9648588, "event": "setup", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "secs": 6.3}
+{"t": 1793296170.0781448, "event": "mem_before_fork", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "containers": {"osw-fc-S8-t0": {"rss_mib": 2404.1, "pss_mib": 1084.9, "pss_anon_mib": 617.7, "pss_file_mib": 431.2, "pss_shmem_mib": 35.9, "nprocs": 38, "cg_mib": 1671.4, "cg_ws_mib": 1636.7, "cg_anon_mib": 617.7, "cg_file_mib": 986.5, "cg_shmem_mib": 74.2, "cg_kernel_mib": 59.5, "cg_inactive_file_mib": 34.7, "t": 0}}, "total": {"pss_mib": 1084.9, "pss_anon_mib": 617.7, "pss_file_mib": 431.2, "pss_shmem_mib": 35.9, "rss_mib": 2404.1, "cg_mib": 1671.4, "cg_ws_mib": 1636.7, "cg_anon_mib": 617.7, "cg_file_mib": 986.5, "cg_shmem_mib": 74.2, "cg_kernel_mib": 59.5, "cg_inactive_file_mib": 34.7}, "host": {"used_mib": 11415, "avail_mib": 241634, "used_delta_mib": 1537, "anon_mib": 2542, "shmem_mib": 254, "cached_mib": 86386}}
+{"t": 1793296170.1374004, "event": "setup", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "secs": 6.4}
+{"t": 1793296170.2165172, "event": "mem_before_fork", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "containers": {"osw-fc-S8-t1": {"rss_mib": 2403.4, "pss_mib": 1085.8, "pss_anon_mib": 617.4, "pss_file_mib": 432.5, "pss_shmem_mib": 35.9, "nprocs": 38, "cg_mib": 1670.8, "cg_ws_mib": 1636.1, "cg_anon_mib": 617.4, "cg_file_mib": 986.5, "cg_shmem_mib": 74.2, "cg_kernel_mib": 59.6, "cg_inactive_file_mib": 34.7, "t": 1}}, "total": {"pss_mib": 1085.8, "pss_anon_mib": 617.4, "pss_file_mib": 432.5, "pss_shmem_mib": 35.9, "rss_mib": 2403.4, "cg_mib": 1670.8, "cg_ws_mib": 1636.1, "cg_anon_mib": 617.4, "cg_file_mib": 986.5, "cg_shmem_mib": 74.2, "cg_kernel_mib": 59.6, "cg_inactive_file_mib": 34.7}, "host": {"used_mib": 11423, "avail_mib": 241626, "used_delta_mib": 1545, "anon_mib": 2553, "shmem_mib": 254, "cached_mib": 86386}}
+{"t": 1793296181.8042362, "event": "tfork_clone", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "attempt": 0, "ok": true, "secs": 11.5, "why": ""}
+{"t": 1793296181.8202736, "event": "tfork_clone", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "attempt": 0, "ok": true, "secs": 11.381, "why": ""}
+{"t": 1793296188.2301629, "event": "fork", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "system": "tfork", "copies": 8, "secs": 11.96, "containers": {"osw-fc-S8-t1": {"rss_mib": 2391.0, "pss_mib": 552.0, "pss_anon_mib": 88.1, "pss_file_mib": 432.6, "pss_shmem_mib": 31.3, "nprocs": 38, "cg_mib": 2356.2, "cg_ws_mib": 1632.5, "cg_anon_mib": 626.6, "cg_file_mib": 1670.9, "cg_shmem_mib": 69.6, "cg_kernel_mib": 56.9, "cg_inactive_file_mib": 723.7, "t": 1}, "ca8ecaefb27e7abc17fd543bb12f08a65f898112405faf2d38b763d8068435d2": {"rss_mib": 835.5, "pss_mib": 170.5, "pss_anon_mib": 88.1, "pss_file_mib": 80.5, "pss_shmem_mib": 1.8, "nprocs": 38, "cg_mib": 645.5, "cg_ws_mib": 645.4, "cg_anon_mib": 19.8, "cg_file_mib": 500.6, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "6d8f0ef55acfaacd384225486baec7da4120799079a0dafd06bfd7761a2887cc": {"rss_mib": 847.7, "pss_mib": 177.4, "pss_anon_mib": 88.6, "pss_file_mib": 86.9, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 657.7, "cg_ws_mib": 657.7, "cg_anon_mib": 21.4, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "5340f9d50745584d4c04444aae981b1d5df8849b247aa11b59dab9ad981d6fa5": {"rss_mib": 847.1, "pss_mib": 177.5, "pss_anon_mib": 88.5, "pss_file_mib": 87.1, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 659.4, "cg_ws_mib": 659.4, "cg_anon_mib": 23.0, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "2115205f699c36e3f85c449007a28aa7962581bdf570980d89c165d4eb73a1f0": {"rss_mib": 847.3, "pss_mib": 177.9, "pss_anon_mib": 89.0, "pss_file_mib": 87.0, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 658.7, "cg_ws_mib": 658.7, "cg_anon_mib": 23.0, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "35c0d2622ca8b113d2fa072c005bcb1d5207d750f726d3ec20e3c5e9c1c97e36": {"rss_mib": 846.9, "pss_mib": 177.3, "pss_anon_mib": 88.5, "pss_file_mib": 86.9, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 656.8, "cg_ws_mib": 656.8, "cg_anon_mib": 20.5, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "ed187345eefa89549f72c4b49da1bbeea90e8ceab538ff5d4c930fad8954d952": {"rss_mib": 849.8, "pss_mib": 177.6, "pss_anon_mib": 88.7, "pss_file_mib": 87.1, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 659.5, "cg_ws_mib": 659.4, "cg_anon_mib": 23.0, "cg_file_mib": 510.3, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "f4cb8ab30391d32572b31fbbcd7fcd5b106765043c8b4afce09501ee3796e9fa": {"rss_mib": 847.1, "pss_mib": 177.2, "pss_anon_mib": 88.5, "pss_file_mib": 86.8, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 654.4, "cg_ws_mib": 654.4, "cg_anon_mib": 18.6, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}, "895af3a6f36765b318ea00cfbc272245c27c5c4f5d1d216b0cf7eb6708ff91a4": {"rss_mib": 847.6, "pss_mib": 177.4, "pss_anon_mib": 88.5, "pss_file_mib": 87.0, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 657.3, "cg_ws_mib": 657.3, "cg_anon_mib": 20.5, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 1}}, "total": {"pss_mib": 1964.8, "pss_anon_mib": 796.5, "pss_file_mib": 1121.9, "pss_shmem_mib": 46.4, "rss_mib": 9160.0, "cg_mib": 7605.5, "cg_ws_mib": 6881.6, "cg_anon_mib": 796.4, "cg_file_mib": 5744.2, "cg_shmem_mib": 634.4, "cg_kernel_mib": 1036.1, "cg_inactive_file_mib": 723.7}, "host": {"used_mib": 15815, "avail_mib": 237234, "used_delta_mib": 5937, "anon_mib": 3142, "shmem_mib": 1379, "cached_mib": 96022}}
+{"t": 1793296188.2867067, "event": "fork", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "system": "tfork", "copies": 8, "secs": 12.07, "containers": {"osw-fc-S8-t0": {"rss_mib": 2391.7, "pss_mib": 551.4, "pss_anon_mib": 88.7, "pss_file_mib": 431.3, "pss_shmem_mib": 31.3, "nprocs": 38, "cg_mib": 2358.0, "cg_ws_mib": 1633.9, "cg_anon_mib": 628.5, "cg_file_mib": 1671.3, "cg_shmem_mib": 69.6, "cg_kernel_mib": 56.9, "cg_inactive_file_mib": 724.1, "t": 0}, "d934c684827073693393dee3a3486fc5afaed74051f18f12a1df46f6234e3758": {"rss_mib": 835.7, "pss_mib": 171.5, "pss_anon_mib": 88.8, "pss_file_mib": 80.8, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 648.9, "cg_ws_mib": 648.9, "cg_anon_mib": 22.7, "cg_file_mib": 500.9, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "c33381725663ed31a47465f5959b0dd38c4de9756843bc4bce20001b7cf02d98": {"rss_mib": 848.2, "pss_mib": 178.6, "pss_anon_mib": 89.3, "pss_file_mib": 87.3, "pss_shmem_mib": 2.0, "nprocs": 38, "cg_mib": 660.5, "cg_ws_mib": 660.5, "cg_anon_mib": 23.1, "cg_file_mib": 512.8, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "ceb22ad5dcb11b0ebbf37394cf506f25921a444441b7ceead0dae1105de4f508": {"rss_mib": 849.8, "pss_mib": 178.8, "pss_anon_mib": 89.3, "pss_file_mib": 87.5, "pss_shmem_mib": 2.0, "nprocs": 38, "cg_mib": 658.8, "cg_ws_mib": 658.8, "cg_anon_mib": 23.5, "cg_file_mib": 510.8, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "47074add1788182c6d8e51923c3ba6cab5230f2ddd6ed1a0aa577d835ba586b0": {"rss_mib": 848.3, "pss_mib": 178.8, "pss_anon_mib": 89.3, "pss_file_mib": 87.4, "pss_shmem_mib": 2.1, "nprocs": 38, "cg_mib": 658.1, "cg_ws_mib": 658.1, "cg_anon_mib": 21.9, "cg_file_mib": 511.1, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "4aaca9f21e19a616812453d7d501ab68bd71a14d3bcabbb65a37a6e6d04156ca": {"rss_mib": 851.2, "pss_mib": 179.3, "pss_anon_mib": 89.6, "pss_file_mib": 87.7, "pss_shmem_mib": 2.0, "nprocs": 38, "cg_mib": 660.7, "cg_ws_mib": 660.7, "cg_anon_mib": 23.9, "cg_file_mib": 510.3, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "67b5b6cc3bf91a375d6a6492882a673bc410a97006b79454f2e4f333c86db30a": {"rss_mib": 849.1, "pss_mib": 179.2, "pss_anon_mib": 89.5, "pss_file_mib": 87.6, "pss_shmem_mib": 2.1, "nprocs": 38, "cg_mib": 656.3, "cg_ws_mib": 656.2, "cg_anon_mib": 20.0, "cg_file_mib": 510.4, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "42b1a4338a291b95537d8c96046bd0694a127e69f59499521fab7351a97ac09c": {"rss_mib": 849.1, "pss_mib": 178.9, "pss_anon_mib": 89.3, "pss_file_mib": 87.5, "pss_shmem_mib": 2.1, "nprocs": 38, "cg_mib": 659.7, "cg_ws_mib": 659.7, "cg_anon_mib": 23.6, "cg_file_mib": 510.8, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}, "414ed31d53fff8c02e296f291e3f4e3eaf0ee7451202b1f4b15b83e63db17421": {"rss_mib": 849.3, "pss_mib": 178.8, "pss_anon_mib": 89.3, "pss_file_mib": 87.6, "pss_shmem_mib": 1.9, "nprocs": 38, "cg_mib": 651.9, "cg_ws_mib": 651.9, "cg_anon_mib": 15.8, "cg_file_mib": 511.0, "cg_shmem_mib": 70.6, "cg_kernel_mib": 122.4, "cg_inactive_file_mib": 0.0, "t": 0}}, "total": {"pss_mib": 1975.3, "pss_anon_mib": 803.1, "pss_file_mib": 1124.7, "pss_shmem_mib": 47.4, "rss_mib": 9172.4, "cg_mib": 7612.9, "cg_ws_mib": 6888.7, "cg_anon_mib": 803.0, "cg_file_mib": 5749.4, "cg_shmem_mib": 634.4, "cg_kernel_mib": 1036.1, "cg_inactive_file_mib": 724.1}, "host": {"used_mib": 15815, "avail_mib": 237234, "used_delta_mib": 5937, "anon_mib": 3142, "shmem_mib": 1379, "cached_mib": 96022}}
+{"t": 1793296203.6653585, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 8.941, "why": ""}
+{"t": 1793296204.0424676, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 8.35, "why": ""}
+{"t": 1793296204.1356592, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 1, "secs": 9.64, "blocked_s": 9.17}
+{"t": 1793296204.1832664, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 8.073, "why": ""}
+{"t": 1793296204.525708, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 8.527, "why": ""}
+{"t": 1793296205.272414, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 1, "secs": 10.0, "blocked_s": 8.77}
+{"t": 1793296205.9815598, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 1, "secs": 10.42, "blocked_s": 8.62}
+{"t": 1793296206.2808714, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 1, "secs": 10.77, "blocked_s": 9.02}
+{"t": 1793296212.8635852, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 13.709, "why": ""}
+{"t": 1793296212.9183774, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 9.029, "why": ""}
+{"t": 1793296213.1303687, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 7.466, "why": ""}
+{"t": 1793296213.155488, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 7.661, "why": ""}
+{"t": 1793296213.346535, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 5.577, "why": ""}
+{"t": 1793296213.566861, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 3, "secs": 10.01, "blocked_s": 9.6}
+{"t": 1793296213.6186433, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 2, "secs": 14.69, "blocked_s": 13.93}
+{"t": 1793296213.7024019, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 3, "secs": 9.93, "blocked_s": 9.36}
+{"t": 1793296215.387516, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 3, "secs": 12.08, "blocked_s": 9.62}
+{"t": 1793296215.881806, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 4, "secs": 8.7, "blocked_s": 6.17}
+{"t": 1793296225.4921107, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 16.271, "why": ""}
+{"t": 1793296225.549619, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 10.993, "why": ""}
+{"t": 1793296225.6978998, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 17.672, "why": ""}
+{"t": 1793296225.8063452, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 2, "secs": 17.13, "blocked_s": 16.81}
+{"t": 1793296225.8198326, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 10.635, "why": ""}
+{"t": 1793296225.8413374, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 2, "secs": 11.91, "blocked_s": 11.62}
+{"t": 1793296225.9744744, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 7.676, "why": ""}
+{"t": 1793296226.116377, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 2, "secs": 18.31, "blocked_s": 17.89}
+{"t": 1793296226.200699, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 2, "secs": 12.6, "blocked_s": 12.22}
+{"t": 1793296226.2422657, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 4, "secs": 9.53, "blocked_s": 9.26}
+{"t": 1793296228.6864927, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.966, "why": ""}
+{"t": 1793296229.241951, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 10.427, "why": ""}
+{"t": 1793296229.6124432, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 4.027, "why": ""}
+{"t": 1793296229.8316605, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 5, "secs": 12.82, "blocked_s": 12.23}
+{"t": 1793296230.1073513, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 8.76, "blocked_s": 8.27}
+{"t": 1793296230.306769, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 4.524, "why": ""}
+{"t": 1793296230.422276, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 4, "secs": 13.55, "blocked_s": 11.81}
+{"t": 1793296230.6256733, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 5, "secs": 7.08, "blocked_s": 6.76}
+{"t": 1793296235.9517734, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.084, "why": ""}
+{"t": 1793296236.2343943, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.335, "why": ""}
+{"t": 1793296236.4655807, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.085, "why": ""}
+{"t": 1793296236.62294, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.601, "why": ""}
+{"t": 1793296236.6866608, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.401, "why": ""}
+{"t": 1793296236.771862, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 5, "secs": 7.36, "blocked_s": 6.54}
+{"t": 1793296236.9217823, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 10.24, "blocked_s": 9.56}
+{"t": 1793296236.9336243, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 3, "secs": 7.7, "blocked_s": 7.39}
+{"t": 1793296237.0391579, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 3, "secs": 7.08, "blocked_s": 6.5}
+{"t": 1793296237.067424, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 3, "secs": 7.53, "blocked_s": 7.15}
+{"t": 1793296239.4896097, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 1, "reward": 1.0, "steps": 8, "error": null, "secs": 51.2}
+{"t": 1793296239.9025724, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 1, "secs": 0.41}
+{"t": 1793296240.12115, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 3.004, "why": ""}
+{"t": 1793296240.322484, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 4.76, "blocked_s": 4.56}
+{"t": 1793296242.669667, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 7, "reward": 1.0, "steps": 8, "error": null, "secs": 54.4}
+{"t": 1793296242.7130876, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.852, "why": ""}
+{"t": 1793296242.7870681, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 9.834, "why": ""}
+{"t": 1793296243.087761, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 9.12, "blocked_s": 8.75}
+{"t": 1793296243.1486878, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 3, "secs": 10.41, "blocked_s": 10.05}
+{"t": 1793296244.536584, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 7, "secs": 1.87}
+{"t": 1793296244.5660427, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 11.722, "why": ""}
+{"t": 1793296244.8350985, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 12.21, "blocked_s": 11.94}
+{"t": 1793296248.025093, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 3.308, "why": ""}
+{"t": 1793296248.2466197, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 3.96, "blocked_s": 3.74}
+{"t": 1793296249.8459084, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.292, "why": ""}
+{"t": 1793296249.9036775, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 5.729, "why": ""}
+{"t": 1793296250.0403156, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 4, "secs": 9.48, "blocked_s": 9.29}
+{"t": 1793296250.09958, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 4, "secs": 9.48, "blocked_s": 9.29}
+{"t": 1793296250.3173585, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.966, "why": ""}
+{"t": 1793296250.5133245, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 4, "secs": 10.39, "blocked_s": 10.19}
+{"t": 1793296252.9446027, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.456, "why": ""}
+{"t": 1793296253.6722105, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 7.37, "blocked_s": 6.65}
+{"t": 1793296253.7079916, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 5.131, "why": ""}
+{"t": 1793296254.0111163, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 5.65, "blocked_s": 5.35}
+{"t": 1793296256.7752838, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 4, "reward": 1.0, "steps": 5, "error": null, "secs": 68.5}
+{"t": 1793296257.6363628, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 4, "secs": 0.86}
+{"t": 1793296262.9817817, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.059, "why": ""}
+{"t": 1793296263.20681, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 10.915, "why": ""}
+{"t": 1793296263.222522, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 10.91, "why": ""}
+{"t": 1793296263.3166118, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 5, "secs": 9.65, "blocked_s": 9.32}
+{"t": 1793296263.7222505, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.253, "why": ""}
+{"t": 1793296263.7651312, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 4, "secs": 11.67, "blocked_s": 11.12}
+{"t": 1793296263.8462894, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 4, "secs": 11.78, "blocked_s": 11.16}
+{"t": 1793296263.9044461, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.391, "why": ""}
+{"t": 1793296264.057664, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 7.48, "blocked_s": 7.14}
+{"t": 1793296264.1003997, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 6.8, "blocked_s": 6.61}
+{"t": 1793296265.5397272, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 11.609, "why": ""}
+{"t": 1793296265.5504496, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 10.608, "why": ""}
+{"t": 1793296265.7318695, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 5, "secs": 12.05, "blocked_s": 11.86}
+{"t": 1793296265.743166, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 11.13, "blocked_s": 10.94}
+{"t": 1793296270.2515976, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 6, "reward": 0.0, "steps": 9, "error": null, "secs": 81.9}
+{"t": 1793296270.5838552, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 6, "secs": 0.33}
+{"t": 1793296271.4358137, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 4.473, "why": ""}
+{"t": 1793296271.6332054, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 4.89, "blocked_s": 4.69}
+{"t": 1793296277.8333528, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.841, "why": ""}
+{"t": 1793296278.0617774, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 5, "secs": 10.61, "blocked_s": 10.39}
+{"t": 1793296278.5117004, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.032, "why": ""}
+{"t": 1793296279.1489508, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 9.89, "blocked_s": 9.25}
+{"t": 1793296281.0161507, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 9.4, "why": ""}
+{"t": 1793296281.1203666, "event": "prefix_clone", "incremental": false, "attempt": 0, "ok": true, "secs": 9.514, "why": ""}
+{"t": 1793296281.3159869, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 5, "secs": 9.88, "blocked_s": 9.68}
+{"t": 1793296281.3358037, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 5, "secs": 10.01, "blocked_s": 9.69}
+{"t": 1793296283.6654575, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.121, "why": ""}
+{"t": 1793296283.8558362, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 9, "secs": 8.53, "blocked_s": 8.34}
+{"t": 1793296287.1845624, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 5.226, "why": ""}
+{"t": 1793296287.377938, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 6, "secs": 5.62, "blocked_s": 5.42}
+{"t": 1793296290.5777497, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.724, "why": ""}
+{"t": 1793296290.9136903, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 6, "secs": 9.26, "blocked_s": 8.92}
+{"t": 1793296291.181019, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.557, "why": ""}
+{"t": 1793296291.3699892, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 9, "secs": 9.01, "blocked_s": 8.82}
+{"t": 1793296292.9959524, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.677, "why": ""}
+{"t": 1793296293.1082823, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": false, "secs": 1.575, "why": ["Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory"]}
+{"t": 1793296293.108538, "event": "prefix_save_failed", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 10, "error": "RuntimeError('prefix_clone failed 1x')"}
+{"t": 1793296293.263712, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 9.17, "blocked_s": 8.9}
+{"t": 1793296293.8420115, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.477, "why": ""}
+{"t": 1793296294.0326478, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 6, "secs": 8.9, "blocked_s": 8.71}
+{"t": 1793296297.5026119, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 5, "reward": 1.0, "steps": 7, "error": null, "secs": 109.3}
+{"t": 1793296297.8613634, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 5, "secs": 0.36}
+{"t": 1793296303.50013, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.261, "why": ""}
+{"t": 1793296303.7007139, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 10, "secs": 8.69, "blocked_s": 8.49}
+{"t": 1793296305.639199, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.121, "why": ""}
+{"t": 1793296305.6405215, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.694, "why": ""}
+{"t": 1793296305.9756043, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 9.25, "blocked_s": 8.92}
+{"t": 1793296305.9777508, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 8.84, "blocked_s": 8.5}
+{"t": 1793296306.3438458, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.477, "why": ""}
+{"t": 1793296307.294317, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 7, "secs": 9.65, "blocked_s": 8.7}
+{"t": 1793296308.9501154, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.206, "why": ""}
+{"t": 1793296308.9915223, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.467, "why": ""}
+{"t": 1793296309.1435022, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 6, "secs": 9.63, "blocked_s": 9.43}
+{"t": 1793296309.1879327, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 6, "secs": 8.99, "blocked_s": 8.79}
+{"t": 1793296312.911122, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.509, "why": ""}
+{"t": 1793296313.103388, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 7, "secs": 7.0, "blocked_s": 6.81}
+{"t": 1793296313.1538439, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 2, "reward": 1.0, "steps": 8, "error": null, "secs": 124.9}
+{"t": 1793296313.8752823, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 2, "secs": 0.72}
+{"t": 1793296315.935472, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.187, "why": ""}
+{"t": 1793296316.12176, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 11, "secs": 8.94, "blocked_s": 8.75}
+{"t": 1793296318.103505, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.744, "why": ""}
+{"t": 1793296318.4665346, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 9, "secs": 9.32, "blocked_s": 8.96}
+{"t": 1793296322.3227725, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.139, "why": ""}
+{"t": 1793296322.5152376, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 7, "secs": 9.54, "blocked_s": 9.35}
+{"t": 1793296324.2763934, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 6.158, "why": ""}
+{"t": 1793296324.471751, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 6.63, "blocked_s": 6.43}
+{"t": 1793296328.8839276, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.1, "why": ""}
+{"t": 1793296328.987895, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.294, "why": ""}
+{"t": 1793296329.1460829, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 12, "secs": 9.57, "blocked_s": 9.31}
+{"t": 1793296329.1781366, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 7, "secs": 9.7, "blocked_s": 9.51}
+{"t": 1793296330.1396453, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.213, "why": ""}
+{"t": 1793296330.332702, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 7, "secs": 9.63, "blocked_s": 9.44}
+{"t": 1793296330.6319337, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.603, "why": ""}
+{"t": 1793296330.8221602, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 10, "secs": 9.03, "blocked_s": 8.84}
+{"t": 1793296333.8772936, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.138, "why": ""}
+{"t": 1793296334.0727143, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 8, "secs": 9.55, "blocked_s": 9.35}
+{"t": 1793296335.5371568, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.848, "why": ""}
+{"t": 1793296335.7305481, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 8, "secs": 9.27, "blocked_s": 9.07}
+{"t": 1793296337.5261223, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.243, "why": ""}
+{"t": 1793296337.7166448, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 9, "secs": 9.74, "blocked_s": 9.55}
+{"t": 1793296341.9336917, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.443, "why": ""}
+{"t": 1793296341.980626, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.288, "why": ""}
+{"t": 1793296342.3899908, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 8, "secs": 9.41, "blocked_s": 8.96}
+{"t": 1793296342.4001825, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 13, "secs": 9.93, "blocked_s": 9.51}
+{"t": 1793296342.414409, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 7, "reward": 1.0, "steps": 9, "error": null, "secs": 154.2}
+{"t": 1793296342.8772557, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 7, "secs": 0.46}
+{"t": 1793296343.2490284, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.914, "why": ""}
+{"t": 1793296343.4360087, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 11, "secs": 9.32, "blocked_s": 9.14}
+{"t": 1793296346.6361625, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.823, "why": ""}
+{"t": 1793296346.9566822, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 9, "secs": 9.36, "blocked_s": 9.04}
+{"t": 1793296348.6623182, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 0, "reward": 1.0, "steps": 14, "error": null, "secs": 160.4}
+{"t": 1793296349.1019049, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 0, "secs": 0.44}
+{"t": 1793296351.0296943, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.352, "why": ""}
+{"t": 1793296351.4608338, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 10, "secs": 10.0, "blocked_s": 9.57}
+{"t": 1793296353.0394893, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": false, "secs": 8.839, "why": ["Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory", "Error (criu/page-xfer.c:417): page-xfer: No parent image found, though parent directory is set: No such file or directory"]}
+{"t": 1793296353.0400574, "event": "prefix_save_failed", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 8, "error": "RuntimeError('prefix_clone failed 1x')"}
+{"t": 1793296355.6370912, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.468, "why": ""}
+{"t": 1793296356.0704215, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 9, "secs": 10.09, "blocked_s": 9.66}
+{"t": 1793296358.300436, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.854, "why": ""}
+{"t": 1793296358.489058, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 8, "secs": 9.25, "blocked_s": 9.07}
+{"t": 1793296359.675051, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.086, "why": ""}
+{"t": 1793296359.8591688, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 10, "secs": 9.57, "blocked_s": 9.39}
+{"t": 1793296362.5502915, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 1, "reward": 1.0, "steps": 10, "error": null, "secs": 174.3}
+{"t": 1793296363.174675, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 1, "secs": 0.62}
+{"t": 1793296364.6108391, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.334, "why": ""}
+{"t": 1793296364.8060675, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 11, "secs": 9.76, "blocked_s": 9.57}
+{"t": 1793296371.4712374, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.991, "why": ""}
+{"t": 1793296371.4718587, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.743, "why": ""}
+{"t": 1793296371.6781821, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 9, "secs": 9.24, "blocked_s": 9.03}
+{"t": 1793296371.7995884, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 12, "secs": 9.54, "blocked_s": 9.21}
+{"t": 1793296371.9393954, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.44, "why": ""}
+{"t": 1793296372.1381485, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 11, "secs": 8.94, "blocked_s": 8.75}
+{"t": 1793296375.3594286, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.9, "why": ""}
+{"t": 1793296376.087589, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 9, "secs": 9.84, "blocked_s": 9.12}
+{"t": 1793296386.318386, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 10.361, "why": ""}
+{"t": 1793296386.3324518, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 11.073, "why": ""}
+{"t": 1793296386.5533576, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 10.497, "why": ""}
+{"t": 1793296386.8998652, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 13, "secs": 11.86, "blocked_s": 11.29}
+{"t": 1793296387.0389695, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 10, "secs": 11.68, "blocked_s": 10.96}
+{"t": 1793296387.071855, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 12, "secs": 11.65, "blocked_s": 11.14}
+{"t": 1793296390.101154, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": false, "secs": 10.061, "why": ["Error (criu/cr-tfork.c:1394): tfork: restore failed: 1", "Error (criu/cr-tfork.c:682): tfork FAILED.", "Error (criu/cr-tfork.c:1394): tfork: restore failed: 1", "Error (criu/cr-tfork.c:682): tfork FAILED.", "Error (criu/crtools.c:557): tfork-ncopy: copy 0 (pid 2347671) failed to signal ready (r=0)", "Error (criu/crtools.c:557): tfork-ncopy: copy 0 (pid 2347671) failed to signal ready (r=0)", "Error (criu/cr-restore.c:2802): Restoring root task with root ns mask 0x6c020000", "pie: 1105: Error (criu/pie/restorer.c:1959): tfork: memfd mmap 0x7cf8a8465000 -> 0xfffffffffffffff3", "pie: 1105: Error (criu/pie/restorer.c:2730): Restorer fail 1105", "Error (criu/cr-restore.c:337): restore wait aborted: participants=0 nr_in_progress=-1 start_stage=3 task_cr_err=0", "2347696: Error (criu/cr-restore.c:337): restore wait aborted: participants=1 nr_in_progress=-1 start_stage=3 task_cr_err=0", "Error (criu/cr-restore.c:3006): restore_wait_inprogress_tasks (post-fork) failed: -1"]}
+{"t": 1793296390.101556, "event": "prefix_save_failed", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 10, "error": "RuntimeError('prefix_clone failed 1x')"}
+{"t": 1793296393.3823686, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 3, "reward": 1.0, "steps": 11, "error": null, "secs": 205.1}
+{"t": 1793296393.7460718, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 3, "secs": 0.36}
+{"t": 1793296396.559575, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 12.23, "why": ""}
+{"t": 1793296396.562602, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 12.325, "why": ""}
+{"t": 1793296396.8297896, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 12, "secs": 13.15, "blocked_s": 12.88}
+{"t": 1793296396.8777378, "event": "prefix_saved", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "step": 11, "secs": 13.33, "blocked_s": 13.02}
+{"t": 1793296399.2764153, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.549, "why": ""}
+{"t": 1793296399.3286812, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.202, "why": ""}
+{"t": 1793296399.5314364, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 14, "secs": 9.62, "blocked_s": 9.42}
+{"t": 1793296399.536413, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 13, "secs": 9.3, "blocked_s": 9.04}
+{"t": 1793296401.2767026, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 6, "reward": 1.0, "steps": 12, "error": null, "secs": 213.0}
+{"t": 1793296401.639653, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 6, "secs": 0.36}
+{"t": 1793296403.242529, "event": "rollout_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "k": 0, "reward": 1.0, "steps": 12, "error": null, "secs": 215.0}
+{"t": 1793296404.548771, "event": "copy_released", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "k": 0, "secs": 1.31}
+{"t": 1793296404.640438, "event": "group_done", "task": "2ad9387a-65d8-4e33-ad5b-7580065a27ca", "g": 1, "rewards": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "mean": 1.0, "containers": {"osw-fc-S8-t1": {"rss_mib": 2354.8, "pss_mib": 1077.7, "pss_anon_mib": 612.6, "pss_file_mib": 433.5, "pss_shmem_mib": 31.6, "nprocs": 36, "cg_mib": 1817.9, "cg_ws_mib": 1783.0, "cg_anon_mib": 612.6, "cg_file_mib": 1147.6, "cg_shmem_mib": 156.1, "cg_kernel_mib": 56.5, "cg_inactive_file_mib": 34.9, "t": 1}}, "total": {"pss_mib": 1077.7, "pss_anon_mib": 612.6, "pss_file_mib": 433.5, "pss_shmem_mib": 31.6, "rss_mib": 2354.8, "cg_mib": 1817.9, "cg_ws_mib": 1783.0, "cg_anon_mib": 612.6, "cg_file_mib": 1147.6, "cg_shmem_mib": 156.1, "cg_kernel_mib": 56.5, "cg_inactive_file_mib": 34.9}, "host": {"used_mib": 14847, "avail_mib": 238202, "used_delta_mib": 4969, "anon_mib": 3688, "shmem_mib": 1025, "cached_mib": 153923}}
+{"t": 1793296412.6758363, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.361, "why": ""}
+{"t": 1793296412.6975462, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.498, "why": ""}
+{"t": 1793296412.9517808, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 15, "secs": 9.85, "blocked_s": 9.58}
+{"t": 1793296413.0058053, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 14, "secs": 10.03, "blocked_s": 9.72}
+{"t": 1793296415.8242984, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 2, "reward": 0.0, "steps": 15, "error": null, "secs": 227.5}
+{"t": 1793296416.2595599, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 2, "secs": 0.43}
+{"t": 1793296419.283901, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 4, "reward": 0.0, "steps": 15, "error": null, "secs": 231.0}
+{"t": 1793296419.6317272, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 4, "secs": 0.35}
+{"t": 1793296425.075396, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 9.113, "why": ""}
+{"t": 1793296425.2746959, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 13, "secs": 9.53, "blocked_s": 9.33}
+{"t": 1793296453.6860986, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.916, "why": ""}
+{"t": 1793296453.8729887, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 14, "secs": 9.32, "blocked_s": 9.13}
+{"t": 1793296481.955431, "event": "prefix_clone", "incremental": true, "attempt": 0, "ok": true, "secs": 8.707, "why": ""}
+{"t": 1793296482.1551938, "event": "prefix_saved", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "step": 15, "secs": 9.12, "blocked_s": 8.92}
+{"t": 1793296485.107619, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 3, "reward": 0.0, "steps": 15, "error": null, "secs": 296.8}
+{"t": 1793296485.4724445, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 3, "secs": 0.36}
+{"t": 1793297199.5452409, "event": "rollout_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "k": 5, "reward": 0.0, "steps": 10, "error": "TimeoutError('no accessibility tree from the desktop in 600s')", "secs": 1011.2}
+{"t": 1793297200.107429, "event": "copy_released", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "k": 5, "secs": 0.56}
+{"t": 1793297200.1920974, "event": "group_done", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "g": 0, "rewards": [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0], "mean": 0.375, "containers": {"osw-fc-S8-t0": {"rss_mib": 2356.4, "pss_mib": 1077.5, "pss_anon_mib": 613.2, "pss_file_mib": 432.7, "pss_shmem_mib": 31.6, "nprocs": 36, "cg_mib": 1818.1, "cg_ws_mib": 1783.1, "cg_anon_mib": 613.2, "cg_file_mib": 1147.8, "cg_shmem_mib": 156.2, "cg_kernel_mib": 56.5, "cg_inactive_file_mib": 34.9, "t": 0}}, "total": {"pss_mib": 1077.5, "pss_anon_mib": 613.2, "pss_file_mib": 432.7, "pss_shmem_mib": 31.6, "rss_mib": 2356.4, "cg_mib": 1818.1, "cg_ws_mib": 1783.1, "cg_anon_mib": 613.2, "cg_file_mib": 1147.8, "cg_shmem_mib": 156.2, "cg_kernel_mib": 56.5, "cg_inactive_file_mib": 34.9}, "host": {"used_mib": 11179, "avail_mib": 241871, "used_delta_mib": 1301, "anon_mib": 2115, "shmem_mib": 266, "cached_mib": 150770}}
+{"t": 1793297200.8828642, "event": "run_done", "aborted": false}

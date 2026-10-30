@@ -158,7 +158,7 @@ After every fork, on every system, it refills the copies' empty `/etc/hosts` and
 relay for the DevTools port, both of which the fork loses.
 
 Every podman call goes through `/mnt/ssd2/os4agent/podman-tfork.sh` with
-`CONTAINERS_STORAGE_CONF=/mnt/btrfs/podman/storage.conf` and `CONTAINERS_CONF=containers-os4agent.conf`. The fixed
+`CONTAINERS_STORAGE_CONF=/mnt/ssd3/podman/storage.conf` (btrfs on NVMe) and `CONTAINERS_CONF=containers-os4agent.conf`. The fixed
 config matters: otherwise the wrapper rewrites its own containers.conf on every call, and parallel clones race on it.
 
 ## Changes to os4agent

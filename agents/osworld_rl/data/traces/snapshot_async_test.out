@@ -1,0 +1,76 @@
+copies=1 clone rc=125
+  img/: 1 files, 304 bytes
+  after +30s more:
+  img/: 1 files, 304 bytes
+  after +60s more:
+  img/: 1 files, 304 bytes
+  bundle contents:
+    total 16
+    drwx------ 1 root root  100 Oct 29 00:03 .
+    drwx------ 1 root root  128 Oct 29 00:03 ..
+    -rw------- 1 root root 9933 Oct 29 00:03 config.json
+    -rw-r--r-- 1 root root  822 Oct 29 00:03 crun-tfork.log
+    drwx------ 1 root root   18 Oct 29 00:03 img
+    dr-xr-xr-x 1 root root    6 Oct 29 00:03 rootfs
+    dr-xr-xr-x 1 root root  454 Oct 28 23:44 snap-ro
+    dr-xr-xr-x+1 root root    6 Oct 29 00:03 upper
+    drwxr-xr-x 1 root root    8 Oct 29 00:03 work
+  largest files anywhere in the bundle (excluding the rootfs snapshot):
+331471704     rootfs/usr/lib/chromium/chromium
+223685880     rootfs/usr/share/code/code
+180484224     rootfs/usr/lib/thunderbird/libxul.so
+143545784     rootfs/usr/lib/x86_64-linux-gnu/libLLVM.so.20.1
+140467000     rootfs/usr/share/code/resources/app/node_modules.asar.unpacked/@github/copilot-sdk-linux-x64/prebuilds/linux-x64/runtime.node
+copies=8 clone rc=125
+  img/: 1 files, 304 bytes
+  after +30s more:
+  img/: 1 files, 304 bytes
+  after +60s more:
+  img/: 1 files, 304 bytes
+  bundle contents:
+    total 112
+    drwx------ 1 root root  614 Oct 29 00:04 .
+    drwx------ 1 root root  256 Oct 29 00:04 ..
+    -rw------- 1 root root 9937 Oct 29 00:04 config-0.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-1.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-2.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-3.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-4.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-5.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-6.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config-7.json
+    -rw------- 1 root root 9937 Oct 29 00:04 config.json
+    -rw-r--r-- 1 root root  822 Oct 29 00:04 crun-tfork.log
+    drwx------ 1 root root   18 Oct 29 00:04 img
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-0
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-1
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-2
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-3
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-4
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-5
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-6
+    dr-xr-xr-x 1 root root    6 Oct 29 00:04 rootfs-7
+    dr-xr-xr-x 1 root root  454 Oct 28 23:44 snap-ro
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-0
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-1
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-2
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-3
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-4
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-5
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-6
+    dr-xr-xr-x+1 root root    6 Oct 29 00:04 upper-7
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-0
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-1
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-2
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-3
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-4
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-5
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-6
+    drwxr-xr-x 1 root root    8 Oct 29 00:04 work-7
+  largest files anywhere in the bundle (excluding the rootfs snapshot):
+9937     config.json
+9937     config-7.json
+9937     config-6.json
+9937     config-5.json
+9937     config-4.json
+cleaned

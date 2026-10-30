@@ -1,0 +1,17 @@
+{
+ "system": "criu",
+ "tasks": "/mnt/ssd2/vikranth/osworld/grpo_batch.json",
+ "result_dir": "/mnt/ssd2/vikranth/osworld/traces/smoke_criu",
+ "rollouts": 2,
+ "max_steps": 3,
+ "model": "qwen3vl8b",
+ "temperature": 1.0,
+ "spec": "off",
+ "spec_topk": 8,
+ "image": "ghcr.io/wuklab/webtop:ubuntu-kde-osworld",
+ "os4agent": "/mnt/ssd2/os4agent",
+ "storage_conf": "/mnt/btrfs/podman/storage.conf",
+ "criu_net": "slirp",
+ "sample_s": 2.0,
+ "limit": 1
+}

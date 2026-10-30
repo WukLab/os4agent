@@ -1,0 +1,594 @@
+{"t": 1793312815.9241455, "event": "host_mode", "system": "tfork", "io_uring_disabled": 2, "aenv_server": false}
+{"t": 1793312816.1111076, "event": "spec_warm", "dirs": ["/mnt/ssd2/vikranth/osworld/traces/grpo_tfork16_e0", "/mnt/ssd2/vikranth/osworld/traces/grpo_tfork16_e1"], "reveals": 3058, "book": 293}
+{"t": 1793312816.1224084, "event": "run_start", "system": "tfork", "spec": "off", "tasks": 3, "rollouts": 8, "host_baseline": {"used_mib": 10909, "avail_mib": 242140, "used_delta_mib": 0, "anon_mib": 1582, "shmem_mib": 107, "cached_mib": 143982}}
+{"t": 1793312839.5222583, "event": "boot", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "secs": 23.4, "ready_s": 3.1}
+{"t": 1793312839.5449362, "event": "boot", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "secs": 23.4, "ready_s": 3.1}
+{"t": 1793312863.8746662, "event": "setup", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "secs": 24.3}
+{"t": 1793312863.9685206, "event": "mem_before_fork", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "containers": {"osw-spec-tail-B2-t0": {"rss_mib": 1731.9, "pss_mib": 902.9, "pss_anon_mib": 596.3, "pss_file_mib": 293.2, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1324.2, "cg_ws_mib": 1271.0, "cg_anon_mib": 596.3, "cg_file_mib": 678.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 41.6, "cg_inactive_file_mib": 53.2, "t": 0}}, "total": {"pss_mib": 902.9, "pss_anon_mib": 596.3, "pss_file_mib": 293.2, "pss_shmem_mib": 13.4, "rss_mib": 1731.9, "cg_mib": 1324.2, "cg_ws_mib": 1271.0, "cg_anon_mib": 596.3, "cg_file_mib": 678.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 41.6, "cg_inactive_file_mib": 53.2}, "host": {"used_mib": 12417, "avail_mib": 240632, "used_delta_mib": 1508, "anon_mib": 2791, "shmem_mib": 195, "cached_mib": 145339}}
+{"t": 1793312866.0237474, "event": "setup", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "secs": 26.5}
+{"t": 1793312866.0979986, "event": "mem_before_fork", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "containers": {"osw-spec-tail-B2-t1": {"rss_mib": 1730.8, "pss_mib": 902.4, "pss_anon_mib": 596.0, "pss_file_mib": 293.0, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1320.0, "cg_ws_mib": 1266.8, "cg_anon_mib": 596.0, "cg_file_mib": 678.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 41.5, "cg_inactive_file_mib": 53.2, "t": 1}}, "total": {"pss_mib": 902.4, "pss_anon_mib": 596.0, "pss_file_mib": 293.0, "pss_shmem_mib": 13.4, "rss_mib": 1730.8, "cg_mib": 1320.0, "cg_ws_mib": 1266.8, "cg_anon_mib": 596.0, "cg_file_mib": 678.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 41.5, "cg_inactive_file_mib": 53.2}, "host": {"used_mib": 12795, "avail_mib": 240255, "used_delta_mib": 1886, "anon_mib": 3143, "shmem_mib": 216, "cached_mib": 145706}}
+{"t": 1793312869.0180213, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 4.816, "why": ""}
+{"t": 1793312871.5021203, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 5.172, "why": ""}
+{"t": 1793312875.656345, "event": "fork", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "system": "tfork", "copies": 8, "secs": 5.4, "containers": {"osw-spec-tail-B2-t0": {"rss_mib": 1731.9, "pss_mib": 377.4, "pss_anon_mib": 70.9, "pss_file_mib": 293.1, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1915.5, "cg_ws_mib": 1265.6, "cg_anon_mib": 596.7, "cg_file_mib": 1274.7, "cg_shmem_mib": 43.8, "cg_kernel_mib": 42.8, "cg_inactive_file_mib": 649.9, "t": 0}, "b699562e4aea120168208933cf98ebf084ec7ae5537d200c4c6a3f2783eb2cbe": {"rss_mib": 645.1, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 167.8, "cg_ws_mib": 167.8, "cg_anon_mib": 5.3, "cg_file_mib": 74.8, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 0}, "1c31af1a955342545177eed4052a07c94fc679b5b16df41093f207f3f674471a": {"rss_mib": 645.3, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 159.3, "cg_ws_mib": 159.3, "cg_anon_mib": 5.3, "cg_file_mib": 66.4, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 0}, "b2ee70a83b7eafba417d3c453878d0b2f00c4233b8ef7fd11db305860f0918d5": {"rss_mib": 645.4, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 162.1, "cg_ws_mib": 162.1, "cg_anon_mib": 5.1, "cg_file_mib": 70.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 0}, "b7f9ca4f5a2f4c68bd8f4de929548152a897c3c69345e37a4a6fe165520b2245": {"rss_mib": 645.2, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 152.5, "cg_ws_mib": 152.5, "cg_anon_mib": 5.3, "cg_file_mib": 60.0, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 0}, "88bf77d88626496afb51b6e076b3cc2913e90198bb205447af54f37c2131ee94": {"rss_mib": 645.3, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 158.5, "cg_ws_mib": 158.4, "cg_anon_mib": 5.3, "cg_file_mib": 66.0, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 0}, "15cd29f6f827b52e765b77cb2601945c3f2b53070475413598290297a2f5de15": {"rss_mib": 645.3, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 157.8, "cg_ws_mib": 157.8, "cg_anon_mib": 5.2, "cg_file_mib": 65.0, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 0}, "882fa6b5e0523d627b755c0854dc10c6a8055b42c1e15076a76f60af5be05b85": {"rss_mib": 645.4, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 204.1, "cg_ws_mib": 204.1, "cg_anon_mib": 5.3, "cg_file_mib": 111.3, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.4, "cg_inactive_file_mib": 0.0, "t": 0}, "b7fb32afdda169db5cd5c124f5c48e80eec5d04e53d1bce1f395cb2299019584": {"rss_mib": 645.3, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 207.5, "cg_ws_mib": 207.5, "cg_anon_mib": 5.3, "cg_file_mib": 114.3, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.5, "cg_inactive_file_mib": 0.0, "t": 0}}, "total": {"pss_mib": 968.5, "pss_anon_mib": 638.1, "pss_file_mib": 314.7, "pss_shmem_mib": 15.0, "rss_mib": 6894.2, "cg_mib": 3285.1, "cg_ws_mib": 2635.1, "cg_anon_mib": 638.8, "cg_file_mib": 1902.6, "cg_shmem_mib": 394.2, "cg_kernel_mib": 733.0, "cg_inactive_file_mib": 649.9}, "host": {"used_mib": 15922, "avail_mib": 237127, "used_delta_mib": 5013, "anon_mib": 3515, "shmem_mib": 943, "cached_mib": 148310}}
+{"t": 1793312878.0629117, "event": "fork", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "system": "tfork", "copies": 8, "secs": 5.75, "containers": {"osw-spec-tail-B2-t1": {"rss_mib": 1730.8, "pss_mib": 377.2, "pss_anon_mib": 70.9, "pss_file_mib": 292.9, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1913.6, "cg_ws_mib": 1264.0, "cg_anon_mib": 596.3, "cg_file_mib": 1274.4, "cg_shmem_mib": 43.8, "cg_kernel_mib": 42.8, "cg_inactive_file_mib": 649.6, "t": 1}, "6479703b606555c7ed42dd55f5f4d1f4d8ff756d7b6d0df7a901bff27a334bc6": {"rss_mib": 645.4, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 173.1, "cg_ws_mib": 173.1, "cg_anon_mib": 5.3, "cg_file_mib": 81.3, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "b3d50c29969fc273cad0f8275a012dba45a79e4475d40fbb63a51e8fdfa22c08": {"rss_mib": 645.1, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 162.1, "cg_ws_mib": 162.1, "cg_anon_mib": 5.3, "cg_file_mib": 70.3, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "f3246697f3fb41e4579f8497c3e4e21c5a1189a49913371179354a4c4a141a01": {"rss_mib": 645.5, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 193.0, "cg_ws_mib": 193.0, "cg_anon_mib": 5.3, "cg_file_mib": 101.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.4, "cg_inactive_file_mib": 0.0, "t": 1}, "af687c05d016554e1314e47692e28a9b110509e61a0d1f0dd5728583974c19f5": {"rss_mib": 645.6, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 181.8, "cg_ws_mib": 181.8, "cg_anon_mib": 5.1, "cg_file_mib": 90.4, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "17562e744a6c7990c4f696ca65f56e1a039ff7e9793b7f17f7773b89e42b18e1": {"rss_mib": 645.5, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 158.1, "cg_ws_mib": 158.1, "cg_anon_mib": 5.3, "cg_file_mib": 66.5, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "f2d7df6fd565cb11204d1faf4db20a1f043dbc7fbb4d807f1c2e5cbffa4d64b4": {"rss_mib": 645.6, "pss_mib": 73.9, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 167.9, "cg_ws_mib": 167.9, "cg_anon_mib": 5.2, "cg_file_mib": 76.2, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "3d09f185b6b83241433efc3ef4e2d0991ec237785e2caea3f0558b004ff359a2": {"rss_mib": 645.3, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 167.3, "cg_ws_mib": 167.3, "cg_anon_mib": 5.3, "cg_file_mib": 75.7, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}, "09959b6f9cf1b1781ea4b1d6106c014471314aebcf4469a2816e9cc4a28c1551": {"rss_mib": 645.5, "pss_mib": 73.8, "pss_anon_mib": 70.9, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 158.2, "cg_ws_mib": 158.2, "cg_anon_mib": 5.3, "cg_file_mib": 66.7, "cg_shmem_mib": 43.8, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 1}}, "total": {"pss_mib": 967.8, "pss_anon_mib": 638.1, "pss_file_mib": 314.5, "pss_shmem_mib": 15.0, "rss_mib": 6894.3, "cg_mib": 3275.1, "cg_ws_mib": 2625.5, "cg_anon_mib": 638.4, "cg_file_mib": 1902.6, "cg_shmem_mib": 394.2, "cg_kernel_mib": 733.3, "cg_inactive_file_mib": 649.6}, "host": {"used_mib": 16398, "avail_mib": 236651, "used_delta_mib": 5489, "anon_mib": 3883, "shmem_mib": 943, "cached_mib": 148386}}
+{"t": 1793312887.2397738, "event": "boot", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "secs": 23.4, "ready_s": 3.1}
+{"t": 1793312913.5095227, "event": "setup", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "secs": 26.3}
+{"t": 1793312913.5978706, "event": "mem_before_fork", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "containers": {"osw-spec-tail-B2-t2": {"rss_mib": 1722.4, "pss_mib": 895.1, "pss_anon_mib": 587.7, "pss_file_mib": 294.0, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1311.4, "cg_ws_mib": 1258.1, "cg_anon_mib": 587.7, "cg_file_mib": 678.4, "cg_shmem_mib": 43.9, "cg_kernel_mib": 41.4, "cg_inactive_file_mib": 53.2, "t": 2}}, "total": {"pss_mib": 895.1, "pss_anon_mib": 587.7, "pss_file_mib": 294.0, "pss_shmem_mib": 13.4, "rss_mib": 1722.4, "cg_mib": 1311.4, "cg_ws_mib": 1258.1, "cg_anon_mib": 587.7, "cg_file_mib": 678.4, "cg_shmem_mib": 43.9, "cg_kernel_mib": 41.4, "cg_inactive_file_mib": 53.2}, "host": {"used_mib": 17196, "avail_mib": 235853, "used_delta_mib": 6287, "anon_mib": 5303, "shmem_mib": 945, "cached_mib": 148722}}
+{"t": 1793312918.395223, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 4.522, "why": ""}
+{"t": 1793312924.901334, "event": "fork", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "system": "tfork", "copies": 8, "secs": 5.15, "containers": {"osw-spec-tail-B2-t2": {"rss_mib": 1722.4, "pss_mib": 377.3, "pss_anon_mib": 70.0, "pss_file_mib": 293.9, "pss_shmem_mib": 13.4, "nprocs": 27, "cg_mib": 1897.2, "cg_ws_mib": 1255.9, "cg_anon_mib": 588.0, "cg_file_mib": 1266.5, "cg_shmem_mib": 43.9, "cg_kernel_mib": 42.7, "cg_inactive_file_mib": 641.3, "t": 2}, "de016dd25f31b986389be1d3d21196be92d91c26fcf66006d62b1953803d74a9": {"rss_mib": 637.0, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 174.0, "cg_ws_mib": 173.9, "cg_anon_mib": 5.3, "cg_file_mib": 82.4, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 2}, "e1f64ac66702030ed067beaa7f6807d2aa0a9af51e9a990ed4d692e0848f2871": {"rss_mib": 637.0, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 183.3, "cg_ws_mib": 183.3, "cg_anon_mib": 5.2, "cg_file_mib": 91.7, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 2}, "a6220150f4a7e4b0221d907e9b2036bd65f0db48567cb9c29d8a0476ce510f7f": {"rss_mib": 637.0, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 168.3, "cg_ws_mib": 168.3, "cg_anon_mib": 5.2, "cg_file_mib": 76.8, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 2}, "262a36001fd0e291ad8a8282e586fcc9552afdc6bc5a5848532548ad28fa34a1": {"rss_mib": 637.0, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 187.8, "cg_ws_mib": 187.8, "cg_anon_mib": 5.2, "cg_file_mib": 96.3, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 2}, "db0f5769595dcbccf75a0f30e6f8fb3a478c15c818de0e081afed889dae7ce10": {"rss_mib": 637.2, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 153.1, "cg_ws_mib": 153.1, "cg_anon_mib": 5.2, "cg_file_mib": 61.7, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 2}, "a26111203a4f00f74db0fff926ec74e126e5f347f95fad7ef6954a5542337481": {"rss_mib": 637.0, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 162.6, "cg_ws_mib": 162.6, "cg_anon_mib": 5.3, "cg_file_mib": 71.1, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 2}, "c7773aea92c411aa49ceeb8cc8578817271b4bb8335ac6860137c123caea4c48": {"rss_mib": 636.9, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 167.5, "cg_ws_mib": 167.5, "cg_anon_mib": 5.2, "cg_file_mib": 76.0, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.3, "cg_inactive_file_mib": 0.0, "t": 2}, "1e6d24c1e91b95eca60112e5667205492064dc6e4a3f97d8beb34f74e1db49cd": {"rss_mib": 636.8, "pss_mib": 72.9, "pss_anon_mib": 70.0, "pss_file_mib": 2.7, "pss_shmem_mib": 0.2, "nprocs": 27, "cg_mib": 164.3, "cg_ws_mib": 164.3, "cg_anon_mib": 5.3, "cg_file_mib": 72.8, "cg_shmem_mib": 43.9, "cg_kernel_mib": 86.2, "cg_inactive_file_mib": 0.0, "t": 2}}, "total": {"pss_mib": 960.5, "pss_anon_mib": 630.0, "pss_file_mib": 315.5, "pss_shmem_mib": 15.0, "rss_mib": 6818.3, "cg_mib": 3258.1, "cg_ws_mib": 2616.7, "cg_anon_mib": 629.9, "cg_file_mib": 1895.3, "cg_shmem_mib": 395.1, "cg_kernel_mib": 732.8, "cg_inactive_file_mib": 641.3}, "host": {"used_mib": 19410, "avail_mib": 233639, "used_delta_mib": 8501, "anon_mib": 5906, "shmem_mib": 1298, "cached_mib": 149962}}
+{"t": 1793312968.5405965, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.12, "why": ""}
+{"t": 1793312982.8844397, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.45, "total_s": 21.69, "waited_s": 0.0, "error": null}
+{"t": 1793312983.5195422, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.721, "why": ""}
+{"t": 1793312983.5932837, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.682, "why": ""}
+{"t": 1793312986.248608, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.488, "why": ""}
+{"t": 1793312987.4172077, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.625, "why": ""}
+{"t": 1793312987.9142225, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.613, "why": ""}
+{"t": 1793312989.404861, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.601, "why": ""}
+{"t": 1793312989.6731026, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.6, "why": ""}
+{"t": 1793312990.3039496, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.727, "why": ""}
+{"t": 1793312990.534005, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.069, "why": ""}
+{"t": 1793312991.694754, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 9.06, "total_s": 17.1, "waited_s": 0.0, "error": null}
+{"t": 1793312991.7022645, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.334, "why": ""}
+{"t": 1793312991.7204497, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.265, "why": ""}
+{"t": 1793312991.8723924, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.992, "why": ""}
+{"t": 1793312994.1945221, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.802, "why": ""}
+{"t": 1793312995.0239863, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.83, "total_s": 16.5, "waited_s": 0.0, "error": null}
+{"t": 1793312995.9746892, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.842, "why": ""}
+{"t": 1793312997.5857582, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.608, "why": ""}
+{"t": 1793313001.2735496, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.98, "total_s": 19.43, "waited_s": 0.0, "error": null}
+{"t": 1793313001.659079, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.12, "total_s": 19.31, "waited_s": 0.0, "error": null}
+{"t": 1793313001.6605563, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.73, "total_s": 18.54, "waited_s": 0.0, "error": null}
+{"t": 1793313002.5110292, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 5.999, "why": ""}
+{"t": 1793313004.8122506, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.96, "total_s": 23.28, "waited_s": 0.0, "error": null}
+{"t": 1793313013.4756157, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.06, "total_s": 38.79, "waited_s": 15.59, "error": null}
+{"t": 1793313016.514841, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 5.998, "why": ""}
+{"t": 1793313020.914875, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.151, "why": ""}
+{"t": 1793313021.9486928, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.96, "total_s": 42.38, "waited_s": 19.48, "error": null}
+{"t": 1793313022.0522377, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 6.32, "total_s": 25.76, "waited_s": 8.59, "error": null}
+{"t": 1793313022.300424, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.92, "total_s": 42.2, "waited_s": 21.44, "error": null}
+{"t": 1793313022.4490757, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 6.265, "why": ""}
+{"t": 1793313022.8920243, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.64, "total_s": 39.68, "waited_s": 18.19, "error": null}
+{"t": 1793313024.1054292, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.39, "total_s": 41.86, "waited_s": 22.6, "error": null}
+{"t": 1793313024.926649, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.572, "why": ""}
+{"t": 1793313024.9738617, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.33, "total_s": 41.29, "waited_s": 23.08, "error": null}
+{"t": 1793313027.2911448, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.14, "total_s": 41.13, "waited_s": 21.93, "error": null}
+{"t": 1793313028.2046413, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.61, "why": ""}
+{"t": 1793313028.5371904, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.17, "total_s": 40.63, "waited_s": 20.59, "error": null}
+{"t": 1793313029.1952035, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 7.91, "total_s": 39.43, "waited_s": 20.15, "error": null}
+{"t": 1793313029.5744972, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.932, "why": ""}
+{"t": 1793313030.5072942, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.263, "why": ""}
+{"t": 1793313031.0748153, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.714, "why": ""}
+{"t": 1793313031.1338513, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.478, "why": ""}
+{"t": 1793313031.4642746, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.152, "why": ""}
+{"t": 1793313032.458918, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.066, "why": ""}
+{"t": 1793313032.6663327, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.862, "why": ""}
+{"t": 1793313033.2978685, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 6.62, "total_s": 17.34, "waited_s": 0.0, "error": null}
+{"t": 1793313033.7202895, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.409, "why": ""}
+{"t": 1793313035.1486244, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.8, "total_s": 21.59, "waited_s": 0.0, "error": null}
+{"t": 1793313035.6699307, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.03, "why": ""}
+{"t": 1793313036.022367, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 6.93, "total_s": 14.66, "waited_s": 0.0, "error": null}
+{"t": 1793313037.3483691, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.493, "why": ""}
+{"t": 1793313037.750993, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.271, "why": ""}
+{"t": 1793313039.6557894, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.743, "why": ""}
+{"t": 1793313041.4893599, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.599, "why": ""}
+{"t": 1793313043.096271, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.72, "why": ""}
+{"t": 1793313045.6321478, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.6, "total_s": 23.59, "waited_s": 3.79, "error": null}
+{"t": 1793313046.2920635, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.81, "total_s": 23.87, "waited_s": 4.17, "error": null}
+{"t": 1793313046.471479, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.42, "total_s": 22.29, "waited_s": 0.0, "error": null}
+{"t": 1793313046.7334785, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 6.31, "total_s": 36.44, "waited_s": 15.1, "error": null}
+{"t": 1793313050.5031352, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.182, "why": ""}
+{"t": 1793313050.5722854, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.337, "why": ""}
+{"t": 1793313053.4089766, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 6.619, "why": ""}
+{"t": 1793313054.4263287, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.446, "why": ""}
+{"t": 1793313055.2463253, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.533, "why": ""}
+{"t": 1793313055.3271434, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 6.93, "total_s": 37.2, "waited_s": 16.5, "error": null}
+{"t": 1793313055.462066, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.406, "why": ""}
+{"t": 1793313055.8772535, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.42, "why": ""}
+{"t": 1793313057.0363045, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 7.97, "total_s": 23.4, "waited_s": 0.0, "error": null}
+{"t": 1793313058.3264048, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.24, "total_s": 37.89, "waited_s": 0.0, "error": null}
+{"t": 1793313058.3900275, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.283, "why": ""}
+{"t": 1793313058.5324006, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 8.08, "total_s": 23.4, "waited_s": 0.98, "error": null}
+{"t": 1793313060.9507377, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.05, "total_s": 38.82, "waited_s": 19.22, "error": null}
+{"t": 1793313061.163665, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.62, "total_s": 38.17, "waited_s": 18.07, "error": null}
+{"t": 1793313062.3052769, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.923, "why": ""}
+{"t": 1793313062.358248, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.062, "why": ""}
+{"t": 1793313062.6515996, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.2, "total_s": 37.06, "waited_s": 18.64, "error": null}
+{"t": 1793313063.3844292, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.76, "total_s": 38.32, "waited_s": 19.23, "error": null}
+{"t": 1793313064.1563978, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.453, "why": ""}
+{"t": 1793313065.0726216, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.8, "total_s": 19.34, "waited_s": 0.0, "error": null}
+{"t": 1793313065.6379285, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.37, "total_s": 38.23, "waited_s": 17.96, "error": null}
+{"t": 1793313065.9400077, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 8.52, "total_s": 23.84, "waited_s": 1.49, "error": null}
+{"t": 1793313066.6098151, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.268, "why": ""}
+{"t": 1793313066.8860679, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 6.93, "total_s": 20.31, "waited_s": 0.01, "error": null}
+{"t": 1793313067.5209074, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.84, "total_s": 38.91, "waited_s": 13.91, "error": null}
+{"t": 1793313067.9812346, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.272, "why": ""}
+{"t": 1793313068.1484492, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.264, "why": ""}
+{"t": 1793313068.1691005, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.11, "total_s": 21.7, "waited_s": 0.0, "error": null}
+{"t": 1793313068.2725942, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.57, "total_s": 39.0, "waited_s": 18.03, "error": null}
+{"t": 1793313069.555137, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.921, "why": ""}
+{"t": 1793313070.029217, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.09, "total_s": 37.35, "waited_s": 11.7, "error": null}
+{"t": 1793313070.7201967, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.374, "why": ""}
+{"t": 1793313070.871761, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.382, "why": ""}
+{"t": 1793313072.0050635, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.042, "why": ""}
+{"t": 1793313073.017484, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.307, "why": ""}
+{"t": 1793313073.6644053, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.77, "total_s": 25.44, "waited_s": 0.0, "error": null}
+{"t": 1793313074.93995, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.944, "why": ""}
+{"t": 1793313075.296331, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.033, "why": ""}
+{"t": 1793313075.9228864, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.26, "total_s": 22.76, "waited_s": 0.0, "error": null}
+{"t": 1793313076.8107696, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.936, "why": ""}
+{"t": 1793313077.6987503, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.088, "why": ""}
+{"t": 1793313079.3665047, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.976, "why": ""}
+{"t": 1793313079.7671897, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.36, "total_s": 17.02, "waited_s": 0.0, "error": null}
+{"t": 1793313080.7918437, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 8.72, "total_s": 38.83, "waited_s": 13.02, "error": null}
+{"t": 1793313082.0558598, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.8, "total_s": 21.01, "waited_s": 0.0, "error": null}
+{"t": 1793313082.8336465, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.427, "why": ""}
+{"t": 1793313084.6476777, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.64, "total_s": 27.52, "waited_s": 0.0, "error": null}
+{"t": 1793313084.9666922, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.29, "total_s": 23.6, "waited_s": 0.0, "error": null}
+{"t": 1793313086.3978908, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.96, "total_s": 39.58, "waited_s": 19.5, "error": null}
+{"t": 1793313087.8487945, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.096, "why": ""}
+{"t": 1793313088.0369642, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.692, "why": ""}
+{"t": 1793313089.038412, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.73, "total_s": 38.17, "waited_s": 22.01, "error": null}
+{"t": 1793313089.7965868, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.714, "why": ""}
+{"t": 1793313089.9573584, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.73, "total_s": 31.33, "waited_s": 0.0, "error": null}
+{"t": 1793313090.4143748, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.127, "why": ""}
+{"t": 1793313090.7803662, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.37, "total_s": 24.74, "waited_s": 2.13, "error": null}
+{"t": 1793313092.9893763, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.41, "total_s": 39.93, "waited_s": 15.52, "error": null}
+{"t": 1793313093.7388372, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 6.712, "why": ""}
+{"t": 1793313095.1116369, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.83, "total_s": 39.67, "waited_s": 16.87, "error": null}
+{"t": 1793313095.297839, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.529, "why": ""}
+{"t": 1793313097.619104, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.266, "why": ""}
+{"t": 1793313097.917258, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.71, "total_s": 39.48, "waited_s": 9.42, "error": null}
+{"t": 1793313100.1865184, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.49, "total_s": 19.66, "waited_s": 0.0, "error": null}
+{"t": 1793313100.5738242, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.473, "why": ""}
+{"t": 1793313101.075826, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.72, "total_s": 39.81, "waited_s": 19.3, "error": null}
+{"t": 1793313101.3741431, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.44, "total_s": 18.29, "waited_s": 0.0, "error": null}
+{"t": 1793313102.0216408, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.725, "why": ""}
+{"t": 1793313102.7320561, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.529, "why": ""}
+{"t": 1793313104.459503, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.65, "total_s": 40.98, "waited_s": 21.61, "error": null}
+{"t": 1793313105.37133, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.31, "total_s": 39.63, "waited_s": 21.01, "error": null}
+{"t": 1793313105.939973, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.469, "why": ""}
+{"t": 1793313106.0023007, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.481, "why": ""}
+{"t": 1793313106.1359842, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.29, "total_s": 38.5, "waited_s": 16.19, "error": null}
+{"t": 1793313106.522202, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.76, "total_s": 32.34, "waited_s": 0.0, "error": null}
+{"t": 1793313107.3223243, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.043, "why": ""}
+{"t": 1793313108.4957435, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.45, "total_s": 40.14, "waited_s": 21.11, "error": null}
+{"t": 1793313109.6254416, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.36, "total_s": 39.5, "waited_s": 19.67, "error": null}
+{"t": 1793313110.2415032, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.779, "why": ""}
+{"t": 1793313113.8218699, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.003, "why": ""}
+{"t": 1793313114.4016273, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.78, "why": ""}
+{"t": 1793313114.5319197, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.87, "total_s": 19.55, "waited_s": 0.0, "error": null}
+{"t": 1793313115.125599, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.411, "why": ""}
+{"t": 1793313115.7137375, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.194, "why": ""}
+{"t": 1793313115.840822, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 9.82, "total_s": 24.97, "waited_s": 0.14, "error": null}
+{"t": 1793313116.0143836, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 10.86, "total_s": 20.81, "waited_s": 0.0, "error": null}
+{"t": 1793313117.6111798, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.762, "why": ""}
+{"t": 1793313118.192795, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.02, "total_s": 38.07, "waited_s": 15.45, "error": null}
+{"t": 1793313119.0073009, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.055, "why": ""}
+{"t": 1793313120.098266, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 9.19, "total_s": 39.22, "waited_s": 15.02, "error": null}
+{"t": 1793313120.4363072, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.508, "why": ""}
+{"t": 1793313121.5070632, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.424, "why": ""}
+{"t": 1793313123.9589562, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 7.04, "total_s": 37.16, "waited_s": 16.65, "error": null}
+{"t": 1793313124.6368747, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.857, "why": ""}
+{"t": 1793313125.894191, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.93, "total_s": 39.4, "waited_s": 18.13, "error": null}
+{"t": 1793313127.008664, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.29, "why": ""}
+{"t": 1793313127.3334837, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 11.095, "why": ""}
+{"t": 1793313127.782124, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.278, "why": ""}
+{"t": 1793313127.921647, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.6, "total_s": 38.8, "waited_s": 16.31, "error": null}
+{"t": 1793313129.124955, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.511, "why": ""}
+{"t": 1793313129.9500287, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.472, "why": ""}
+{"t": 1793313130.3686311, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 7.81, "total_s": 32.06, "waited_s": 0.0, "error": null}
+{"t": 1793313132.8556168, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.07, "total_s": 39.78, "waited_s": 3.55, "error": null}
+{"t": 1793313133.2088685, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.41, "total_s": 23.5, "waited_s": 0.0, "error": null}
+{"t": 1793313133.2873898, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.969, "why": ""}
+{"t": 1793313135.0445719, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.847, "why": ""}
+{"t": 1793313136.0741813, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.78, "total_s": 22.24, "waited_s": 0.0, "error": null}
+{"t": 1793313136.2571223, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.86, "total_s": 24.57, "waited_s": 5.32, "error": null}
+{"t": 1793313136.657539, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.25, "total_s": 21.16, "waited_s": 0.0, "error": null}
+{"t": 1793313136.6685233, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.441, "why": ""}
+{"t": 1793313138.4450197, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.44, "total_s": 40.45, "waited_s": 16.62, "error": null}
+{"t": 1793313139.0086434, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.767, "why": ""}
+{"t": 1793313139.3233466, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.21, "total_s": 32.96, "waited_s": 0.0, "error": null}
+{"t": 1793313139.4989398, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.825, "why": ""}
+{"t": 1793313139.8185472, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 10.65, "total_s": 23.32, "waited_s": 0.0, "error": null}
+{"t": 1793313141.522593, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.19, "total_s": 40.36, "waited_s": 19.15, "error": null}
+{"t": 1793313141.903122, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.7, "why": ""}
+{"t": 1793313144.0090573, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 11.47, "total_s": 28.03, "waited_s": 0.0, "error": null}
+{"t": 1793313144.397699, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.45, "total_s": 39.87, "waited_s": 18.51, "error": null}
+{"t": 1793313145.153587, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.88, "total_s": 24.75, "waited_s": 0.0, "error": null}
+{"t": 1793313145.2135339, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.582, "why": ""}
+{"t": 1793313145.2767985, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 9.85, "total_s": 25.07, "waited_s": 0.13, "error": null}
+{"t": 1793313145.3797107, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.76, "total_s": 39.89, "waited_s": 19.04, "error": null}
+{"t": 1793313145.9400737, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.58, "total_s": 39.69, "waited_s": 15.57, "error": null}
+{"t": 1793313146.7416136, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 9.38, "total_s": 22.67, "waited_s": 0.0, "error": null}
+{"t": 1793313147.3789763, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.62, "why": ""}
+{"t": 1793313148.2897184, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.11, "total_s": 39.68, "waited_s": 18.47, "error": null}
+{"t": 1793313150.2892005, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.446, "why": ""}
+{"t": 1793313152.9409366, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.79, "total_s": 24.94, "waited_s": 4.21, "error": null}
+{"t": 1793313153.4629781, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.739, "why": ""}
+{"t": 1793313154.4137657, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.813, "why": ""}
+{"t": 1793313154.5345469, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.791, "why": ""}
+{"t": 1793313154.9798691, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.681, "why": ""}
+{"t": 1793313156.5887995, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.199, "why": ""}
+{"t": 1793313156.7331493, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.251, "why": ""}
+{"t": 1793313157.9922113, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.369, "why": ""}
+{"t": 1793313159.0316114, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.63, "total_s": 40.75, "waited_s": 23.96, "error": null}
+{"t": 1793313160.3979719, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.547, "why": ""}
+{"t": 1793313162.225267, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.872, "why": ""}
+{"t": 1793313162.4385755, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.081, "why": ""}
+{"t": 1793313163.0452528, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.641, "why": ""}
+{"t": 1793313163.9391127, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.19, "total_s": 33.48, "waited_s": 0.0, "error": null}
+{"t": 1793313165.114914, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.19, "total_s": 39.13, "waited_s": 17.75, "error": null}
+{"t": 1793313167.0070727, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.55, "total_s": 18.84, "waited_s": 0.0, "error": null}
+{"t": 1793313168.2668505, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 7.59, "total_s": 19.02, "waited_s": 0.0, "error": null}
+{"t": 1793313168.8648067, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.479, "why": ""}
+{"t": 1793313169.068, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.671, "why": ""}
+{"t": 1793313169.4438567, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.09, "total_s": 38.4, "waited_s": 19.19, "error": null}
+{"t": 1793313169.799398, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.95, "total_s": 31.27, "waited_s": 0.0, "error": null}
+{"t": 1793313169.8457415, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.22, "total_s": 24.48, "waited_s": 0.07, "error": null}
+{"t": 1793313170.3969, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.964, "why": ""}
+{"t": 1793313172.5971367, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.07, "total_s": 39.65, "waited_s": 17.78, "error": null}
+{"t": 1793313172.6948824, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.348, "why": ""}
+{"t": 1793313172.8974016, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.48, "total_s": 19.8, "waited_s": 0.0, "error": null}
+{"t": 1793313173.1980426, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.28, "total_s": 19.06, "waited_s": 0.0, "error": null}
+{"t": 1793313174.9472423, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.493, "why": ""}
+{"t": 1793313175.7115324, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.12, "total_s": 39.36, "waited_s": 22.57, "error": null}
+{"t": 1793313176.345516, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.86, "total_s": 23.7, "waited_s": 0.0, "error": null}
+{"t": 1793313177.8839002, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.0, "total_s": 22.72, "waited_s": 0.0, "error": null}
+{"t": 1793313178.7513328, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.949, "why": ""}
+{"t": 1793313179.25106, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 1, "hit": null, "fork_s": 7.78, "total_s": 14.15, "waited_s": 0.0, "error": null}
+{"t": 1793313179.444898, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.269, "why": ""}
+{"t": 1793313179.619622, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.234, "why": ""}
+{"t": 1793313181.1502793, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.77, "total_s": 39.52, "waited_s": 21.2, "error": null}
+{"t": 1793313182.0560074, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.077, "why": ""}
+{"t": 1793313183.7901256, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 9.92, "total_s": 24.66, "waited_s": 6.21, "error": null}
+{"t": 1793313184.4025807, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.06, "total_s": 39.9, "waited_s": 19.98, "error": null}
+{"t": 1793313184.4654021, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.042, "why": ""}
+{"t": 1793313185.2512825, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.19, "total_s": 39.79, "waited_s": 21.66, "error": null}
+{"t": 1793313185.5953212, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.02, "total_s": 39.54, "waited_s": 21.37, "error": null}
+{"t": 1793313185.6825798, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.659, "why": ""}
+{"t": 1793313185.8128252, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.28, "total_s": 23.59, "waited_s": 3.49, "error": null}
+{"t": 1793313186.0251918, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.13, "why": ""}
+{"t": 1793313186.6901546, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.56, "total_s": 15.52, "waited_s": 0.0, "error": null}
+{"t": 1793313188.6084912, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.71, "total_s": 40.22, "waited_s": 22.4, "error": null}
+{"t": 1793313189.2378898, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 5, "reward": 0.0, "steps": 5, "error": null, "secs": 264.3}
+{"t": 1793313189.5892, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.718, "why": ""}
+{"t": 1793313189.9876084, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 5, "secs": 0.75}
+{"t": 1793313191.1512475, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.529, "why": ""}
+{"t": 1793313191.4455476, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.934, "why": ""}
+{"t": 1793313193.5575302, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 3, "reward": 0.0, "steps": 5, "error": null, "secs": 268.7}
+{"t": 1793313193.862867, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 3, "secs": 0.3}
+{"t": 1793313194.0587127, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.938, "why": ""}
+{"t": 1793313194.8716288, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.14, "why": ""}
+{"t": 1793313195.6042817, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.946, "why": ""}
+{"t": 1793313196.648208, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.613, "why": ""}
+{"t": 1793313196.696623, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.511, "why": ""}
+{"t": 1793313197.1224186, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.741, "why": ""}
+{"t": 1793313198.4639301, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.549, "why": ""}
+{"t": 1793313199.220267, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 8.99, "total_s": 39.03, "waited_s": 7.59, "error": null}
+{"t": 1793313199.64349, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.708, "why": ""}
+{"t": 1793313200.4686446, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.969, "why": ""}
+{"t": 1793313200.8713694, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.12, "total_s": 25.06, "waited_s": 6.62, "error": null}
+{"t": 1793313203.0846443, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.6, "total_s": 25.42, "waited_s": 0.0, "error": null}
+{"t": 1793313203.0876596, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.54, "total_s": 26.9, "waited_s": 0.0, "error": null}
+{"t": 1793313204.0692537, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 10.88, "total_s": 18.14, "waited_s": 0.01, "error": null}
+{"t": 1793313204.7898297, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.06, "total_s": 16.62, "waited_s": 0.0, "error": null}
+{"t": 1793313205.2851958, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.85, "total_s": 40.08, "waited_s": 19.48, "error": null}
+{"t": 1793313205.99902, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.85, "total_s": 23.59, "waited_s": 2.63, "error": null}
+{"t": 1793313206.7412617, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 9.35, "total_s": 37.2, "waited_s": 10.72, "error": null}
+{"t": 1793313207.0925148, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.634, "why": ""}
+{"t": 1793313208.651225, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.127, "why": ""}
+{"t": 1793313208.9793344, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.074, "why": ""}
+{"t": 1793313209.6936004, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.69, "total_s": 39.75, "waited_s": 20.22, "error": null}
+{"t": 1793313210.0154476, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.05, "total_s": 18.29, "waited_s": 0.0, "error": null}
+{"t": 1793313210.6286042, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.453, "why": ""}
+{"t": 1793313212.9656034, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.45, "total_s": 40.25, "waited_s": 11.46, "error": null}
+{"t": 1793313214.4326348, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.855, "why": ""}
+{"t": 1793313215.3451574, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.055, "why": ""}
+{"t": 1793313215.9103496, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.728, "why": ""}
+{"t": 1793313216.2679424, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.28, "total_s": 23.98, "waited_s": 5.43, "error": null}
+{"t": 1793313217.3107839, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 1, "hit": null, "fork_s": 7.37, "total_s": 15.64, "waited_s": 0.0, "error": null}
+{"t": 1793313218.559545, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.469, "why": ""}
+{"t": 1793313220.2309217, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.05, "total_s": 38.57, "waited_s": 18.72, "error": null}
+{"t": 1793313221.241449, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.37, "total_s": 39.99, "waited_s": 22.76, "error": null}
+{"t": 1793313222.3112602, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.013, "why": ""}
+{"t": 1793313224.1085818, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.34, "total_s": 40.22, "waited_s": 21.73, "error": null}
+{"t": 1793313224.270912, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.11, "why": ""}
+{"t": 1793313224.9702039, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.45, "total_s": 25.67, "waited_s": 0.0, "error": null}
+{"t": 1793313225.1879218, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.48, "total_s": 40.67, "waited_s": 10.18, "error": null}
+{"t": 1793313225.7310596, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.36, "total_s": 40.39, "waited_s": 15.81, "error": null}
+{"t": 1793313226.2144876, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.607, "why": ""}
+{"t": 1793313226.9472475, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.18, "why": ""}
+{"t": 1793313226.9767408, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 11.02, "total_s": 41.22, "waited_s": 22.9, "error": null}
+{"t": 1793313227.173392, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 7.99, "total_s": 27.97, "waited_s": 0.0, "error": null}
+{"t": 1793313227.6798675, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 1, "hit": null, "fork_s": 9.04, "total_s": 20.74, "waited_s": 0.0, "error": null}
+{"t": 1793313228.9097455, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.225, "why": ""}
+{"t": 1793313228.984952, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.88, "total_s": 40.28, "waited_s": 12.52, "error": null}
+{"t": 1793313230.427904, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.851, "why": ""}
+{"t": 1793313231.1046956, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.538, "why": ""}
+{"t": 1793313233.4381099, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.97, "total_s": 17.07, "waited_s": 0.0, "error": null}
+{"t": 1793313233.6089866, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.187, "why": ""}
+{"t": 1793313235.3150535, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.799, "why": ""}
+{"t": 1793313235.3164635, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 8.87, "total_s": 25.51, "waited_s": 0.0, "error": null}
+{"t": 1793313235.3802297, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.307, "why": ""}
+{"t": 1793313236.6385188, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.211, "why": ""}
+{"t": 1793313238.3247223, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.004, "why": ""}
+{"t": 1793313238.6561372, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.49, "total_s": 22.73, "waited_s": 0.0, "error": null}
+{"t": 1793313240.9540973, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.254, "why": ""}
+{"t": 1793313241.0876968, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.581, "why": ""}
+{"t": 1793313241.3414752, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 9.71, "total_s": 28.29, "waited_s": 0.0, "error": null}
+{"t": 1793313241.6653554, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.66, "total_s": 23.11, "waited_s": 5.36, "error": null}
+{"t": 1793313241.765946, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.77, "total_s": 40.81, "waited_s": 21.06, "error": null}
+{"t": 1793313244.5694075, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.63, "total_s": 24.14, "waited_s": 2.12, "error": null}
+{"t": 1793313245.0481033, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.406, "why": ""}
+{"t": 1793313245.5129209, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.17, "total_s": 40.14, "waited_s": 20.33, "error": null}
+{"t": 1793313246.4908547, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.38, "total_s": 40.41, "waited_s": 23.73, "error": null}
+{"t": 1793313247.690145, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.174, "why": ""}
+{"t": 1793313249.388246, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.57, "total_s": 25.18, "waited_s": 6.65, "error": null}
+{"t": 1793313249.592742, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.392, "why": ""}
+{"t": 1793313251.6482944, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 10.007, "why": ""}
+{"t": 1793313251.9653478, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.921, "why": ""}
+{"t": 1793313252.090351, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.985, "why": ""}
+{"t": 1793313252.5268123, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 1, "reward": 0.0, "steps": 8, "error": null, "secs": 327.6}
+{"t": 1793313253.2774177, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 1, "secs": 0.75}
+{"t": 1793313254.5300784, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.638, "why": ""}
+{"t": 1793313255.5043178, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 10.21, "total_s": 35.17, "waited_s": 0.0, "error": null}
+{"t": 1793313255.607344, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.581, "why": ""}
+{"t": 1793313256.4068859, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.69, "total_s": 22.97, "waited_s": 2.51, "error": null}
+{"t": 1793313256.8260841, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.031, "why": ""}
+{"t": 1793313259.2105958, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.471, "why": ""}
+{"t": 1793313261.393437, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.85, "total_s": 40.04, "waited_s": 15.6, "error": null}
+{"t": 1793313262.9697752, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.75, "total_s": 27.57, "waited_s": 0.0, "error": null}
+{"t": 1793313263.0829396, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 7.94, "total_s": 29.82, "waited_s": 0.0, "error": null}
+{"t": 1793313264.4046042, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.727, "why": ""}
+{"t": 1793313264.9532275, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.977, "why": ""}
+{"t": 1793313265.5597894, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.18, "total_s": 40.27, "waited_s": 21.0, "error": null}
+{"t": 1793313265.6772096, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.74, "total_s": 39.85, "waited_s": 12.47, "error": null}
+{"t": 1793313266.5937107, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.58, "total_s": 39.43, "waited_s": 20.8, "error": null}
+{"t": 1793313266.6985726, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.914, "why": ""}
+{"t": 1793313268.5938616, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.35, "total_s": 39.52, "waited_s": 14.27, "error": null}
+{"t": 1793313269.3256638, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.96, "total_s": 24.65, "waited_s": 0.0, "error": null}
+{"t": 1793313269.8746037, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 8.74, "total_s": 28.91, "waited_s": 0.0, "error": null}
+{"t": 1793313270.9727159, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.266, "why": ""}
+{"t": 1793313271.5585754, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.738, "why": ""}
+{"t": 1793313272.0377722, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.84, "total_s": 22.55, "waited_s": 0.0, "error": null}
+{"t": 1793313275.2578292, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.202, "why": ""}
+{"t": 1793313275.3151524, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.423, "why": ""}
+{"t": 1793313275.6649053, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.76, "why": ""}
+{"t": 1793313277.8172839, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.896, "why": ""}
+{"t": 1793313279.1144252, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.859, "why": ""}
+{"t": 1793313279.1827261, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 7.51, "total_s": 38.89, "waited_s": 18.27, "error": null}
+{"t": 1793313281.6072357, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 8.05, "total_s": 18.0, "waited_s": 0.0, "error": null}
+{"t": 1793313282.3192778, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 10.36, "total_s": 40.89, "waited_s": 13.73, "error": null}
+{"t": 1793313282.8446205, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.34, "total_s": 41.0, "waited_s": 12.8, "error": null}
+{"t": 1793313283.0312936, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.36, "total_s": 41.27, "waited_s": 23.02, "error": null}
+{"t": 1793313285.091328, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.94, "why": ""}
+{"t": 1793313286.273115, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 10.34, "total_s": 29.78, "waited_s": 0.0, "error": null}
+{"t": 1793313287.2420104, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.0, "total_s": 41.49, "waited_s": 23.27, "error": null}
+{"t": 1793313288.015233, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.35, "total_s": 41.44, "waited_s": 20.38, "error": null}
+{"t": 1793313288.5677457, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.036, "why": ""}
+{"t": 1793313292.440193, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.682, "why": ""}
+{"t": 1793313293.2353265, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.842, "why": ""}
+{"t": 1793313293.2842662, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.068, "why": ""}
+{"t": 1793313295.1789074, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.012, "why": ""}
+{"t": 1793313296.5303617, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 8.14, "total_s": 40.13, "waited_s": 10.75, "error": null}
+{"t": 1793313296.9746442, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.412, "why": ""}
+{"t": 1793313297.610251, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.301, "why": ""}
+{"t": 1793313301.5720985, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.319, "why": ""}
+{"t": 1793313301.6623228, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.61, "total_s": 40.18, "waited_s": 20.39, "error": null}
+{"t": 1793313303.027549, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.2, "total_s": 32.99, "waited_s": 0.0, "error": null}
+{"t": 1793313306.0296826, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.76, "total_s": 40.37, "waited_s": 21.06, "error": null}
+{"t": 1793313306.2291079, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.002, "why": ""}
+{"t": 1793313306.252157, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.61, "total_s": 40.48, "waited_s": 22.3, "error": null}
+{"t": 1793313306.421201, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.28, "total_s": 49.65, "waited_s": 23.9, "error": null}
+{"t": 1793313306.4214337, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.549, "why": ""}
+{"t": 1793313306.9227848, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.07, "total_s": 40.23, "waited_s": 22.53, "error": null}
+{"t": 1793313308.0337715, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.127, "why": ""}
+{"t": 1793313308.3602366, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.24, "total_s": 39.67, "waited_s": 20.65, "error": null}
+{"t": 1793313309.4551742, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.216, "why": ""}
+{"t": 1793313311.3762662, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.396, "why": ""}
+{"t": 1793313315.4648569, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.26, "total_s": 38.54, "waited_s": 0.0, "error": null}
+{"t": 1793313316.4885302, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.835, "why": ""}
+{"t": 1793313316.6234498, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.108, "why": ""}
+{"t": 1793313316.7184303, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.835, "why": ""}
+{"t": 1793313316.7883275, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.529, "why": ""}
+{"t": 1793313318.3217692, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.646, "why": ""}
+{"t": 1793313318.8224063, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.4, "total_s": 39.55, "waited_s": 19.0, "error": null}
+{"t": 1793313322.9513547, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.19, "total_s": 39.8, "waited_s": 20.07, "error": null}
+{"t": 1793313323.6858609, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 1, "fork_s": 10.05, "total_s": 41.18, "waited_s": 11.34, "error": null}
+{"t": 1793313323.7740417, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.45, "total_s": 40.84, "waited_s": 19.41, "error": null}
+{"t": 1793313325.0865998, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 10.08, "total_s": 28.46, "waited_s": 0.0, "error": null}
+{"t": 1793313325.693668, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.729, "why": ""}
+{"t": 1793313328.1272368, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.33, "total_s": 41.17, "waited_s": 20.08, "error": null}
+{"t": 1793313328.207896, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.092, "why": ""}
+{"t": 1793313329.1650064, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 4, "reward": 0.0, "steps": 10, "error": null, "secs": 404.3}
+{"t": 1793313329.2036655, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.78, "total_s": 41.88, "waited_s": 22.97, "error": null}
+{"t": 1793313329.3271794, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.62, "total_s": 41.23, "waited_s": 18.26, "error": null}
+{"t": 1793313330.1247947, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 4, "secs": 0.96}
+{"t": 1793313333.133476, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.868, "why": ""}
+{"t": 1793313333.675906, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 7.71, "total_s": 39.66, "waited_s": 0.0, "error": null}
+{"t": 1793313334.2168572, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 10.089, "why": ""}
+{"t": 1793313334.3601685, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.13, "why": ""}
+{"t": 1793313337.651259, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.199, "why": ""}
+{"t": 1793313338.0394146, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 8.53, "total_s": 40.02, "waited_s": 19.78, "error": null}
+{"t": 1793313338.55323, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.49, "total_s": 19.65, "waited_s": 0.0, "error": null}
+{"t": 1793313338.8923793, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.5, "total_s": 39.24, "waited_s": 17.19, "error": null}
+{"t": 1793313339.7706826, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.237, "why": ""}
+{"t": 1793313339.976374, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.292, "why": ""}
+{"t": 1793313340.7836342, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.52, "total_s": 39.76, "waited_s": 17.01, "error": null}
+{"t": 1793313341.834259, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.71, "total_s": 40.08, "waited_s": 21.45, "error": null}
+{"t": 1793313343.2465296, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.253, "why": ""}
+{"t": 1793313343.7312937, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 10.47, "total_s": 19.86, "waited_s": 0.0, "error": null}
+{"t": 1793313347.0549839, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.9, "total_s": 40.03, "waited_s": 23.75, "error": null}
+{"t": 1793313347.6031, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.34, "total_s": 41.23, "waited_s": 23.93, "error": null}
+{"t": 1793313347.7567267, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.862, "why": ""}
+{"t": 1793313347.783412, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.54, "total_s": 19.57, "waited_s": 0.0, "error": null}
+{"t": 1793313348.299777, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.914, "why": ""}
+{"t": 1793313349.2061129, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.958, "why": ""}
+{"t": 1793313349.3137746, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.57, "total_s": 43.1, "waited_s": 24.33, "error": null}
+{"t": 1793313350.7597947, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.644, "why": ""}
+{"t": 1793313351.0242777, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.96, "total_s": 42.56, "waited_s": 26.59, "error": null}
+{"t": 1793313351.2060525, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.09, "total_s": 33.47, "waited_s": 0.0, "error": null}
+{"t": 1793313351.7353077, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.574, "why": ""}
+{"t": 1793313356.2645295, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 10.26, "total_s": 18.12, "waited_s": 0.0, "error": null}
+{"t": 1793313356.2665877, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 10.32, "total_s": 17.27, "waited_s": 0.0, "error": null}
+{"t": 1793313357.0005574, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.625, "why": ""}
+{"t": 1793313357.1626594, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.134, "why": ""}
+{"t": 1793313359.0477395, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.405, "why": ""}
+{"t": 1793313359.2573268, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.975, "why": ""}
+{"t": 1793313360.5001597, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.085, "why": ""}
+{"t": 1793313360.6502762, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 7, "reward": 0.0, "steps": 10, "error": null, "secs": 435.7}
+{"t": 1793313361.3095448, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 7, "secs": 0.66}
+{"t": 1793313361.6649003, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 9.9, "total_s": 19.74, "waited_s": 0.0, "error": null}
+{"t": 1793313363.24307, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.21, "total_s": 56.6, "waited_s": 35.63, "error": null}
+{"t": 1793313363.5739098, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.19, "total_s": 40.53, "waited_s": 20.3, "error": null}
+{"t": 1793313365.6252434, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.47, "total_s": 41.64, "waited_s": 24.86, "error": null}
+{"t": 1793313371.3430254, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 7.574, "why": ""}
+{"t": 1793313371.7033722, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.58, "total_s": 42.4, "waited_s": 27.09, "error": null}
+{"t": 1793313371.8929694, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.66, "total_s": 42.47, "waited_s": 22.68, "error": null}
+{"t": 1793313372.6632774, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.801, "why": ""}
+{"t": 1793313372.7218256, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.056, "why": ""}
+{"t": 1793313373.9540284, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.758, "why": ""}
+{"t": 1793313375.2868652, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.252, "why": ""}
+{"t": 1793313377.534389, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": 0, "fork_s": 9.62, "total_s": 43.78, "waited_s": 14.52, "error": null}
+{"t": 1793313377.7637277, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.44, "total_s": 26.85, "waited_s": 8.02, "error": null}
+{"t": 1793313380.9101844, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 7.87, "total_s": 17.35, "waited_s": 0.0, "error": null}
+{"t": 1793313380.9917219, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.28, "total_s": 41.34, "waited_s": 22.28, "error": null}
+{"t": 1793313381.8310008, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.42, "why": ""}
+{"t": 1793313382.1515043, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.858, "why": ""}
+{"t": 1793313382.2672331, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.204, "why": ""}
+{"t": 1793313383.6309159, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.99, "total_s": 42.73, "waited_s": 24.7, "error": null}
+{"t": 1793313384.705576, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": null, "fork_s": 9.11, "total_s": 21.05, "waited_s": 0.0, "error": null}
+{"t": 1793313386.6876185, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.171, "why": ""}
+{"t": 1793313387.2733214, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.52, "total_s": 39.52, "waited_s": 20.19, "error": null}
+{"t": 1793313387.3446968, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 9.5, "why": ""}
+{"t": 1793313387.4727538, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.02, "total_s": 40.33, "waited_s": 21.52, "error": null}
+{"t": 1793313388.1512647, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.077, "why": ""}
+{"t": 1793313390.8950021, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.558, "why": ""}
+{"t": 1793313391.06612, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.12, "total_s": 25.14, "waited_s": 0.0, "error": null}
+{"t": 1793313391.7283034, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.77, "total_s": 42.33, "waited_s": 23.44, "error": null}
+{"t": 1793313392.9637072, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.48, "total_s": 41.84, "waited_s": 24.3, "error": null}
+{"t": 1793313393.613481, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.633, "why": ""}
+{"t": 1793313396.8063486, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.871, "why": ""}
+{"t": 1793313398.0192091, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.355, "why": ""}
+{"t": 1793313398.131559, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.256, "why": ""}
+{"t": 1793313399.8892155, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 10.33, "total_s": 27.91, "waited_s": 9.16, "error": null}
+{"t": 1793313401.6739967, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.633, "why": ""}
+{"t": 1793313402.1317768, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 10.0, "total_s": 24.5, "waited_s": 0.0, "error": null}
+{"t": 1793313402.8143036, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.501, "why": ""}
+{"t": 1793313402.9468877, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.51, "total_s": 24.66, "waited_s": 7.97, "error": null}
+{"t": 1793313404.9299762, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.1, "why": ""}
+{"t": 1793313406.2366517, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.68, "total_s": 40.52, "waited_s": 22.23, "error": null}
+{"t": 1793313409.030484, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.124, "why": ""}
+{"t": 1793313409.7431571, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.238, "why": ""}
+{"t": 1793313412.1842875, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.664, "why": ""}
+{"t": 1793313412.706392, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.457, "why": ""}
+{"t": 1793313415.1502218, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.79, "total_s": 41.98, "waited_s": 22.92, "error": null}
+{"t": 1793313415.5933585, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.024, "why": ""}
+{"t": 1793313415.7577026, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.57, "total_s": 43.96, "waited_s": 27.01, "error": null}
+{"t": 1793313418.710356, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.4, "total_s": 40.85, "waited_s": 23.12, "error": null}
+{"t": 1793313419.73179, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.37, "total_s": 56.27, "waited_s": 36.49, "error": null}
+{"t": 1793313419.951213, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.58, "total_s": 19.68, "waited_s": 0.01, "error": null}
+{"t": 1793313422.1291525, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.96, "total_s": 41.03, "waited_s": 20.65, "error": null}
+{"t": 1793313423.3273215, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.04, "total_s": 19.07, "waited_s": 0.0, "error": null}
+{"t": 1793313424.7463114, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.246, "why": ""}
+{"t": 1793313425.3202467, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.204, "why": ""}
+{"t": 1793313425.538022, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.98, "total_s": 41.8, "waited_s": 22.62, "error": null}
+{"t": 1793313427.3959723, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.26, "total_s": 39.74, "waited_s": 22.83, "error": null}
+{"t": 1793313428.229053, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.189, "why": ""}
+{"t": 1793313429.284941, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.67, "total_s": 41.72, "waited_s": 24.5, "error": null}
+{"t": 1793313429.4556146, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.186, "why": ""}
+{"t": 1793313430.5262554, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.79, "total_s": 43.15, "waited_s": 25.96, "error": null}
+{"t": 1793313432.068498, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.612, "why": ""}
+{"t": 1793313432.4904718, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.95, "total_s": 40.66, "waited_s": 24.78, "error": null}
+{"t": 1793313435.375527, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.95, "total_s": 42.31, "waited_s": 26.15, "error": null}
+{"t": 1793313435.4762611, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 9.625, "why": ""}
+{"t": 1793313435.6924398, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 8.4, "total_s": 39.07, "waited_s": 22.33, "error": null}
+{"t": 1793313436.1021705, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.58, "total_s": 16.08, "waited_s": 0.0, "error": null}
+{"t": 1793313436.8565516, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 6, "reward": 0.0, "steps": 15, "error": null, "secs": 558.5}
+{"t": 1793313437.2158513, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 6, "secs": 0.36}
+{"t": 1793313437.9078362, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 10.162, "why": ""}
+{"t": 1793313437.9664598, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 7.864, "why": ""}
+{"t": 1793313438.8232439, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 1, "fork_s": 8.45, "total_s": 38.14, "waited_s": 18.2, "error": null}
+{"t": 1793313439.4233117, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.821, "why": ""}
+{"t": 1793313440.0305614, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 1, "reward": 0.0, "steps": 15, "error": null, "secs": 564.4}
+{"t": 1793313440.4143329, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 1, "secs": 0.38}
+{"t": 1793313440.8569713, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.03, "why": ""}
+{"t": 1793313442.8660657, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 10.055, "why": ""}
+{"t": 1793313442.8902915, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.659, "why": ""}
+{"t": 1793313443.0300543, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 1, "hit": null, "fork_s": 8.11, "total_s": 13.13, "waited_s": 0.0, "error": null}
+{"t": 1793313444.538155, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.77, "total_s": 41.5, "waited_s": 23.61, "error": null}
+{"t": 1793313444.8307214, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 9.54, "total_s": 26.03, "waited_s": 9.91, "error": null}
+{"t": 1793313444.9855921, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 8.283, "why": ""}
+{"t": 1793313445.2579541, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.827, "why": ""}
+{"t": 1793313445.6108856, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.892, "why": ""}
+{"t": 1793313447.7525318, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.36, "total_s": 41.41, "waited_s": 27.58, "error": null}
+{"t": 1793313448.9207518, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 3, "reward": 0.0, "steps": 15, "error": null, "secs": 570.9}
+{"t": 1793313449.1151974, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 9.18, "total_s": 12.92, "waited_s": 0.0, "error": null}
+{"t": 1793313449.3696845, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 3, "secs": 0.45}
+{"t": 1793313452.1499825, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 9.03, "total_s": 18.15, "waited_s": 0.0, "error": null}
+{"t": 1793313453.8916602, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 8.691, "why": ""}
+{"t": 1793313454.3016298, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 9.41, "why": ""}
+{"t": 1793313455.4738877, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 1, "fork_s": 9.6, "total_s": 40.22, "waited_s": 21.69, "error": null}
+{"t": 1793313456.452466, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.54, "total_s": 40.58, "waited_s": 24.1, "error": null}
+{"t": 1793313456.6364443, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 4, "reward": 0.0, "steps": 15, "error": null, "secs": 578.6}
+{"t": 1793313457.0247772, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 4, "secs": 0.39}
+{"t": 1793313462.2292428, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 8.77, "total_s": 25.76, "waited_s": 0.0, "error": null}
+{"t": 1793313462.5059924, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 6, "reward": 0.0, "steps": 12, "error": null, "secs": 537.6}
+{"t": 1793313462.8634667, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 6, "secs": 0.36}
+{"t": 1793313463.1722116, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.97, "total_s": 40.96, "waited_s": 24.62, "error": null}
+{"t": 1793313464.324445, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 7, "reward": 0.0, "steps": 15, "error": null, "secs": 588.7}
+{"t": 1793313464.706915, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 7, "secs": 0.38}
+{"t": 1793313465.313428, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.524, "why": ""}
+{"t": 1793313466.226766, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.1, "total_s": 40.59, "waited_s": 21.01, "error": null}
+{"t": 1793313467.3777127, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 2, "reward": 0.0, "steps": 15, "error": null, "secs": 589.3}
+{"t": 1793313467.7837121, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 2, "secs": 0.4}
+{"t": 1793313469.4658577, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 1, "reward": 0.0, "steps": 15, "error": null, "secs": 591.4}
+{"t": 1793313469.5707057, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 10.53, "total_s": 42.09, "waited_s": 22.14, "error": null}
+{"t": 1793313470.3317068, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 1, "secs": 0.86}
+{"t": 1793313470.4673202, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 2, "reward": 0.0, "steps": 11, "error": null, "secs": 545.6}
+{"t": 1793313470.7204757, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 7, "reward": 0.0, "steps": 15, "error": null, "secs": 592.4}
+{"t": 1793313471.142124, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 7, "secs": 0.42}
+{"t": 1793313471.1946044, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 2, "secs": 0.73}
+{"t": 1793313471.8467276, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": 0, "fork_s": 9.09, "total_s": 26.93, "waited_s": 5.74, "error": null}
+{"t": 1793313473.0466099, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 5, "reward": 0.0, "steps": 15, "error": null, "secs": 594.7}
+{"t": 1793313473.3711944, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 5, "secs": 0.32}
+{"t": 1793313473.5632148, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.684, "why": ""}
+{"t": 1793313475.442677, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.14, "total_s": 46.06, "waited_s": 29.94, "error": null}
+{"t": 1793313475.720356, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.34, "total_s": 45.11, "waited_s": 28.61, "error": null}
+{"t": 1793313475.8692555, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.24, "total_s": 40.39, "waited_s": 21.84, "error": null}
+{"t": 1793313478.0934246, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 10.43, "total_s": 45.52, "waited_s": 30.67, "error": null}
+{"t": 1793313483.82947, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.061, "why": ""}
+{"t": 1793313483.9283564, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.877, "why": ""}
+{"t": 1793313484.0029864, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 1, "hit": null, "fork_s": 6.96, "total_s": 17.36, "waited_s": 0.0, "error": null}
+{"t": 1793313484.1960695, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 8.003, "why": ""}
+{"t": 1793313486.3482778, "event": "tfork_clone", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "attempt": 0, "ok": true, "secs": 7.937, "why": ""}
+{"t": 1793313487.7650197, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 9.77, "total_s": 43.13, "waited_s": 24.32, "error": null}
+{"t": 1793313488.9547021, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 3, "reward": 0.0, "steps": 15, "error": null, "secs": 613.3}
+{"t": 1793313489.3096342, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 3, "secs": 0.35}
+{"t": 1793313498.7477522, "event": "tfork_clone", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "attempt": 0, "ok": true, "secs": 6.195, "why": ""}
+{"t": 1793313499.6158667, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.85, "total_s": 43.06, "waited_s": 28.65, "error": null}
+{"t": 1793313500.7639031, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 6, "reward": 0.0, "steps": 15, "error": null, "secs": 625.1}
+{"t": 1793313501.092685, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 6, "secs": 0.33}
+{"t": 1793313509.3093565, "event": "spec_exec", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "guesses": 2, "hit": null, "fork_s": 6.46, "total_s": 16.93, "waited_s": 0.0, "error": null}
+{"t": 1793313519.844905, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.5, "total_s": 44.33, "waited_s": 30.32, "error": null}
+{"t": 1793313520.8546834, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.42, "total_s": 44.9, "waited_s": 27.64, "error": null}
+{"t": 1793313520.9967792, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.36, "total_s": 45.19, "waited_s": 28.18, "error": null}
+{"t": 1793313520.999584, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 4, "reward": 0.0, "steps": 15, "error": null, "secs": 645.3}
+{"t": 1793313521.1532147, "event": "spec_exec", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "guesses": 2, "hit": 0, "fork_s": 8.25, "total_s": 42.96, "waited_s": 28.91, "error": null}
+{"t": 1793313521.511126, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 4, "secs": 0.51}
+{"t": 1793313522.0146456, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 0, "reward": 0.0, "steps": 15, "error": null, "secs": 646.4}
+{"t": 1793313522.178215, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 5, "reward": 0.0, "steps": 15, "error": null, "secs": 646.5}
+{"t": 1793313522.311743, "event": "rollout_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "k": 2, "reward": 0.0, "steps": 15, "error": null, "secs": 646.7}
+{"t": 1793313522.4583979, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 0, "secs": 0.44}
+{"t": 1793313522.708177, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 5, "secs": 0.53}
+{"t": 1793313522.9866176, "event": "copy_released", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "k": 2, "secs": 0.67}
+{"t": 1793313523.0662026, "event": "group_done", "task": "42e0a640-4f19-4b28-973d-729602b5a4a7", "g": 0, "rewards": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mean": 0.0, "containers": {"osw-spec-tail-B2-t0": {"rss_mib": 1687.3, "pss_mib": 899.2, "pss_anon_mib": 593.3, "pss_file_mib": 292.4, "pss_shmem_mib": 13.4, "nprocs": 25, "cg_mib": 1682.5, "cg_ws_mib": 1273.6, "cg_anon_mib": 593.7, "cg_file_mib": 1047.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 42.1, "cg_inactive_file_mib": 408.9, "t": 0}}, "total": {"pss_mib": 899.2, "pss_anon_mib": 593.3, "pss_file_mib": 292.4, "pss_shmem_mib": 13.4, "rss_mib": 1687.3, "cg_mib": 1682.5, "cg_ws_mib": 1273.6, "cg_anon_mib": 593.7, "cg_file_mib": 1047.1, "cg_shmem_mib": 43.8, "cg_kernel_mib": 42.1, "cg_inactive_file_mib": 408.9}, "host": {"used_mib": 17614, "avail_mib": 235435, "used_delta_mib": 6705, "anon_mib": 5359, "shmem_mib": 359, "cached_mib": 121624}}
+{"t": 1793313527.2565277, "event": "tfork_clone", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "attempt": 0, "ok": true, "secs": 6.224, "why": ""}
+{"t": 1793313528.428084, "event": "rollout_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "k": 0, "reward": 0.0, "steps": 15, "error": null, "secs": 603.5}
+{"t": 1793313528.7345667, "event": "copy_released", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "k": 0, "secs": 0.3}
+{"t": 1793313528.8112779, "event": "group_done", "task": "7a4e4bc8-922c-4c84-865c-25ba34136be1", "g": 2, "rewards": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mean": 0.0, "containers": {"osw-spec-tail-B2-t2": {"rss_mib": 1678.0, "pss_mib": 891.5, "pss_anon_mib": 584.9, "pss_file_mib": 293.2, "pss_shmem_mib": 13.4, "nprocs": 25, "cg_mib": 1852.6, "cg_ws_mib": 1262.7, "cg_anon_mib": 585.1, "cg_file_mib": 1225.7, "cg_shmem_mib": 44.0, "cg_kernel_mib": 42.0, "cg_inactive_file_mib": 589.9, "t": 2}}, "total": {"pss_mib": 891.5, "pss_anon_mib": 584.9, "pss_file_mib": 293.2, "pss_shmem_mib": 13.4, "rss_mib": 1678.0, "cg_mib": 1852.6, "cg_ws_mib": 1262.7, "cg_anon_mib": 585.1, "cg_file_mib": 1225.7, "cg_shmem_mib": 44.0, "cg_kernel_mib": 42.0, "cg_inactive_file_mib": 589.9}, "host": {"used_mib": 16256, "avail_mib": 236793, "used_delta_mib": 5347, "anon_mib": 4580, "shmem_mib": 359, "cached_mib": 119755}}
+{"t": 1793313537.809238, "event": "spec_exec", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "guesses": 2, "hit": null, "fork_s": 6.52, "total_s": 16.99, "waited_s": 0.0, "error": null}
+{"t": 1793313577.1284516, "event": "rollout_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "k": 0, "reward": 0.0, "steps": 15, "error": null, "secs": 699.1}
+{"t": 1793313577.4520023, "event": "copy_released", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "k": 0, "secs": 0.32}
+{"t": 1793313577.52495, "event": "group_done", "task": "26a8440e-c166-4c50-aef4-bfb77314b46b", "g": 1, "rewards": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mean": 0.0, "containers": {"osw-spec-tail-B2-t1": {"rss_mib": 1686.2, "pss_mib": 898.9, "pss_anon_mib": 593.2, "pss_file_mib": 292.3, "pss_shmem_mib": 13.4, "nprocs": 25, "cg_mib": 1864.5, "cg_ws_mib": 1272.2, "cg_anon_mib": 593.2, "cg_file_mib": 1229.2, "cg_shmem_mib": 43.9, "cg_kernel_mib": 42.1, "cg_inactive_file_mib": 592.3, "t": 1}}, "total": {"pss_mib": 898.9, "pss_anon_mib": 593.2, "pss_file_mib": 292.3, "pss_shmem_mib": 13.4, "rss_mib": 1686.2, "cg_mib": 1864.5, "cg_ws_mib": 1272.2, "cg_anon_mib": 593.2, "cg_file_mib": 1229.2, "cg_shmem_mib": 43.9, "cg_kernel_mib": 42.1, "cg_inactive_file_mib": 592.3}, "host": {"used_mib": 14321, "avail_mib": 238728, "used_delta_mib": 3412, "anon_mib": 3541, "shmem_mib": 183, "cached_mib": 117825}}
+{"t": 1793313578.5183523, "event": "run_done", "aborted": false}

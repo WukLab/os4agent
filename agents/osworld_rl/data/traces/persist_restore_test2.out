@@ -1,0 +1,15 @@
+source alive: http 200
+1. clone (persistent=async): rc=0, 2.0 s, copy 445cfdf33833, alive: http 200
+2. async dump done after 0 s: image dir /mnt/ssd3/podman/storage/tfork-bundles/b54054903002872872a6341141ec3ece71e5611747909d86049a84a5783091b5/img, 429M, disk used so far 0.00 GiB
+3. stop copy: rc=0, 0.2 s, state exited
+   dump still there after stop: 793 files, 429M
+   copy's userdata: secrets ; image dir has inventory.img: /mnt/ssd3/podman/storage/tfork-bundles/b54054903002872872a6341141ec3ece71e5611747909d86049a84a5783091b5/img/inventory.img
+yes
+4. restore: rc=125, 0.1 s, state exited
+   Error: failed to mount shm tmpfs "": no such file or directory
+   restored copy alive: http 000
+5. restore again after a second stop (can one entry be reused?):
+   rc=125, alive: http 000
+   Error: failed to mount shm tmpfs "": no such file or directory
+total disk used by the entry: 0.00 GiB
+cleaned

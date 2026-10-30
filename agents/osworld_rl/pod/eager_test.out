@@ -1,0 +1,8 @@
+serving grpo_think_reg-pol2 from /root/merged/grpo_think_reg/e2 (GPU_UTIL=0.9 LORA=0): GPU KV cache size: 364,096 tokens
+== EAGER=1 (1 eager processes)
+grpo_think_reg-pol2: wall 73 s, max running 128, max waiting 93; all 128 decoding for 20 s: 3788 tok/s total, 29.6 tok/s per request
+grpo_think_reg-pol2: wall 15 s, max running 16, max waiting 0; all 16 decoding for 10 s: 1191 tok/s total, 74.4 tok/s per request
+serving grpo_think_reg-pol2 from /root/merged/grpo_think_reg/e2 (GPU_UTIL=0.9 LORA=0): GPU KV cache size: 364,080 tokens
+== EAGER=0 (0 eager processes)
+grpo_think_reg-pol2: wall 68 s, max running 128, max waiting 96; all 128 decoding for 20 s: 4106 tok/s total, 32.1 tok/s per request
+grpo_think_reg-pol2: wall 13 s, max running 16, max waiting 0; all 16 decoding for 8 s: 1515 tok/s total, 94.7 tok/s per request

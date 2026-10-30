@@ -1,0 +1,2 @@
+epoch 3 recorded 17:01:49
+train train_e5_shot.sh on traces/rec128e3_shot start 17:01:49

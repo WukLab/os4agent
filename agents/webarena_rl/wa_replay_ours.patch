@@ -1,0 +1,184 @@
+--- wa_replay.py.orig	2026-10-30 12:23:24
++++ wa_replay.py	2026-10-30 12:53:11
+@@ -58,13 +58,21 @@
+                 "as recorded")
+ ap.add_argument("--sample-s", type=float, default=5.0)
+ ap.add_argument("--image", default="localhost/wa-shop-browser142:latest")
++ap.add_argument("--screen-cache", type=int, default=0,
++                help="1: (task, page rows, action) seen before -> the next page rows are served at once and the model time "
++                     "starts; the copy runs the action, settles and reads the page in the background, and that real page "
++                     "is checked against the served one before the next action (mismatch: the model time is redone)")
++ap.add_argument("--screen-warm", default="", help="comma-separated earlier trace dirs (chat.jsonl) or replay dirs run with "
++                "--log-rows (steps.jsonl) the screen cache learns first")
++ap.add_argument("--log-rows", type=int, default=0, help="1: steps.jsonl keeps each step's page rows and final action (for "
++                "--screen-warm of a later run)")
+ ap.add_argument("--limit-waves", type=int, default=0)
+ ap.add_argument("--keep", action="store_true", help="leave the containers running (debug)")
+ ap.add_argument("--remap-ids", type=int, default=1, help="when the row at the recorded element id differs, act on the "
+                 "nearest row with the recorded (role, name)")
+ a = ap.parse_args()
+ 
+-REPO = HERE.parent.parent
++REPO = Path(os.environ.get("OS4AGENT", "/home/yutong/Repos/mlsys-resubmission/os4agent-wuklab-mlsys"))  # copy outside the repo: the tfork tree it was run from
+ PODMAN = ["env", "CONTAINERS_STORAGE_CONF=/mnt/data/btrfs/podman/storage.conf",
+           f"CONTAINERS_CONF={HERE}/containers-os4agent.conf", str(REPO / "podman-tfork.sh")]
+ MYSQL = ["mysql", "-u", "magentouser", "-pMyPassword", "magentodb", "-e"]
+@@ -479,8 +487,64 @@
+             for j in range(max(len(rec), len(now_rows))) if (rec[j:j + 1] or None) != (now_rows[j:j + 1] or None)]
+     return {"rows_equal": rec == now_rows, "rows_rec": len(rec), "rows_now": len(now_rows), "target_equal": tgt,
+             "rows_diff_n": len(diff), "rows_diff": diff[:6]}
++
++
++# ---------------------------------------------------------------- screen cache (--screen-cache)
++
++import hashlib  # noqa: E402
++SC = {}  # (task, rows hash, action key) -> next page rows
+ 
+ 
++def sc_key(task, rows, act):
++    kind = act.get("action")
++    if kind == "done":
++        return None
++    i = act.get("id")
++    tgt = "|".join(map(str, rows[i][:2])) if isinstance(i, int) and 0 <= i < len(rows) else ""
++    arg = act.get("text") or act.get("option") or act.get("url") or act.get("direction") or "+".join(map(str, act.get("keys", []))) or ""
++    return task, hashlib.sha1(json.dumps(rows).encode()).hexdigest(), f"{kind} {tgt} {arg}"
++
++
++def sc_warm(dirs):
++    n = 0
++    for root in dirs:
++        for d in Path(root).glob("*__g*"):
++            f = d / "chat.jsonl"
++            t = int(d.name.split("__g")[0])
++            if f.exists():  # a recording: chat.jsonl rows + action
++                ch = [(c["rows"], c["action"]) for c in (json.loads(l) for l in open(f) if l.strip())]
++            elif (d / "steps.jsonl").exists():  # a replay run with --log-rows: the rows it read, the action it ran
++                ch = [(x["rows"], x["act_final"]) for x in (json.loads(l) for l in open(d / "steps.jsonl") if l.strip())
++                      if "rows" in x and "act_final" in x]
++            else:
++                continue
++            for i in range(len(ch) - 1):
++                k = sc_key(t, ch[i][0], ch[i][1])
++                if k:
++                    SC.setdefault(k, ch[i + 1][0])
++                    n += 1
++    return n
++
++
++async def sc_background(ctx, cur, act, key):
++    """A served step on the real copy: the action, the settle, the next page read. -> (tab, real rows, error)"""
++    err = None
++    try:
++        cur = await asyncio.wait_for(execute(ctx, cur, act), a.step_timeout)
++    except Exception as e:
++        err = repr(e)[:300]
++    try:
++        await ctx.pages[cur].wait_for_load_state("domcontentloaded", timeout=10_000)
++    except Exception:
++        pass
++    await asyncio.sleep(a.sleep_after_action)
++    rows, _ = await asyncio.wait_for(read_page(ctx.pages[cur], ctx), a.step_timeout)
++    rows = json.loads(json.dumps(rows))
++    if key:
++        SC[key] = rows
++    return cur, rows, err
++
++
+ # ---------------------------------------------------------------- one replayed rollout
+ 
+ async def replay(pw, task, k, name, ip, wave_start, fork_tm):
+@@ -497,13 +561,21 @@
+         await ctx.pages[0].set_viewport_size({"width": 1280, "height": 900})
+         res["t_rollout_start"] = now()
+         cur, answer = 0, None
++        pending = served = prev_key = None  # --screen-cache: the background step, the page served, the last real step's key
++        sc = {"hit": 0, "miss": 0, "reject": 0, "waited_s": 0.0}
+         for c, rs in zip(chat, rsteps):
+             act = c["action"]
+             s = {"step": c["step"], "t_obs_start": now(), "action": act}
+             page = ctx.pages[cur]
+             s["url_before"], s["url_rec"] = page.url, c["url"]
+-            # step timeouts: a hung browser (CRIU run, 120__g1: CDP stopped answering) fails the rollout, not the run
+-            rows, _ = await asyncio.wait_for(read_page(page, ctx), a.step_timeout)
++            if served is not None:  # the previous step was served from the cache: this is its page, no read
++                rows, s["sc_served"] = served, True
++            else:
++                # step timeouts: a hung browser (CRIU run, 120__g1: CDP stopped answering) fails the rollout, not the run
++                rows, _ = await asyncio.wait_for(read_page(page, ctx), a.step_timeout)
++                rows = json.loads(json.dumps(rows))
++                if a.screen_cache and prev_key:
++                    SC[prev_key] = rows
+             s["t_obs_end"] = now()
+             s.update(row_match(c["rows"], rows, act))
+             if s["target_equal"] is False and a.remap_ids:   # page varied (row added / reordered): act on the same element
+@@ -514,17 +586,47 @@
+                     s["remapped"] = [i, act["id"]]
+                 else:
+                     s["remapped"] = [i, None]
++            if a.log_rows:
++                s["rows"], s["act_final"] = rows, act
+             s["llm_rec_s"] = c["t"]["llm_end"] - c["t"]["llm_start"]
+             s["rec"] = {k2: rs.get(k2) for k2 in ("t_obs_start", "t_obs_end", "t_llm_send", "t_first_token", "t_llm_done",
+                                                   "t_act_start", "t_act_end", "t_settle_end", "error", "url_after")}
+             s["t_llm_send"] = now()
+             await asyncio.sleep(a.replay_latency * s["llm_rec_s"])
+             s["t_llm_done"] = now()
++            if pending is not None:  # the served step's real run: check its page before acting on it
++                t_w = now()
++                cur, real, err = await pending
++                pending = None
++                s["sc_waited_s"] = round(now() - t_w, 3)
++                sc["waited_s"] += s["sc_waited_s"]
++                if err:
++                    s["sc_bg_error"] = err
++                if real != served:  # the cached page was wrong: think again on the real one
++                    sc["reject"] += 1
++                    s["sc_rejected"] = True
++                    rows = real
++                    await asyncio.sleep(a.replay_latency * s["llm_rec_s"])
++                    s["t_llm_done"] = now()
++                served = None
+             if act.get("action") == "done":
+                 answer = act
+                 s["t_act_start"] = s["t_act_end"] = s["t_settle_end"] = now()
+                 jl(d / "steps.jsonl", s)
+                 break
++            key = sc_key(task["task_id"], rows, act) if a.screen_cache else None
++            if key and key in SC:  # seen before: serve the next page now, run the action in the background
++                sc["hit"] += 1
++                served = SC[key]
++                pending = asyncio.create_task(sc_background(ctx, cur, act, key))
++                s["sc"] = "hit"
++                s["t_act_start"] = s["t_act_end"] = s["t_settle_end"] = now()
++                jl(d / "steps.jsonl", s)
++                prev_key = None
++                continue
++            if a.screen_cache:
++                sc["miss"] += 1
++                prev_key = key
+             s["t_act_start"] = now()
+             try:
+                 cur = await asyncio.wait_for(execute(ctx, cur, act), a.step_timeout)
+@@ -541,7 +643,12 @@
+             s["t_settle_end"], s["url_after"] = now(), ctx.pages[cur].url
+             s["url_after_equal"] = s["url_after"] == rs.get("url_after")
+             jl(d / "steps.jsonl", s)
++        if pending is not None:  # ended on a served step: the copy finishes it before scoring
++            cur, _, _ = await pending
++            pending = None
+         res.update(t_rollout_end=now(), steps=len(chat), answer=answer)
++        if a.screen_cache:
++            res["screen_cache"] = sc
+         res["t_eval_start"] = now()
+         try:
+             res["reward"] = await asyncio.wait_for(lite_eval.evaluate(task, lite_answer(answer or {}), ctx.pages[cur]),
+@@ -657,6 +764,8 @@
+         extra = {"aenv_template": a.aenv_template, "aenv_baseline": cg_read(AENV.server_cgroup())}
+     event("run_start", tasks=len(ids), rollouts=a.rollouts, image=a.image, replay_latency=a.replay_latency,
+           schedule=a.schedule, parallel=a.parallel, system=a.system, **extra)
++    if a.screen_cache:
++        event("screen_warm", dirs=a.screen_warm, entries=sc_warm([x for x in a.screen_warm.split(",") if x]))
+     bg = [asyncio.create_task(sample_memory()), asyncio.create_task(mem_guard())]
+     async with async_playwright() as pw:
+         if a.schedule == "groups":

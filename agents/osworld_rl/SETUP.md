@@ -9,11 +9,14 @@ kernel), 64 cores, 499 GB RAM, KVM, Docker, a btrfs disk at `/mnt/btrfs`, and os
 ## 1. Disk and sysctls
 
 ```bash
-# A btrfs filesystem for podman storage, the Docker data-root and the AENV registry (06: /dev/sda1, in fstab with nofail)
-sudo mkdir -p /mnt/btrfs && sudo mount /dev/<disk> /mnt/btrfs
-sudo mkdir -p /mnt/btrfs/podman /mnt/btrfs/registry
-printf '[storage]\ndriver="btrfs"\ngraphroot="/mnt/btrfs/podman/storage"\nrunroot="/mnt/btrfs/podman/run"\n' \
-  | sudo tee /mnt/btrfs/podman/storage.conf
+# Podman storage (tfork / CRIU rootfs, snapshots, tfork bundles) on a btrfs filesystem on NVMe: restores re-read the
+# desktop's files from it, which saturated 06's SATA SSD. 06: /dev/nvme1n1p1 at /mnt/ssd3 (not in fstab; remount after
+# a reboot). The Docker data-root and the AENV registry stay on /mnt/btrfs (06: /dev/sda1, SATA, in fstab with nofail).
+sudo mkfs.btrfs -L nvme_btrfs /dev/<nvme partition>
+sudo mkdir -p /mnt/ssd3 && sudo mount -o noatime,ssd,discard=async,space_cache=v2 /dev/<nvme partition> /mnt/ssd3
+sudo mkdir -p /mnt/ssd3/podman /mnt/btrfs/registry
+printf '[storage]\ndriver="btrfs"\ngraphroot="/mnt/ssd3/podman/storage"\nrunroot="/mnt/ssd3/podman/run"\n' \
+  | sudo tee /mnt/ssd3/podman/storage.conf
 
 # Required by tfork (os4agent README). io_uring is switched per run by osw_run.py.
 sudo tee /etc/sysctl.d/90-tfork.conf <<'EOF'
@@ -47,7 +50,7 @@ Check the wiring (from os4agent's README):
 
 ```bash
 cd /mnt/ssd2/os4agent
-sudo env CONTAINERS_STORAGE_CONF=/mnt/btrfs/podman/storage.conf ./podman-tfork.sh info \
+sudo env CONTAINERS_STORAGE_CONF=/mnt/ssd3/podman/storage.conf ./podman-tfork.sh info \
   | grep -A2 -E "conmon:|ociRuntime:|cgroupManager:|graphRoot:|logDriver:"   # in-tree conmon/crun, cgroupfs, k8s-file, btrfs
 lsmod | grep -E 'vma_cherrypick|criu_capbypass'                           # 06 had these two loaded
 LD_LIBRARY_PATH=$PWD/criu/lib/c ./crun/crun --help | grep tfork
@@ -78,7 +81,7 @@ git clone https://github.com/WukLab/os4agent os4agent-img && cd os4agent-img && 
 git am <this repo>/setup/ubuntu-img-kde-osworld.patch
 sudo docker build --network host -t ghcr.io/wuklab/webtop:ubuntu-kde-osworld ubuntu-img
 # copy it into the btrfs podman store that tfork / CRIU use
-sudo env CONTAINERS_STORAGE_CONF=/mnt/btrfs/podman/storage.conf /mnt/ssd2/os4agent/podman-tfork.sh \
+sudo env CONTAINERS_STORAGE_CONF=/mnt/ssd3/podman/storage.conf /mnt/ssd2/os4agent/podman-tfork.sh \
   pull docker-daemon:ghcr.io/wuklab/webtop:ubuntu-kde-osworld
 ```
 
@@ -201,7 +204,7 @@ recording from 06 (`traces/rec32v2_tfork`) to compare against the published numb
 | what | default (06) | override |
 |---|---|---|
 | os4agent checkout | `/mnt/ssd2/os4agent` | `osw_run.py --os4agent`, `compare.sh` env `OS4AGENT` |
-| podman storage.conf | `/mnt/btrfs/podman/storage.conf` | `--storage-conf`, env `STORAGE_CONF` |
+| podman storage.conf | `/mnt/ssd3/podman/storage.conf` | `--storage-conf`, env `STORAGE_CONF` |
 | AENV API key | `/mnt/ssd2/aenv/env/secrets/api-key` | `--aenv-key`, env `AENV_KEY` |
 | aenv CLI / its HOME | `~$SUDO_USER/.local/bin/aenv` | `--aenv-cli`, `--aenv-home` |
 | crun / conmon binaries | `/mnt/ssd2/os4agent/...` | edit `containers-os4agent.conf` |

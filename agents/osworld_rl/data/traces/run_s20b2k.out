@@ -1,0 +1,2 @@
+stopped, GPU memory used: 0 MiB
+serving grpo_think_reg-pol2 from /root/merged/grpo_think_reg/e2 (GPU_UTIL=0.9 LORA=0): GPU KV cache size: 364,096 tokens

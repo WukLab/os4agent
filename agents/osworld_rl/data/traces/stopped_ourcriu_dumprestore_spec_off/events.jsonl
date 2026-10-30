@@ -1,0 +1,10 @@
+{"t": 1792983068.5283136, "event": "run_start", "system": "criu", "spec": "off", "tasks": 10, "rollouts": 8}
+{"t": 1792983091.9258084, "event": "boot", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "secs": 23.4, "ready_s": 3.1}
+{"t": 1792983098.608715, "event": "setup", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "secs": 6.7}
+{"t": 1792983098.7191024, "event": "mem_before_fork", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "containers": {"osw-prof-ourcriu-spec-off-t0": {"rss_mib": 2413.3, "pss_mib": 1085.7, "pss_anon_mib": 616.7, "pss_file_mib": 433.0, "pss_shmem_mib": 35.9, "nprocs": 39}}, "total": {"pss_mib": 1085.7, "pss_anon_mib": 616.7, "pss_file_mib": 433.0, "pss_shmem_mib": 35.9, "rss_mib": 2413.3}, "host": {"used_mib": 24673, "avail_mib": 486424, "anon_mib": 14021, "shmem_mib": 553, "cached_mib": 206025}}
+{"t": 1792983108.1716633, "event": "criu_checkpoint", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "secs": 9.452, "image_mib": 728.1}
+{"t": 1792983112.0640502, "event": "criu_restore", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "copy": 0, "secs": 3.892}
+{"t": 1792983116.0332909, "event": "criu_restore", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "copy": 1, "secs": 3.969}
+{"t": 1792983119.8127635, "event": "criu_restore", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "copy": 2, "secs": 3.779}
+{"t": 1792983123.7016299, "event": "criu_restore", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "copy": 3, "secs": 3.889}
+{"t": 1792983127.5965188, "event": "criu_restore", "task": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4", "copy": 4, "secs": 3.895}

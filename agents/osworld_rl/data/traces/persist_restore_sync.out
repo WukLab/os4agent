@@ -1,0 +1,19 @@
+source alive: http 200
+1. clone (persistent=sync): rc=0, 3.1 s, copy 1c2662a3e768, alive: http 200
+2. async dump done after 0 s: image dir /mnt/ssd3/podman/storage/tfork-bundles/fb77f1f0c23bd1ad2c95d1b7f2462ceea305fd878aa360c363c7df276157ce66/img, 430M, disk used so far 0.42 GiB
+3. stop copy: rc=0, 0.2 s, state exited
+   dump still there after stop: 791 files, 430M
+   copy's userdata: secrets ; image dir has inventory.img: /mnt/ssd3/podman/storage/tfork-bundles/fb77f1f0c23bd1ad2c95d1b7f2462ceea305fd878aa360c363c7df276157ce66/img/inventory.img
+yes
+4a. plain restore:
+   Error: a complete checkpoint for this container cannot be found, cannot restore: faccessat /mnt/ssd3/podman/storage/libpod/containers/1c2662a3e76869392d37fc7af439ccce2c5a28b91b4019d1bda71c1584b4a10c/userdata/checkpoint/inventory.img: no such file or directory
+   state exited
+4b. restore with userdata/checkpoint -> the tfork dump:
+4. restore: rc=125, 0.1 s, state exited
+   Error: failed to mount shm tmpfs "": no such file or directory
+   restored copy alive: http 000
+5. restore again after a second stop (can one entry be reused?):
+   rc=125, alive: http 000
+   Error: failed to mount shm tmpfs "": no such file or directory
+total disk used by the entry: 0.42 GiB
+cleaned

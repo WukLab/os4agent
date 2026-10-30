@@ -1,0 +1,74 @@
+{
+ "chrome": [
+  "bb5e4c0d-f964-439c-97b6-bdb9747de3f4",
+  "2ad9387a-65d8-4e33-ad5b-7580065a27ca",
+  "06fe7178-4491-4589-810f-2e2bc9502122",
+  "7a5a7856-f1b6-42a4-ade9-1ca81ca0f263",
+  "12086550-11c0-466b-b367-1d9e75b3910e",
+  "93eabf48-6a27-4cb6-b963-7d5fe1e0d3a9",
+  "af630914-714e-4a24-a7bb-f9af687d3b91",
+  "030eeff7-b492-4218-b312-701ec99ee0cc",
+  "44ee5668-ecd5-4366-a6ce-c1c9b8d4e938",
+  "7b6c7e24-c58a-49fc-a5bb-d57b80e5b4c3",
+  "9f935cce-0a9f-435f-8007-817732bfc0a5",
+  "6766f2b8-8a72-417f-a9e5-56fcaa735837",
+  "b4f95342-463e-4179-8c3f-193cd7241fb2"
+ ],
+ "libreoffice_calc": [
+  "6e99a1ad-07d2-4b66-a1ce-ece6d99c20a5",
+  "1334ca3e-f9e3-4db8-9ca7-b4c653be7d17",
+  "4188d3a4-077d-46b7-9c86-23e1a036f6c1",
+  "51b11269-2ca8-4b2a-9163-f21758420e78",
+  "3aaa4e37-dc91-482e-99af-132a612d40f3",
+  "7a4e4bc8-922c-4c84-865c-25ba34136be1",
+  "26a8440e-c166-4c50-aef4-bfb77314b46b",
+  "42e0a640-4f19-4b28-973d-729602b5a4a7",
+  "4e6fcf72-daf3-439f-a232-c434ce416af6",
+  "1273e544-688f-496b-8d89-3e0f40aa0606",
+  "357ef137-7eeb-4c80-a3bb-0951f26a8aff",
+  "1954cced-e748-45c4-9c26-9855b97fbc5e",
+  "12382c62-0cd1-4bf2-bdc8-1d20bf9b2371"
+ ],
+ "libreoffice_writer": [
+  "0810415c-bde4-4443-9047-d5f70165a697",
+  "3ef2b351-8a84-4ff2-8724-d86eae9b842e",
+  "0e763496-b6bb-4508-a427-fad0b6c3e195",
+  "ecc2413d-8a48-416e-a3a2-d30106ca36cb",
+  "66399b0d-8fda-4618-95c4-bfc6191617e9",
+  "4bcb1253-a636-4df4-8cb0-a35c04dfef31",
+  "d53ff5ee-3b1a-431e-b2be-30ed2673079b",
+  "0b17a146-2934-46c7-8727-73ff6b6483e8",
+  "e246f6d8-78d7-44ac-b668-fcf47946cb50",
+  "0a0faba3-5580-44df-965d-f562a99b291c"
+ ],
+ "libreoffice_impress": [
+  "f23acfd2-c485-4b7c-a1e7-d4303ddfe864",
+  "73c99fb9-f828-43ce-b87a-01dc07faa224",
+  "21760ecb-8f62-40d2-8d85-0cee5725cb72",
+  "ef9d12bd-bcee-4ba0-a40e-918400f43ddf",
+  "ce88f674-ab7a-43da-9201-468d38539e4a",
+  "7dbc52a6-11e0-4c9a-a2cb-1e36cfda80d8",
+  "39be0d19-634d-4475-8768-09c130f5425d",
+  "3b27600c-3668-4abd-8f84-7bcdebbccbdb",
+  "5cfb9197-e72b-454b-900e-c06b0c802b40",
+  "5d901039-a89c-4bfb-967b-bf66f4df075e",
+  "9ec204e4-f0a3-42f8-8458-b772a6797cab",
+  "05dd4c1d-c489-4c85-8389-a7836c4f0567",
+  "7ae48c60-f143-4119-b659-15b8f485eb9a"
+ ],
+ "vlc": [
+  "59f21cfb-0120-4326-b255-a5b827b38967",
+  "8d9fd4e2-6fdb-46b0-b9b9-02f06495c62f",
+  "bba3381f-b5eb-4439-bd9e-80c22218d5a7",
+  "8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89",
+  "5ac2891a-eacd-4954-b339-98abba077adb",
+  "9195653c-f4aa-453d-aa95-787f6ccfaae9",
+  "fba2c100-79e8-42df-ae74-b592418d54f4",
+  "d06f0d4d-2cd5-4ede-8de9-598629438c6e"
+ ],
+ "multi_apps": [
+  "f8cfa149-d1c1-4215-8dac-4a0932bad3c2",
+  "47f7c0ce-a5fb-4100-a5e6-65cd0e7429e5",
+  "bc2b57f3-686d-4ec9-87ce-edf850b7e442"
+ ]
+}

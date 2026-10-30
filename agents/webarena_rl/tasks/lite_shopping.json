@@ -1,0 +1,1470 @@
+[
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 4,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__/3-pack-samsung-galaxy-s6-screen-protector-nearpow-tempered-glass-screen-protector-with-9h-hardness-crystal-clear-easy-bubble-free-installation-scratch-resist.html",
+  "geolocation": null,
+  "intent_template": "List out reviewers, if exist, who mention about {{description}}",
+  "instantiation_dict": {
+   "description": "good fingerprint resistant"
+  },
+  "intent": "List out reviewers, if exist, who mention about good fingerprint resistant",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "Rachel",
+     "T. Gannon"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "Rachel, T. Gannon, "
+  },
+  "intent_template_id": 222,
+  "old_task_id": 23
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 10,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Today is 6/12/2023. Tell me how many fulfilled orders I have {{period}}, and the total amount of money I spent.",
+  "instantiation_dict": {
+   "period": "over the past three days"
+  },
+  "intent": "Today is 6/12/2023. Tell me how many fulfilled orders I have over the past three days, and the total amount of money I spent.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "0 order",
+     "$0 total spend"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "0 order, $0 total spend"
+  },
+  "intent_template_id": 197,
+  "old_task_id": 48
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 22,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Tell me the status of my latest order and when will it arrive",
+  "instantiation_dict": {},
+  "intent": "Tell me the status of my latest order and when will it arrive",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "The last order was canceled. It will never arrive."
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "reference_answer_raw_annotation": "The last order was canceled. It will never arrive.",
+   "string_note": ""
+  },
+  "intent_template_id": 193,
+  "old_task_id": 96
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 28,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What is the date when I made my first purchase on this site?",
+  "instantiation_dict": {},
+  "intent": "What is the date when I made my first purchase on this site?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "3/2/22"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "3/2/22"
+  },
+  "intent_template_id": 161,
+  "old_task_id": 117
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 29,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "I have jaw bruxism problem, show me something that could alleviate the problem.",
+  "instantiation_dict": {},
+  "intent": "I have jaw bruxism problem, show me something that could alleviate the problem.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": null,
+   "program_html": [
+    {
+     "url": "last",
+     "locator": "",
+     "required_contents": {
+      "must_include": [
+       "jaw bruxism",
+       "mouth guard"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 151,
+  "old_task_id": 118
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 31,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What is the price range of {{product}} in the One Stop Market?",
+  "instantiation_dict": {
+   "product": "teeth grinding mouth guard"
+  },
+  "intent": "What is the price range of teeth grinding mouth guard in the One Stop Market?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "1.46",
+     "85"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "$1.46 - $85"
+  },
+  "intent_template_id": 159,
+  "old_task_id": 125
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 36,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "How much I spent on {{category}} shopping during {{time}}",
+  "instantiation_dict": {
+   "category": "food",
+   "time": "from mid Jan to the end Jan 2023"
+  },
+  "intent": "How much I spent on food shopping during from mid Jan to the end Jan 2023",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "0"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "0"
+  },
+  "intent_template_id": 162,
+  "old_task_id": 144
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 37,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What is the {{option}} configuration of the {{product}} I bought {{time}}",
+  "instantiation_dict": {
+   "option": "color",
+   "product": "artifical plants",
+   "time": "Feb 2023"
+  },
+  "intent": "What is the color configuration of the artifical plants I bought Feb 2023",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "Green-vines"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "Green-vines"
+  },
+  "intent_template_id": 155,
+  "old_task_id": 149
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 41,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "I have a lot of Nintendo Switch game cards now, help me find the best storage option to fit all {{num}} cards",
+  "instantiation_dict": {
+   "num": 40
+  },
+  "intent": "I have a lot of Nintendo Switch game cards now, help me find the best storage option to fit all 40 cards",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/game-card-holder-storage-case-for-nintendo-switch-games-or-ps-vita-game-case-or-sd-memory-cards-black.html",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 171,
+  "old_task_id": 162
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 42,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__/photosmart-plus-b209-clr-inkjetfb-p-s-c-usb-wrls-1.html",
+  "geolocation": null,
+  "intent_template": "What are the main criticisms of this product? Please extract the relevant sentences.",
+  "instantiation_dict": {},
+  "intent": "What are the main criticisms of this product? Please extract the relevant sentences.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "The wireless connection works on a whim (about 40% of the time I've owned it)",
+     "It seems to constantly run out of ink",
+     "Cartridge prices are less than some printers I've had",
+     "This printer seems to have more reasons NOT to work (none that are findable or correctable) Ex: error boxes saying that it's out of paper when it automatically switches to photo printing for some reason",
+     "Scanner is as slow as my first scanner I ever owned in the mid-90's",
+     "For the $176 I paid, there isn't even a fax component on it. I guess the \"PLUS\" part of it's name is in reference to the migraines it causes when you can't figure out the new reason why it's not working for the 10th time in the past 2 months."
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "The wireless connection works on a whim (about 40% of the time I've owned it). It seems to constantly run out of ink. Cartridge prices are less than some printers I've had, but now I understand why. This printer seems to have more reasons NOT to work (none that are findable or correctable) Ex: error boxes saying that it's out of paper when it automatically switches to photo printing for some reason. Scanner is as slow as my first scanner I ever owned in the mid-90's. For the $176 I paid, there isn't even a fax component on it. I guess the \"PLUS\" part of it's name is in reference to the migraines it causes when you can't figure out the new reason why it's not working for the 10th time in the past 2 months."
+  },
+  "intent_template_id": 136,
+  "old_task_id": 167
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 46,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Tell me the total cost of my latest {{status}} order?",
+  "instantiation_dict": {
+   "status": "complete"
+  },
+  "intent": "Tell me the total cost of my latest complete order?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "65.32"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "65.32"
+  },
+  "intent_template_id": 214,
+  "old_task_id": 190
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 54,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What do customers say about {{product_type}} from {{manufature}}",
+  "instantiation_dict": {
+   "product_type": "brush",
+   "manufature": "sephora"
+  },
+  "intent": "What do customers say about brush from sephora",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "No reviews available for the sephora brushes."
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "The sephora brushes don't have reviews",
+   "reference_answer_raw_annotation": "N/A"
+  },
+  "intent_template_id": 135,
+  "old_task_id": 225
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 55,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What is the price range for products from {{brand}}?",
+  "instantiation_dict": {
+   "brand": "EYZUTAK"
+  },
+  "intent": "What is the price range for products from EYZUTAK?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "9.99"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "$9.99"
+  },
+  "intent_template_id": 370,
+  "old_task_id": 227
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 56,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Get the order number of my most recent {{status}} order ",
+  "instantiation_dict": {
+   "status": "under delivery"
+  },
+  "intent": "Get the order number of my most recent under delivery order ",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "N/A"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "There is no under delivery order"
+  },
+  "intent_template_id": 213,
+  "old_task_id": 235
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 58,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "I am doing a market survey for one stop market, show me the most expensive product from {{product_category}} category",
+  "instantiation_dict": {
+   "product_category": "competative swimwear"
+  },
+  "intent": "I am doing a market survey for one stop market, show me the most expensive product from competative swimwear category",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/clothing-shoes-jewelry/sport-specific-clothing/competitive-swimwear.html?product_list_order=price&product_list_dir=desc",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 138,
+  "old_task_id": 240
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 65,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Show me products under ${{price}} in \"{{product_category}}\" category",
+  "instantiation_dict": {
+   "price": "30",
+   "product_category": "men shoes"
+  },
+  "intent": "Show me products under $30 in \"men shoes\" category",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/clothing-shoes-jewelry/men/shoes.html?price=0-30",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 139,
+  "old_task_id": 270
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 66,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Search for \"{{keyword}}\"",
+  "instantiation_dict": {
+   "keyword": "switch accessories"
+  },
+  "intent": "Search for \"switch accessories\"",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/catalogsearch/result/?q=switch+accessories",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 212,
+  "old_task_id": 276
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 67,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Look up the most recent models of XBox controllers released between 2020-2021?",
+  "instantiation_dict": {},
+  "intent": "Look up the most recent models of XBox controllers released between 2020-2021?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/microsoft-xbox-controller-carbon-black-for-series-x-series-s-xbox-one-windows-10-android-ios-bundled-with-dual-port-charging-dock-xbox-controller-skin-voucher-premgear-cloth.html",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 210,
+  "old_task_id": 283
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 68,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Show the least expensive {{product}} with a minimum storage capacity of {{min_storage}}.",
+  "instantiation_dict": {
+   "product": "switch card holder",
+   "min_storage": "15 cards"
+  },
+  "intent": "Show the least expensive switch card holder with a minimum storage capacity of 15 cards.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/game-card-holder-storage-case-for-nintendo-switch-games-or-ps-vita-game-case-or-sd-memory-cards-black.html",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 207,
+  "old_task_id": 285
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 72,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Show the most recent {{status}} order",
+  "instantiation_dict": {
+   "status": "pending"
+  },
+  "intent": "Show the most recent pending order",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/sales/order/view/order_id/189/",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 180,
+  "old_task_id": 300
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 74,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Which number to call for the customer service?",
+  "instantiation_dict": {},
+  "intent": "Which number to call for the customer service?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "exact_match": "N/A"
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "There is no phone number in the website",
+   "reference_answer_raw_annotation": "N/A"
+  },
+  "intent_template_id": 134,
+  "old_task_id": 313
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 76,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "How much refund I should expect from my order canlled in {{time}}, including shipping fee",
+  "instantiation_dict": {
+   "time": "2022"
+  },
+  "intent": "How much refund I should expect from my order canlled in 2022, including shipping fee",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "3053.97"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "3053.97"
+  },
+  "intent_template_id": 160,
+  "old_task_id": 321
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 77,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Show me the \"{{product}}\" listings by {{sorting_order}}.",
+  "instantiation_dict": {
+   "product": "chairs",
+   "sorting_order": "ascending price"
+  },
+  "intent": "Show me the \"chairs\" listings by ascending price.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/catalogsearch/result/index/?product_list_order=price&q=chairs&product_list_dir=asc",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 208,
+  "old_task_id": 324
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 78,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "How much did I spend on shopping at One Stop Market {{time}}? They gave me a 20% discount on the total amount for orders exceeding $200 in cash",
+  "instantiation_dict": {
+   "time": "on November 2022"
+  },
+  "intent": "How much did I spend on shopping at One Stop Market on November 2022? They gave me a 20% discount on the total amount for orders exceeding $200 in cash",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "359.546"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "359.546"
+  },
+  "intent_template_id": 147,
+  "old_task_id": 333
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 79,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Tell me when I last ordered my {{description}}?",
+  "instantiation_dict": {
+   "description": "body butter"
+  },
+  "intent": "Tell me when I last ordered my body butter?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "January 16th 2023"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "January 16th 2023"
+  },
+  "intent_template_id": 169,
+  "old_task_id": 335
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 82,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "List products from {{product_category}} category by {{order}} price",
+  "instantiation_dict": {
+   "product_category": "living room furtniture",
+   "order": "descending"
+  },
+  "intent": "List products from living room furtniture category by descending price",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/home-kitchen/furniture/living-room-furniture.html?product_list_order=price&product_list_dir=desc",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 137,
+  "old_task_id": 354
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 84,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Show me the {{info}} for order number {{order_number}}.",
+  "instantiation_dict": {
+   "info": "order statuses",
+   "order_number": "170 and 189"
+  },
+  "intent": "Show me the order statuses for order number 170 and 189.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "170: cancelled",
+     "189: pending"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "170: cancelled, 189: pending"
+  },
+  "intent_template_id": 206,
+  "old_task_id": 361
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 86,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "find discounted items.",
+  "instantiation_dict": {},
+  "intent": "find discounted items.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "exact_match": "N/A"
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "There is no function to show only discount items",
+   "reference_answer_raw_annotation": "There is no function to show only discount items."
+  },
+  "intent_template_id": 188,
+  "old_task_id": 368
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 89,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Summarize customer reviews for {{product}}.",
+  "instantiation_dict": {
+   "product": "Amazon Echo Dot 3rd generation"
+  },
+  "intent": "Summarize customer reviews for Amazon Echo Dot 3rd generation.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "fuzzy_match": [
+     "Serena: It was the exact same one that came with my echo show that my puppy",
+     "Amazon Customer: It doesn\u2019t work .",
+     "BlessedGirl: Great replacement for Echo Dot.",
+     "Jeff Sederquist: Great product no issues. It's for a Echo show 5",
+     "melvin m.: Very good charger but I had to buy this one because when I bought an echo show 5, I came with an echo show 10 charger in the package with the device",
+     "Jack Smith: Looks like pictures",
+     "Ignacio: Muy bueno de buena calidad",
+     "BusyB: My kids bent the original cord for their Echo show 5 and this replacement cord is just like the one it came with. It works just fine. Been using it for 2 weeks now and no problems.",
+     "Kee Williams: Great value works better than original",
+     "Howard A. Sinclair: Great product!!! Works exactly as it is supposed to."
+    ]
+   },
+   "reference_url": "",
+   "program_html": []
+  },
+  "intent_template_id": 182,
+  "old_task_id": 376
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 93,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "List the customer names who complain about the quality of EYZUTAK phone cases",
+  "instantiation_dict": {},
+  "intent": "List the customer names who complain about the quality of EYZUTAK phone cases",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "Lisa Lee",
+     "Evelyn Kurver",
+     "Amanda",
+     "N Randall"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "Lisa Lee, Evelyn Kurver, Amanda, N Randall"
+  },
+  "intent_template_id": 666,
+  "old_task_id": 384
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 94,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "What is the rating of {{product}}",
+  "instantiation_dict": {
+   "product": "Ugreen lightning to 3.5mm cable"
+  },
+  "intent": "What is the rating of Ugreen lightning to 3.5mm cable. Please round to the nearest whole number",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "65 |OR| 3"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "Around 3.1 stars"
+  },
+  "intent_template_id": 1355,
+  "old_task_id": 386
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 95,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Who gave {{stars}} for phone cases from EYZUTAK",
+  "instantiation_dict": {
+   "stars": "4 or 5 stars"
+  },
+  "intent": "Who gave 4 or 5 stars for phone cases from EYZUTAK",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "MH",
+     "Misba009",
+     "Amanda",
+     "Amazon Customer",
+     "Cally",
+     "Bethany Robertson"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "",
+   "reference_answer_raw_annotation": "MH, Misba009, Amanda, Amazon Customer, Cally, Bethany Robertson, Bethany Robertson"
+  },
+  "intent_template_id": 1356,
+  "old_task_id": 387
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 103,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-dripless-long-burning-candlesticks-two-color-taper-candles-candlesticks.html |AND| __SHOPPING__/spaas-white-taper-candles-4-pack-10-inch-tall-candles-scent-free-premium-wax-candle-sticks-8-hour-long-burning-white-candlesticks-for-home-decoration-wedding-holiday-and-parties.html |AND| __SHOPPING__/white-starfish-wall-candle-sconces-set-of-2-beach-decor-ocean-themed-wall-mount-candleholders-nautical-style-beach-bathroom-decor-coastal-farmhouse-seashell-candle-holders.html",
+  "geolocation": null,
+  "intent_template": "Add the product with the lowest per unit price from my open tabs to the shopping cart",
+  "instantiation_dict": {},
+  "intent": "Add the product with the lowest per unit price from my open tabs to the shopping cart",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/checkout/cart",
+     "locator": "",
+     "required_contents": {
+      "must_include": [
+       "SPAAS White Taper Candles - 4 Pack |OR| 10 Inch Tall Candles, Scent-Free Premium Wax Candle Sticks |OR| 8 Hour Long Burning White Candlesticks for Home Decoration, Wedding, Holiday and Parties"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 145,
+  "old_task_id": 431
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 104,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "I previously ordered some {{product}} {{time}} and later cancelled. Can you reorder it for me?",
+  "instantiation_dict": {
+   "product": "a make up removal kit",
+   "time": "during summer 2022"
+  },
+  "intent": "I previously ordered some a make up removal kit during summer 2022 and later cancelled. Can you reorder it for me?",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "func:shopping_get_latest_order_url()",
+     "locator": "document.querySelector(\".order-details-items.ordered\").outerText",
+     "required_contents": {
+      "must_include": [
+       "B0738JQG6Q"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 156,
+  "old_task_id": 440
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 109,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Add {{product}} to my wish list",
+  "instantiation_dict": {
+   "product": "2 Hawaiian Bamboo Orchid Roots #zc50 - by Discount Hawaiian Gifts"
+  },
+  "intent": "Add 2 Hawaiian Bamboo Orchid Roots #zc50 - by Discount Hawaiian Gifts to my wish list",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/wishlist/",
+     "locator": "document.querySelector('.products-grid.wishlist').outerText",
+     "required_contents": {
+      "must_include": [
+       "2 Hawaiian Bamboo Orchid Roots #zc50 - by Discount Hawaiian Gifts"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 186,
+  "old_task_id": 466
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 117,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Buy the highest rated product from the {{product_category}} category within a budget {{dollar_value}}.",
+  "instantiation_dict": {
+   "product_category": "meat substitute",
+   "dollar_value": "between 100 and 200"
+  },
+  "intent": "Buy the highest rated product from the meat substitute category within a budget between 100 and 200.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "func:shopping_get_latest_order_url()",
+     "locator": "document.querySelector(\".order-details-items.ordered\").outerText",
+     "required_contents": {
+      "must_include": [
+       "B01CTR3DLE"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 172,
+  "old_task_id": 506
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 118,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Buy the best rating product from \"{{category}}\" category with at least 5 reviews and the product is least expensive",
+  "instantiation_dict": {
+   "category": "Men's shoe"
+  },
+  "intent": "Buy the best rating product from \"Men's shoe\" category with at least 5 reviews and the product is least expensive",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "func:shopping_get_latest_order_url()",
+     "locator": "document.querySelector(\".order-details-items.ordered\").outerText",
+     "required_contents": {
+      "must_include": [
+       "B01J4MM3KO"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 216,
+  "old_task_id": 509
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 119,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Add a {{product}} to my wish list.",
+  "instantiation_dict": {
+   "product": "white desk"
+  },
+  "intent": "Add a white desk to my wish list.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/wishlist/",
+     "locator": "document.querySelector('.products-grid.wishlist').outerText",
+     "required_contents": {
+      "must_include": [
+       "white",
+       "desk"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 189,
+  "old_task_id": 514
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 120,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__/elmwood-inn-fine-teas-orange-vanilla-caffeine-free-fruit-infusion-16-ounce-pouch.html",
+  "geolocation": null,
+  "intent_template": "Add this product to my wishlist",
+  "instantiation_dict": {},
+  "intent": "Add this product to my wishlist",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/wishlist/",
+     "locator": "document.querySelector('.products-grid.wishlist').outerText",
+     "required_contents": {
+      "must_include": [
+       "Elmwood Inn Fine Teas, Orange Vanilla Caffeine-free Fruit Infusion, 16-Ounce Pouch"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 196,
+  "old_task_id": 516
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 121,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Subscribe to the newsletter of OneStopMarket",
+  "instantiation_dict": {},
+  "intent": "Subscribe to the newsletter of OneStopMarket",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/newsletter/manage/",
+     "locator": "document.querySelector('[title=\"General Subscription\"').checked.toString()",
+     "required_contents": {
+      "exact_match": "true"
+     }
+    }
+   ]
+  },
+  "intent_template_id": 199,
+  "old_task_id": 521
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 123,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Draft a refund message via their \"contact us\" form for the {{product}} I bought {{time}}. It broke after three days of use. The shop requires the order id, the reason and the amount to refund in the message. Don't submit yet",
+  "instantiation_dict": {
+   "product": "phone screen protector",
+   "time": "March 2023"
+  },
+  "intent": "Draft a refund message via their \"contact us\" form for the phone screen protector I bought March 2023. It broke after three days of use. The shop requires the order id, the reason and the amount to refund in the message. Don't submit yet",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "last",
+     "locator": "document.querySelector('[title=\"What\u2019s on your mind?\"').value",
+     "required_contents": {
+      "fuzzy_match": [
+       "refund",
+       "it broke after three days of use",
+       "000000180",
+       "12.99"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 154,
+  "old_task_id": 528
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 129,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "I recently moved, my address is {{address}}, update my information on OneStopShopping accordingly",
+  "instantiation_dict": {
+   "address": "111 Magnolia Path, Atlanta, GA, 30303"
+  },
+  "intent": "I recently moved, my address is 111 Magnolia Path, Atlanta, GA, 30303, update my information on OneStopShopping accordingly",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "",
+   "program_html": [
+    {
+     "url": "__SHOPPING__/customer/address",
+     "locator": "document.querySelector(\".box.box-address-shipping > .box-content\").outerText",
+     "required_contents": {
+      "must_include": [
+       "111 Magnolia Path",
+       "Atlanta, Georgia, 30303"
+      ]
+     }
+    },
+    {
+     "url": "__SHOPPING__/customer/address",
+     "locator": "document.querySelector(\".box.box-address-billing > .box-content\").outerText",
+     "required_contents": {
+      "must_include": [
+       "111 Magnolia Path",
+       "Atlanta, Georgia, 30303"
+      ]
+     }
+    }
+   ]
+  },
+  "intent_template_id": 165,
+  "old_task_id": 574
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 142,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Fill the \"contact us\" form in the site for a refund on the {{product}} I bought, stating that it broke after just three days of use. Also, ensure to include the order number #{{order_id}} and the product SKU. Don't submit yet, I will check.",
+  "instantiation_dict": {
+   "product": "speaker",
+   "order_id": "148"
+  },
+  "intent": "Fill the \"contact us\" form in the site for a refund on the speaker I bought, stating that it broke after just three days of use. Also, ensure to include the order number #148 and the product SKU. Don't submit yet, I will check.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match",
+    "program_html"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/contact",
+   "program_html": [
+    {
+     "url": "last",
+     "locator": "document.querySelector('[title=\"What\u2019s on your mind?\"').value",
+     "required_contents": {
+      "fuzzy_match": [
+       "refund",
+       "broke after three days of use",
+       "148",
+       "B003FVW3VA"
+      ]
+     }
+    }
+   ],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 153,
+  "old_task_id": 657
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 148,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Draft an email to the shop owner via their contact us function for a coupon as {{reason}}",
+  "instantiation_dict": {
+   "reason": "my refund is suppoed to be replaced by a coupon"
+  },
+  "intent": "Draft an email to the shop owner via their contact us function for a coupon as my refund is suppoed to be replaced by a coupon",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "url_match"
+   ],
+   "reference_answers": null,
+   "reference_url": "__SHOPPING__/contact/index/",
+   "program_html": [],
+   "url_note": "GOLD in PRED"
+  },
+  "intent_template_id": 163,
+  "old_task_id": 693
+ },
+ {
+  "sites": [
+   "shopping"
+  ],
+  "task_id": 162,
+  "require_login": true,
+  "storage_state": "./.auth/shopping_state.json",
+  "start_url": "__SHOPPING__",
+  "geolocation": null,
+  "intent_template": "Change the delivery address for my most recent order to {{address}}.",
+  "instantiation_dict": {
+   "address": "77 Massachusetts Ave, Cambridge, MA"
+  },
+  "intent": "Change the delivery address for my most recent order to 77 Massachusetts Ave, Cambridge, MA.",
+  "require_reset": false,
+  "eval": {
+   "eval_types": [
+    "string_match"
+   ],
+   "reference_answers": {
+    "must_include": [
+     "N/A"
+    ]
+   },
+   "reference_url": "",
+   "program_html": [],
+   "string_note": "The shipping address cannot be changed after an order is placed in the website.",
+   "reference_answer_raw_annotation": "N/A"
+  },
+  "intent_template_id": 191,
+  "old_task_id": 798
+ }
+]

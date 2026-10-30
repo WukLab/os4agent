@@ -24,7 +24,7 @@
 # clone failure.
 #
 # Prereqs (same as webtop_e2e_test.sh):
-#   - btrfs storage at /mnt/btrfs/podman/storage
+#   - btrfs storage at /mnt/ssd3/podman/storage
 #   - kernel.io_uring_disabled=2  fs.nr_open=1048576
 #   - in-tree podman/crun/criu/conmon binaries built
 #   - localhost/ubuntu-webtop:test image present
@@ -64,10 +64,10 @@ sudo "$PODMAN" rm -f $(sudo "$PODMAN" ps -aq --filter name=webtop) 2>/dev/null |
 sudo pkill -9 -f "crun.*tfork" 2>/dev/null || true
 sudo pkill -9 -f "criu.*restore --tfork" 2>/dev/null || true
 sleep 2
-sudo rm -rf /mnt/btrfs/podman/storage/tfork-bundles/* 2>/dev/null || true
-sudo btrfs subvolume list /mnt/btrfs/podman/storage 2>/dev/null \
+sudo rm -rf /mnt/ssd3/podman/storage/tfork-bundles/* 2>/dev/null || true
+sudo btrfs subvolume list /mnt/ssd3/podman/storage 2>/dev/null \
     | awk '/tfork-bundles/ {print $2}' | while read -r id; do
-        sudo btrfs subvolume delete --subvolid="$id" /mnt/btrfs >/dev/null 2>&1 || true
+        sudo btrfs subvolume delete --subvolid="$id" /mnt/ssd3 >/dev/null 2>&1 || true
     done
 
 http_check() {

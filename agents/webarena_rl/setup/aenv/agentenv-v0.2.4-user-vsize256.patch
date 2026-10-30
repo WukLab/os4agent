@@ -1,0 +1,50 @@
+diff --git a/src/image/oci_image.rs b/src/image/oci_image.rs
+index a53d7bd..5e6b85c 100644
+--- a/src/image/oci_image.rs
++++ b/src/image/oci_image.rs
+@@ -226,6 +226,18 @@ const MAX_INDEX_RESOLUTION_DEPTH: usize = 4;
+ /// VM sees this as the rootfs device capacity; actual storage is only what the
+ /// layers contain. 64 GiB comfortably covers common base images.
+ pub(super) const LAYER_VIRTUAL_SIZE_GIB: u64 = 64;
++/// wuklab patch: virtual size for user images. The WebArena shopping image has one ~111 GB layer, more than the
++/// 64 GiB filesystem; the tools image keeps LAYER_VIRTUAL_SIZE_GIB (its v1 release contract, resolver.rs).
++pub(super) const USER_LAYER_VIRTUAL_SIZE_GIB: u64 = 256;
++
++/// The layer virtual size for a converter: the tools image's v1 converter keeps LAYER_VIRTUAL_SIZE_GIB.
++pub(super) fn layer_virtual_size_gib(converter_id: &str) -> u64 {
++    if converter_id.starts_with("tools-oci-rootfs-v1") {
++        LAYER_VIRTUAL_SIZE_GIB
++    } else {
++        USER_LAYER_VIRTUAL_SIZE_GIB
++    }
++}
+ const OCI_INDEX_MEDIA_TYPES: &[&str] = &[
+     "application/vnd.oci.image.index.v1+json",
+     "application/vnd.docker.distribution.manifest.list.v2+json",
+@@ -472,7 +484,7 @@ pub(crate) async fn convert_fetched_oci_image_to_overlaybd(
+             let converter = OverlaybdLayerConverter {
+                 tools: OverlaybdTools::from_overlaybd_install_root(conversion.install_root),
+                 global_config_path: conversion.global_config.to_path_buf(),
+-                virtual_size_gib: LAYER_VIRTUAL_SIZE_GIB,
++                virtual_size_gib: layer_virtual_size_gib(conversion.converter_id),
+             };
+             let lowers = convert_standard_oci_layers_pipeline(
+                 conversion.regctl_binary,
+@@ -769,7 +781,7 @@ pub(super) async fn convert_content_image(
+     let converter = OverlaybdLayerConverter {
+         tools: OverlaybdTools::from_overlaybd_install_root(conversion.install_root),
+         global_config_path: conversion.global_config.to_path_buf(),
+-        virtual_size_gib: LAYER_VIRTUAL_SIZE_GIB,
++        virtual_size_gib: layer_virtual_size_gib(conversion.converter_id),
+     };
+     let mut producer = ContentLayerSource {
+         content,
+@@ -1701,7 +1713,7 @@ fn layer_conversion_key(
+     LayerConversionKey {
+         source_layer_digest: layer.digest.clone(),
+         converter_id: converter_id.to_string(),
+-        virtual_size_gib: LAYER_VIRTUAL_SIZE_GIB,
++        virtual_size_gib: layer_virtual_size_gib(converter_id),
+         mkfs,
+         parent_commit_digest: parent_commit_digest.map(str::to_string),
+         expected_layer_uuid,
