@@ -9,7 +9,9 @@ LORA_ARGS=""; [ "${LORA:-1}" = 1 ] && LORA_ARGS="--enable-lora --max-lora-rank 1
 # decode within minutes of real agent traffic, with and without LoRA (the same build is stable on A100).
 [ "${EAGER:-0}" = 1 ] && LORA_ARGS="$LORA_ARGS --enforce-eager"
 command -v uv >/dev/null || pip install -q --break-system-packages uv
-[ -x /root/venv/bin/vllm ] || { uv venv -p 3.12 /root/venv && uv pip install -p /root/venv/bin/python "vllm==0.11.0" "transformers==4.57.1" peft accelerate --torch-backend=cu128; }
+[ -x /root/venv/bin/vllm ] || { uv venv -p 3.12 /root/venv && uv pip install -p /root/venv/bin/python "vllm==0.11.0" "transformers==4.57.1" peft accelerate hf_transfer --torch-backend=cu128; }
+# hf_transfer: the runpod/pytorch image sets HF_HUB_ENABLE_HF_TRANSFER=1 in login shells (a pod start command runs in
+# one); without the package every Hugging Face download fails and vLLM dies at start
 export PATH=/root/venv/bin:$PATH
 nohup vllm serve Qwen/Qwen3-VL-8B-Instruct --served-model-name qwen3vl8b --port 8000 --max-model-len 32768 \
   --limit-mm-per-prompt '{"image":0,"video":0}' --enable-prefix-caching --gpu-memory-utilization ${GPU_UTIL:-0.9} \

@@ -34,6 +34,11 @@ ap.add_argument("--base", default="Qwen/Qwen3-VL-8B-Instruct")
 ap.add_argument("--base-served", default="qwen3vl8b")
 ap.add_argument("--lr", type=float, default=5e-5)
 ap.add_argument("--minibatches", type=int, default=4)
+ap.add_argument("--longest-first", action="store_true",
+                help="start each epoch's task groups longest-first by the previous epoch's slowest rollouts (osw_run.py "
+                     "--order-by)")
+ap.add_argument("--no-stop", action="store_true",
+                help="an epoch with no reward variance trains nothing: keep its policy for the next epoch instead of stopping")
 a = ap.parse_args()
 
 SSH_OPTS = ["-i", a.pod_key, "-o", "ServerAliveInterval=30", "-o", "StrictHostKeyChecking=accept-new", "-p", a.pod_port]
@@ -76,10 +81,11 @@ def record(**kw):
         f.write(json.dumps(kw) + "\n")
 
 
-adapter = a.init_adapter
+adapter, keep_policy = a.init_adapter, None
 for e in range(a.start_epoch, a.epochs):
     run = f"{a.exp}_e{e}"
-    served = a.base_served if e == 0 else f"{a.exp}-pol{e}"  # adapter names are per experiment: vLLM keeps old ones loaded
+    # adapter names are per experiment: vLLM keeps old ones loaded. keep_policy: the last epoch trained nothing (--no-stop)
+    served, keep_policy = keep_policy or (a.base_served if e == 0 else f"{a.exp}-pol{e}"), None
     run_dir = HERE / "traces" / run
     ensure_tunnel()
 
@@ -90,6 +96,16 @@ for e in range(a.start_epoch, a.epochs):
                str(HERE / "venv/bin/python"), str(HERE / "osw_run.py"), "--system", a.system, "--spec", a.spec,
                "--model", served, "--tasks", a.tasks, "--rollouts", str(a.rollouts), "--max-steps", str(a.max_steps),
                "--result-dir", str(run_dir), *a.run_args.split()]
+        cmd += ["--epoch", str(e)]
+        warm = [str(HERE / "traces" / f"{a.exp}_e{p}") for p in range(e) if (HERE / "traces" / f"{a.exp}_e{p}").is_dir()]
+        if "--spec-exec" in a.run_args.split() and warm:  # the predictor learns the earlier epochs first
+            cmd += ["--spec-warm", *warm]
+        prev = HERE / "traces" / f"{a.exp}_e{e - 1}" / "events.jsonl"
+        if a.longest_first and e > 0 and prev.exists():
+            cmd += ["--order-by", str(prev.parent)]
+        if "--prefix-cache" in a.run_args.split() and "--prefix-mem" not in a.run_args.split() and e > 0 and prev.exists():
+            # disk cache: keep what the previous epoch touched (in memory, --prefix-policy evicts within the budget)
+            cmd += ["--prefix-keep-since", str(json.loads(open(prev).readline())["t"])]
         subprocess.run(cmd, stdout=open(f"{run_dir}.log", "w"), stderr=subprocess.STDOUT, check=False)
         sh(["sudo", "chown", "-R", f"{os.getuid()}:{os.getgid()}", str(run_dir), f"{run_dir}.log"])
     rollout_secs = time.time() - t0
@@ -110,8 +126,12 @@ for e in range(a.start_epoch, a.epochs):
     sh(POD + [f"{train} 2>&1 | tee /root/train_e{e + 1}.log"])
     if subprocess.run(POD + [f"test -f {out}/adapter_model.safetensors"]).returncode:
         record(epoch=e, run=run, served=served, **s, rollout_secs=rollout_secs, stopped="no group has reward variance")
-        print(f"STOP: epoch {e} has no reward variance, nothing to train on")
-        break
+        if not a.no_stop:
+            print(f"STOP: epoch {e} has no reward variance, nothing to train on")
+            break
+        print(f"epoch {e} has no reward variance; --no-stop: epoch {e + 1} keeps policy {served}")
+        keep_policy = served
+        continue
     adapter = out
 
     body = json.dumps({"lora_name": f"{a.exp}-pol{e + 1}", "lora_path": out})

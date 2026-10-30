@@ -30,11 +30,14 @@ def jl(p):
 
 
 CLOCK = re.compile(r"^\d{1,2}:\d{2}( ?[AP]M)?$")  # the taskbar clock: wall-clock time, differs between any two runs
+# the taskbar's date (label "10/30/26", button "Today is October 30, 2026"): differs from a recording made another day
+DATE = re.compile(r"^(\d{1,2}/\d{1,2}/\d{2,4}|Today is \w+ \d{1,2}, \d{4})$")
 
 
 def obs_rows(d):
-    """Per step: ([(role, name)], [box]) of the observation the policy acted on; the clock's text is masked."""
-    norm = lambda r: (r[0], "<clock>" if r[0] == "label" and CLOCK.match(r[1]) else r[1])
+    """Per step: ([(role, name)], [box]) of the observation the policy acted on; the clock's and date's text masked."""
+    norm = lambda r: (r[0], "<clock>" if r[0] == "label" and CLOCK.match(r[1]) else
+                      "<date>" if r[0] in ("label", "push-button") and DATE.match(r[1]) else r[1])
     return [([norm(r) for r in s.get("rows", [])], [tuple(r[2]) for r in s.get("rows", [])]) for s in jl(d / "chat.jsonl")]
 
 
