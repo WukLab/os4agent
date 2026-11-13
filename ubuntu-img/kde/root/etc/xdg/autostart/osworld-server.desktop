@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=OSWorld server
+# Started inside the GNOME session so it inherits the session bus AT-SPI needs.
+Exec=/usr/local/bin/osworld-bootstrap :1
+X-GNOME-Autostart-enabled=true
+NoDisplay=true

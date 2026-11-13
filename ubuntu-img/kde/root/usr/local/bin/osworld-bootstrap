@@ -1,0 +1,43 @@
+#!/bin/bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ] || [ -z "${1}" ]; then
+  echo "Usage: osworld-bootstrap DISPLAY" >&2
+  exit 64
+fi
+
+display="$1"
+
+export DISPLAY="${display}"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=${XDG_RUNTIME_DIR}/bus}"
+export XAUTHORITY="${XAUTHORITY:-/config/.Xauthority}"
+export QT_ACCESSIBILITY="${QT_ACCESSIBILITY:-1}"
+export NO_AT_BRIDGE="${NO_AT_BRIDGE:-0}"
+
+mkdir -p /tmp/osworld-server
+touch "${XAUTHORITY}"
+chmod 600 "${XAUTHORITY}"
+
+if ! pgrep -f "socat TCP-LISTEN:8006" >/dev/null 2>&1; then
+  socat TCP-LISTEN:8006,fork,reuseaddr TCP:127.0.0.1:3001 >/tmp/osworld-8006-forward.log 2>&1 &
+fi
+
+if pgrep -f "python3 /opt/osworld-server/main.py" >/dev/null 2>&1; then
+  exit 0
+fi
+
+(
+  export DISPLAY="${display}"
+  for _ in $(seq 1 180); do
+    if xdpyinfo -display "${display}" >/dev/null 2>&1 && \
+      { pgrep -x plasmashell >/dev/null 2>&1 || pgrep -x plasma_session >/dev/null 2>&1; }; then
+      mkdir -p /tmp/osworld-server && cd /tmp/osworld-server   # screenshot temp files land in the cwd
+      exec python3 /opt/osworld-server/main.py
+    fi
+    sleep 1
+  done
+
+  echo "Timed out waiting for X display ${display}" >&2
+  exit 1
+) >/tmp/osworld-server.log 2>&1 &

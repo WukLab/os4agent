@@ -1,0 +1,4 @@
+#!/bin/sh
+# Always --norestore: after LibreOffice dies, a plain restart shows the Document Recovery dialog instead of opening the file,
+# which blocks OSWorld setup/scorer 'open' steps (xdg-open -> .desktop Exec -> this wrapper, /usr/local/bin is first on PATH).
+exec /usr/bin/soffice --norestore "$@"

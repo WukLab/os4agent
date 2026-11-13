@@ -1,0 +1,4 @@
+#! /bin/bash
+# OSWorld tasks launch `google-chrome` and its evaluators read the Chrome profile
+# (~/.config/google-chrome); run Chromium with that profile directory.
+exec /usr/local/bin/wrapped-chromium --user-data-dir="$HOME/.config/google-chrome" "$@"

@@ -20,7 +20,8 @@ Please find more details in our [paper](https://arxiv.org/abs/2605.17320) and
 | [`conmon/`](conmon/) | `--tfork` flag |
 | [`podman/`](podman/) | `container clone --live` |
 | [`linux-pagecache-cow/`](linux-pagecache-cow/) | Linux kernel with a CoW page-cache (`filecow`) layer |
-| [`ubuntu-img/`](ubuntu-img/) | sample webtop image (optional) |
+| [`ubuntu-img/gnome/`](ubuntu-img/gnome/) | sample webtop image, GNOME 42 (`ghcr.io/wuklab/webtop:ubuntu-gnome42`; optional) |
+| [`ubuntu-img/kde/`](ubuntu-img/kde/) | KDE webtop with OSWorld's in-guest server (`ghcr.io/wuklab/webtop:ubuntu-kde-osworld`; used by [ForkRL](https://github.com/WukLab/ForkRL)) |
 | [`agents/`](agents/) | OSWorld evaluation harness |
 
 ## Prerequisites

@@ -1,15 +1,15 @@
-name: Build and push webtop image
+name: Build and push webtop image (GNOME)
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'ubuntu-img/**'
-      - '!ubuntu-img/README.md'
-      - '!ubuntu-img/LICENSE'
-      - '!ubuntu-img/docker-compose.yml'
-      - '.github/workflows/build.yml'
+      - 'ubuntu-img/gnome/**'
+      - '!ubuntu-img/gnome/README.md'
+      - '!ubuntu-img/gnome/LICENSE'
+      - '!ubuntu-img/gnome/docker-compose.yml'
+      - '.github/workflows/build-gnome.yml'
   workflow_dispatch:
 
 permissions:
@@ -49,8 +49,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./ubuntu-img
-          file: ./ubuntu-img/Dockerfile
+          context: ./ubuntu-img/gnome
+          file: ./ubuntu-img/gnome/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}

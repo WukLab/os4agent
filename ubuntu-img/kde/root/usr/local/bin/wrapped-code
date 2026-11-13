@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+export UV_USE_IO_URING=0
+exec /usr/share/code/code \
+    --disable-features=IOUring,IoUring \
+    --password-store=basic \
+    --force-renderer-accessibility \
+    "$@"
